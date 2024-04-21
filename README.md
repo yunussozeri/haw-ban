@@ -1,4 +1,4 @@
 # haw-ban
-Kansan board für die HAW Praktika und Studiumorganisation
+KanBan board für die HAW Praktika und Studiumorganisation
 
 :d
