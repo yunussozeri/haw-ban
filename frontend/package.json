@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@nuxt/ui": "^2.15.2",
+    "@nuxtjs/supabase": "^1.2.1",
     "drizzle-orm": "^0.30.9",
     "nuxt": "^3.11.2",
     "postgres": "^3.4.4",
@@ -26,5 +27,6 @@
   "devDependencies": {
     "drizzle-kit": "^0.20.17",
     "pg": "^8.11.5"
-  }
+  },
+  "packageManager": "pnpm@9.0.5+sha1.6db99351548f394a1d96aa1de98dec032aef8823"
 }
