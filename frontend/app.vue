@@ -1,7 +1,21 @@
 <template>
-  <div>
-    <header style="text-align: center;">
-      <h1 style="color: blue;">Willkommen bei HAW-Ban</h1>
-    </header>
+  <NuxtLayout /> 
+
+  <div class="landing-page">
+    <h1>Welcome to HAW-Ban</h1>
+    
   </div>
 </template>
+
+<script>
+export default {
+  name: 'LandingPage',
+}
+</script>
+
+<style scoped>
+.landing-page {
+  text-align: center;
+  margin-top: 100px;
+}
+</style>
