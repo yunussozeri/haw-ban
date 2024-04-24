@@ -1,0 +1,26 @@
+Um das Projekt am laufen zu kriegen, folgt bitte folgende Schritte:
+
+0) wechseln zu haw-ban\frontend
+
+1) VSCode installieren : https://code.visualstudio.com/download
+
+2) Node.js installieren : https://nodejs.org/en/download
+
+3) VSCode öffnen und links unter VSCode Symbol Extensions finden (STR+SHIFT+X in Windows/ SHIFT+CMD+X in Mac)
+    - Prettier installieren
+    - TypeScript installieren
+    - Vue Official installieren
+
+4) pnpm installieren : einen Terminal mit Adminrechte öffnen und folgende Befehle ausführen:
+
+npm install -g pnpm
+
+pnpm i
+
+pnpm dev
+
+danach muss das projekt laufen
+
+
+
+

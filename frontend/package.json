@@ -7,11 +7,28 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "db:generate": "drizzle-kit generate:pg",
+    "db:pull": "drizzle-kit introspect:pg",
+    "db:push": "drizzle-kit push:pg",
+    "db:drop": "drizzle-kit drop:pg",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@nuxt/eslint": "^0.3.9",
+    "@nuxt/ui": "^2.15.2",
+    "@nuxtjs/supabase": "^1.2.1",
+    "drizzle-orm": "^0.30.9",
+    "eslint-config-prettier": "^9.1.0",
     "nuxt": "^3.11.2",
+    "postgres": "^3.4.4",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
-  }
+    "vue-router": "^4.3.0",
+    "zod": "^3.23.3"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.20.17",
+    "pg": "^8.11.5"
+  },
+  "packageManager": "pnpm@9.0.5+sha1.6db99351548f394a1d96aa1de98dec032aef8823"
 }
