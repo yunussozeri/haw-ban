@@ -1,5 +1,7 @@
 Um das Projekt am laufen zu kriegen, folgt bitte folgende Schritte:
 
+0) wechseln zu haw-ban\frontend
+
 1) VSCode installieren : https://code.visualstudio.com/download
 
 2) Node.js installieren : https://nodejs.org/en/download
@@ -13,19 +15,11 @@ Um das Projekt am laufen zu kriegen, folgt bitte folgende Schritte:
 
 npm install -g pnpm
 
-5) Drizzle installieren
+pnpm i
 
-Auf https://orm.drizzle.team/docs/get-started-postgresql#supabase gehen und Befehle unter Install Dependencies in terminal ausführen
+pnpm dev
 
-6) supabase installieren
-
-auf dem Terminal pnpm i @nuxtjs/supabase ausführen
-
-in home Verzeichnis nuxt.config.ts Datei finden, da den modules-Array um "@nuxtjs/supabase" ergänzen.
-
-7) Projekt starten
-
-in VSCode neue terminal öffnen, pnpm dev ausführen und link folgen
+danach muss das projekt laufen
 
 
 

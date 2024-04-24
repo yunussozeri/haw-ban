@@ -1,0 +1,20 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1713991323507,
+      "tag": "0000_powerful_doctor_faustus",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1713992345433,
+      "tag": "0001_bright_blink",
+      "breakpoints": true
+    }
+  ]
+}
