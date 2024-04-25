@@ -13,7 +13,23 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
-// pnpm db:generate to create sql queries, db:push to push queries to supase
+/**
+ * Represents the user table
+ *
+ * Table Name : User
+ *
+ * PK : id
+ *
+ * Columns:
+ *  id  : is the unique identifier for the user
+ *  fullName  : is the users full name
+ *  email : is the users email adress
+ *
+ * Indexes:
+ *  nameIdx : indexes fullName
+ *  emailIdx  : indexes email
+ *
+ */
 export const user = pgTable(
   "user",
   {
@@ -29,6 +45,16 @@ export const user = pgTable(
   }
 );
 
+/**
+ * Enum representing the kanban columns
+ *
+ * Keys:
+ *   backlog,
+ *   todo,
+ *   progress,
+ *   done,
+ *
+ */
 export const kanbancolumn = pgEnum("kanbancolumn", [
   "backlog",
   "todo",
@@ -40,22 +66,51 @@ export const table = pgTable("table", {
   kanbancolumn: kanbancolumn("kanbancolumn"),
 });
 
+/**
+ * Represents the category which the ticket is assined to
+ *
+ * PK: id
+ *
+ * Columns:
+ *  id  : is the unique identifier for category
+ *  categoryName  : is the name of the category
+ *
+ */
 export const category = pgTable("category", {
-  id: serial("id"),
+  id: serial("id").primaryKey().notNull().default(31),
   categoryName: varchar("category_name", { length: 128 }),
 });
 
+/**
+ * Represents the tickets on the KanBan-Board
+ *
+ * PK: (boardId,ticketId)
+ *
+ * Columns:
+ *  boardId : references the board which the ticket belongs to, part of primary key
+ *  ticketId  : is the identifier of the ticket, part of primary key
+ *  ticketName  : is the name of the ticket
+ *  categoryId  : is the category of the ticket
+ *  start : is the start date of the ticket
+ *  deadline : is the deadline of the ticket
+ *  lastColumn  : is the last column where the ticket was assigned to
+ *
+ * Indexes:
+ *  ticketIdx : index on the ticket names
+ */
 export const tickets = pgTable(
   "tickets",
   {
-    id: serial("id").primaryKey(),
+    //id: serial("id").primaryKey(),
     boardId: serial("board_id")
       .references(() => board.boardId)
       .notNull(),
+    ticketId: serial("ticket_id").notNull(),
     ticketName: text("ticket_name"),
     categoryId: serial("category_id").references(() => category.id),
     start: date("start"),
     deadline: date("deadline"),
+    lastColumn: kanbancolumn("last_column"),
   },
   (table) => {
     return {
@@ -64,16 +119,41 @@ export const tickets = pgTable(
   }
 );
 
+/**
+ * Represents the tickets attached to a ticket
+ *
+ * PK: (ticketId,commentId)
+ *
+ * Columns:
+ *  ticketId  : references the ticket which the comment is attached to, part of primary key
+ *  commentId : is the identifier of the comment, part of primary key
+ *  comment : is the comment text
+ */
 export const comments = pgTable("comments", {
-  id: serial("id").primaryKey(),
-  commentId: serial("comment_id"),
-  ticketId: numeric("ticket_id").notNull(),
+  //id: serial("id").primaryKey(),
+  ticketId: numeric("ticket_id")
+    .notNull()
+    .references(() => user.id)
+    .notNull(),
+  commentId: serial("comment_id").notNull(),
   comment: varchar("comment", { length: 256 }),
 });
 
+/**
+ * Represents the boards in the KanBan-Board
+ *
+ * PK: (userId,boardId)
+ *
+ * Columns:
+ *  userId  :
+ *  boardId :
+ *
+ */
 export const board = pgTable("board", {
-  boardId: serial("board_id").primaryKey(),
-  ownerId: serial("owner_id").references(() => user.id),
+  userId: serial("user_id")
+    .references(() => user.id)
+    .notNull(),
+  boardId: serial("board_id").notNull(),
 });
 
 export const boardsToUser = pgTable(
