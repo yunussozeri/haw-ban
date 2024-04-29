@@ -103,7 +103,7 @@ export const tickets = pgTable(
   {
     //id: serial("id").primaryKey(),
     boardId: serial("board_id")
-      .references(() => board.boardId)
+      .references(() => board.boardId, { onDelete: "cascade" })
       .notNull(),
     ticketId: serial("ticket_id").notNull(),
     ticketName: text("ticket_name"),
@@ -132,8 +132,7 @@ export const tickets = pgTable(
 export const comments = pgTable("comments", {
   //id: serial("id").primaryKey(),
   ticketId: numeric("ticket_id")
-    .notNull()
-    .references(() => user.id)
+    .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
   commentId: serial("comment_id").notNull(),
   comment: varchar("comment", { length: 256 }),
@@ -145,13 +144,13 @@ export const comments = pgTable("comments", {
  * PK: (userId,boardId)
  *
  * Columns:
- *  userId  :
- *  boardId :
+ *  userId  : is the user id, part of primary key
+ *  boardId : is the board id, part of primary key
  *
  */
 export const board = pgTable("board", {
   userId: serial("user_id")
-    .references(() => user.id)
+    .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
   boardId: serial("board_id").notNull(),
 });
@@ -159,8 +158,8 @@ export const board = pgTable("board", {
 export const boardsToUser = pgTable(
   "boards_to_user",
   {
-    userId: integer("user_id"),
-    boardId: integer("board_id"),
+    userId: integer("user_id").references(() => user.id),
+    boardId: integer("board_id").references(() => board.boardId),
   },
   (table) => {
     return {
@@ -176,8 +175,8 @@ export const boardsToUser = pgTable(
 export const ticketsToBoards = pgTable(
   "tickets_to_board",
   {
-    boardId: integer("book_id"),
-    ticketId: integer("ticket_id"),
+    boardId: integer("book_id").references(() => board.boardId),
+    ticketId: integer("ticket_id").references(() => tickets.ticketId),
   },
   (table) => {
     return {
@@ -193,8 +192,8 @@ export const ticketsToBoards = pgTable(
 export const commentsToTicket = pgTable(
   "comments_to_ticket",
   {
-    ticketId: integer("ticket_id"),
-    commentId: integer("book_id"),
+    ticketId: integer("ticket_id").references(() => tickets.ticketId),
+    commentId: integer("book_id").references(() => comments.commentId),
   },
   (table) => {
     return {
