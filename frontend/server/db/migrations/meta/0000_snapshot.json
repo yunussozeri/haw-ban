@@ -1,407 +1,11 @@
 {
-  "id": "083c2888-3769-4711-bc82-07c226381aa4",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "00000000-0000-0000-0000-000000000000",
+  "prevId": "",
   "version": "5",
   "dialect": "pg",
   "tables": {
-    "board": {
-      "name": "board",
-      "schema": "",
-      "columns": {
-        "user_id": {
-          "name": "user_id",
-          "type": "serial",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "board_id": {
-          "name": "board_id",
-          "type": "serial",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "board_user_id_user_id_fk": {
-          "name": "board_user_id_user_id_fk",
-          "tableFrom": "board",
-          "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "boards_to_user": {
-      "name": "boards_to_user",
-      "schema": "",
-      "columns": {
-        "user_id": {
-          "name": "user_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "board_id": {
-          "name": "board_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "boards_to_user_user_id_user_id_fk": {
-          "name": "boards_to_user_user_id_user_id_fk",
-          "tableFrom": "boards_to_user",
-          "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "boards_to_user_board_id_board_board_id_fk": {
-          "name": "boards_to_user_board_id_board_board_id_fk",
-          "tableFrom": "boards_to_user",
-          "tableTo": "board",
-          "columnsFrom": [
-            "board_id"
-          ],
-          "columnsTo": [
-            "board_id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {
-        "boards_to_user_user_id_board_id_pk": {
-          "name": "boards_to_user_user_id_board_id_pk",
-          "columns": [
-            "user_id",
-            "board_id"
-          ]
-        },
-        "boards_to_user_pk": {
-          "name": "boards_to_user_pk",
-          "columns": [
-            "user_id",
-            "board_id"
-          ]
-        }
-      },
-      "uniqueConstraints": {}
-    },
-    "category": {
-      "name": "category",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true,
-          "default": 31
-        },
-        "category_name": {
-          "name": "category_name",
-          "type": "varchar(128)",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "comments": {
-      "name": "comments",
-      "schema": "",
-      "columns": {
-        "ticket_id": {
-          "name": "ticket_id",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "comment_id": {
-          "name": "comment_id",
-          "type": "serial",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "comment": {
-          "name": "comment",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "comments_ticket_id_user_id_fk": {
-          "name": "comments_ticket_id_user_id_fk",
-          "tableFrom": "comments",
-          "tableTo": "user",
-          "columnsFrom": [
-            "ticket_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "comments_to_ticket": {
-      "name": "comments_to_ticket",
-      "schema": "",
-      "columns": {
-        "ticket_id": {
-          "name": "ticket_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "book_id": {
-          "name": "book_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "comments_to_ticket_ticket_id_tickets_ticket_id_fk": {
-          "name": "comments_to_ticket_ticket_id_tickets_ticket_id_fk",
-          "tableFrom": "comments_to_ticket",
-          "tableTo": "tickets",
-          "columnsFrom": [
-            "ticket_id"
-          ],
-          "columnsTo": [
-            "ticket_id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "comments_to_ticket_book_id_comments_comment_id_fk": {
-          "name": "comments_to_ticket_book_id_comments_comment_id_fk",
-          "tableFrom": "comments_to_ticket",
-          "tableTo": "comments",
-          "columnsFrom": [
-            "book_id"
-          ],
-          "columnsTo": [
-            "comment_id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {
-        "comments_to_ticket_ticket_id_book_id_pk": {
-          "name": "comments_to_ticket_ticket_id_book_id_pk",
-          "columns": [
-            "ticket_id",
-            "book_id"
-          ]
-        },
-        "comments_to_ticket_pk": {
-          "name": "comments_to_ticket_pk",
-          "columns": [
-            "ticket_id",
-            "book_id"
-          ]
-        }
-      },
-      "uniqueConstraints": {}
-    },
-    "table": {
-      "name": "table",
-      "schema": "",
-      "columns": {
-        "kanbancolumn": {
-          "name": "kanbancolumn",
-          "type": "kanbancolumn",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "tickets": {
-      "name": "tickets",
-      "schema": "",
-      "columns": {
-        "board_id": {
-          "name": "board_id",
-          "type": "serial",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "ticket_id": {
-          "name": "ticket_id",
-          "type": "serial",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "ticket_name": {
-          "name": "ticket_name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "category_id": {
-          "name": "category_id",
-          "type": "serial",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "start": {
-          "name": "start",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "deadline": {
-          "name": "deadline",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "last_column": {
-          "name": "last_column",
-          "type": "kanbancolumn",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {
-        "ticket_name_idx": {
-          "name": "ticket_name_idx",
-          "columns": [
-            "ticket_name"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "tickets_board_id_board_board_id_fk": {
-          "name": "tickets_board_id_board_board_id_fk",
-          "tableFrom": "tickets",
-          "tableTo": "board",
-          "columnsFrom": [
-            "board_id"
-          ],
-          "columnsTo": [
-            "board_id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "tickets_category_id_category_id_fk": {
-          "name": "tickets_category_id_category_id_fk",
-          "tableFrom": "tickets",
-          "tableTo": "category",
-          "columnsFrom": [
-            "category_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "tickets_to_board": {
-      "name": "tickets_to_board",
-      "schema": "",
-      "columns": {
-        "book_id": {
-          "name": "book_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "ticket_id": {
-          "name": "ticket_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "tickets_to_board_book_id_board_board_id_fk": {
-          "name": "tickets_to_board_book_id_board_board_id_fk",
-          "tableFrom": "tickets_to_board",
-          "tableTo": "board",
-          "columnsFrom": [
-            "book_id"
-          ],
-          "columnsTo": [
-            "board_id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "tickets_to_board_ticket_id_tickets_ticket_id_fk": {
-          "name": "tickets_to_board_ticket_id_tickets_ticket_id_fk",
-          "tableFrom": "tickets_to_board",
-          "tableTo": "tickets",
-          "columnsFrom": [
-            "ticket_id"
-          ],
-          "columnsTo": [
-            "ticket_id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {
-        "tickets_to_board_book_id_ticket_id_pk": {
-          "name": "tickets_to_board_book_id_ticket_id_pk",
-          "columns": [
-            "book_id",
-            "ticket_id"
-          ]
-        },
-        "tickets_to_board_pk": {
-          "name": "tickets_to_board_pk",
-          "columns": [
-            "book_id",
-            "ticket_id"
-          ]
-        }
-      },
-      "uniqueConstraints": {}
-    },
-    "user": {
-      "name": "user",
+    "countries": {
+      "name": "countries",
       "schema": "",
       "columns": {
         "id": {
@@ -410,55 +14,101 @@
           "primaryKey": true,
           "notNull": true
         },
-        "full_name": {
-          "name": "full_name",
-          "type": "text",
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false
-        },
-        "email": {
-          "name": "email",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
+          "notNull": true
         }
       },
-      "indexes": {
-        "name_idx": {
-          "name": "name_idx",
-          "columns": [
-            "full_name"
-          ],
-          "isUnique": false
-        },
-        "email_idx": {
-          "name": "email_idx",
-          "columns": [
-            "email"
-          ],
-          "isUnique": true
-        }
-      },
+      "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     }
   },
   "enums": {
-    "kanbancolumn": {
-      "name": "kanbancolumn",
+    "key_status": {
+      "name": "key_status",
       "values": {
-        "backlog": "backlog",
-        "todo": "todo",
-        "progress": "progress",
-        "done": "done"
+        "default": "default",
+        "valid": "valid",
+        "invalid": "invalid",
+        "expired": "expired"
+      }
+    },
+    "key_type": {
+      "name": "key_type",
+      "values": {
+        "aead-ietf": "aead-ietf",
+        "aead-det": "aead-det",
+        "hmacsha512": "hmacsha512",
+        "hmacsha256": "hmacsha256",
+        "auth": "auth",
+        "shorthash": "shorthash",
+        "generichash": "generichash",
+        "kdf": "kdf",
+        "secretbox": "secretbox",
+        "secretstream": "secretstream",
+        "stream_xchacha20": "stream_xchacha20"
+      }
+    },
+    "factor_type": {
+      "name": "factor_type",
+      "values": {
+        "totp": "totp",
+        "webauthn": "webauthn"
+      }
+    },
+    "factor_status": {
+      "name": "factor_status",
+      "values": {
+        "unverified": "unverified",
+        "verified": "verified"
+      }
+    },
+    "aal_level": {
+      "name": "aal_level",
+      "values": {
+        "aal1": "aal1",
+        "aal2": "aal2",
+        "aal3": "aal3"
+      }
+    },
+    "code_challenge_method": {
+      "name": "code_challenge_method",
+      "values": {
+        "s256": "s256",
+        "plain": "plain"
+      }
+    },
+    "equality_op": {
+      "name": "equality_op",
+      "values": {
+        "eq": "eq",
+        "neq": "neq",
+        "lt": "lt",
+        "lte": "lte",
+        "gt": "gt",
+        "gte": "gte",
+        "in": "in"
+      }
+    },
+    "action": {
+      "name": "action",
+      "values": {
+        "INSERT": "INSERT",
+        "UPDATE": "UPDATE",
+        "DELETE": "DELETE",
+        "TRUNCATE": "TRUNCATE",
+        "ERROR": "ERROR"
       }
     }
   },
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
+    "tables": {},
+    "columns": {}
   }
 }

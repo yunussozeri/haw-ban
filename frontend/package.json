@@ -11,7 +11,7 @@
     "db:generate": "drizzle-kit generate:pg",
     "db:pull": "drizzle-kit introspect:pg",
     "db:push": "drizzle-kit push:pg",
-    "db:drop": "drizzle-kit drop:pg",
+    "db:drop": "drizzle-kit drop",
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "drizzle-kit": "^0.20.17",
+    "nuxt-typed-router": "^3.6.3",
     "pg": "^8.11.5"
   },
   "packageManager": "pnpm@9.0.5+sha1.6db99351548f394a1d96aa1de98dec032aef8823"

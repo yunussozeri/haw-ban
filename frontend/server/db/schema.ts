@@ -11,6 +11,7 @@ import {
   text,
   uniqueIndex,
   varchar,
+  uuid,
 } from "drizzle-orm/pg-core";
 
 /**
@@ -34,13 +35,13 @@ export const user = pgTable(
   "user",
   {
     id: serial("id").primaryKey(),
+    authId: uuid("auth_id").notNull(),
     fullName: text("full_name"),
-    email: varchar("email", { length: 256 }),
   },
   (table) => {
     return {
+      authIdIdx: uniqueIndex("auth_id_idx").on(table.authId),
       nameIdx: index("name_idx").on(table.fullName),
-      emailIdx: uniqueIndex("email_idx").on(table.email),
     };
   }
 );
@@ -62,10 +63,6 @@ export const kanbancolumn = pgEnum("kanbancolumn", [
   "done",
 ]);
 
-export const table = pgTable("table", {
-  kanbancolumn: kanbancolumn("kanbancolumn"),
-});
-
 /**
  * Represents the category which the ticket is assined to
  *
@@ -77,7 +74,7 @@ export const table = pgTable("table", {
  *
  */
 export const category = pgTable("category", {
-  id: serial("id").primaryKey().notNull().default(31),
+  id: serial("id").primaryKey().notNull(),
   categoryName: varchar("category_name", { length: 128 }),
 });
 
@@ -102,15 +99,12 @@ export const tickets = pgTable(
   "tickets",
   {
     //id: serial("id").primaryKey(),
-    boardId: serial("board_id")
-      .references(() => board.boardId, { onDelete: "cascade" })
-      .notNull(),
-    ticketId: serial("ticket_id").notNull(),
+    id: serial("id").notNull().primaryKey(),
     ticketName: text("ticket_name"),
-    categoryId: serial("category_id").references(() => category.id),
+    categoryId: integer("category_id").references(() => category.id),
     start: date("start"),
     deadline: date("deadline"),
-    lastColumn: kanbancolumn("last_column"),
+    currentColumn: kanbancolumn("current_column").default("backlog"),
   },
   (table) => {
     return {
@@ -130,11 +124,7 @@ export const tickets = pgTable(
  *  comment : is the comment text
  */
 export const comments = pgTable("comments", {
-  //id: serial("id").primaryKey(),
-  ticketId: numeric("ticket_id")
-    .references(() => user.id, { onDelete: "cascade" })
-    .notNull(),
-  commentId: serial("comment_id").notNull(),
+  id: serial("id").notNull().primaryKey(),
   comment: varchar("comment", { length: 256 }),
 });
 
@@ -149,21 +139,17 @@ export const comments = pgTable("comments", {
  *
  */
 export const board = pgTable("board", {
-  userId: serial("user_id")
-    .references(() => user.id, { onDelete: "cascade" })
-    .notNull(),
-  boardId: serial("board_id").notNull(),
+  id: serial("id").notNull().primaryKey(),
 });
 
 export const boardsToUser = pgTable(
   "boards_to_user",
   {
     userId: integer("user_id").references(() => user.id),
-    boardId: integer("board_id").references(() => board.boardId),
+    boardId: integer("board_id").references(() => board.id),
   },
   (table) => {
     return {
-      pk: primaryKey({ columns: [table.userId, table.boardId] }),
       boards_to_user: primaryKey({
         name: "boards_to_user_pk",
         columns: [table.userId, table.boardId],
@@ -175,12 +161,11 @@ export const boardsToUser = pgTable(
 export const ticketsToBoards = pgTable(
   "tickets_to_board",
   {
-    boardId: integer("book_id").references(() => board.boardId),
-    ticketId: integer("ticket_id").references(() => tickets.ticketId),
+    boardId: integer("book_id").references(() => board.id),
+    ticketId: integer("ticket_id").references(() => tickets.id),
   },
   (table) => {
     return {
-      pk: primaryKey({ columns: [table.boardId, table.ticketId] }),
       boards_to_user: primaryKey({
         name: "tickets_to_board_pk",
         columns: [table.boardId, table.ticketId],
@@ -192,12 +177,11 @@ export const ticketsToBoards = pgTable(
 export const commentsToTicket = pgTable(
   "comments_to_ticket",
   {
-    ticketId: integer("ticket_id").references(() => tickets.ticketId),
-    commentId: integer("book_id").references(() => comments.commentId),
+    ticketId: integer("ticket_id").references(() => tickets.id),
+    commentId: integer("book_id").references(() => comments.id),
   },
   (table) => {
     return {
-      pk: primaryKey({ columns: [table.ticketId, table.commentId] }),
       boards_to_user: primaryKey({
         name: "comments_to_ticket_pk",
         columns: [table.ticketId, table.commentId],
