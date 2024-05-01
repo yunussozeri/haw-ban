@@ -161,7 +161,7 @@ export const boardsToUser = pgTable(
 export const ticketsToBoards = pgTable(
   "tickets_to_board",
   {
-    boardId: integer("book_id").references(() => board.id),
+    boardId: integer("board_id").references(() => board.id),
     ticketId: integer("ticket_id").references(() => tickets.id),
   },
   (table) => {
@@ -178,7 +178,7 @@ export const commentsToTicket = pgTable(
   "comments_to_ticket",
   {
     ticketId: integer("ticket_id").references(() => tickets.id),
-    commentId: integer("book_id").references(() => comments.id),
+    commentId: integer("board_id").references(() => comments.id),
   },
   (table) => {
     return {

@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS "comments" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "comments_to_ticket" (
 	"ticket_id" integer,
-	"book_id" integer,
-	CONSTRAINT "comments_to_ticket_pk" PRIMARY KEY("ticket_id","book_id")
+	"board_id" integer,
+	CONSTRAINT "comments_to_ticket_pk" PRIMARY KEY("ticket_id","board_id")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "tickets" (
@@ -40,23 +40,21 @@ CREATE TABLE IF NOT EXISTS "tickets" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "tickets_to_board" (
-	"book_id" integer,
+	"board_id" integer,
 	"ticket_id" integer,
-	CONSTRAINT "tickets_to_board_pk" PRIMARY KEY("book_id","ticket_id")
+	CONSTRAINT "tickets_to_board_pk" PRIMARY KEY("board_id","ticket_id")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"auth_id" uuid NOT NULL,
-	"full_name" text,
-	"email" varchar(256)
+	"full_name" text
 );
 --> statement-breakpoint
 DROP TABLE "countries";--> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "ticket_name_idx" ON "tickets" ("ticket_name");--> statement-breakpoint
 CREATE UNIQUE INDEX IF NOT EXISTS "auth_id_idx" ON "user" ("auth_id");--> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "name_idx" ON "user" ("full_name");--> statement-breakpoint
-CREATE UNIQUE INDEX IF NOT EXISTS "email_idx" ON "user" ("email");--> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "boards_to_user" ADD CONSTRAINT "boards_to_user_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
@@ -76,7 +74,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "comments_to_ticket" ADD CONSTRAINT "comments_to_ticket_book_id_comments_id_fk" FOREIGN KEY ("book_id") REFERENCES "comments"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "comments_to_ticket" ADD CONSTRAINT "comments_to_ticket_board_id_comments_id_fk" FOREIGN KEY ("board_id") REFERENCES "comments"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -88,7 +86,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "tickets_to_board" ADD CONSTRAINT "tickets_to_board_book_id_board_id_fk" FOREIGN KEY ("book_id") REFERENCES "board"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "tickets_to_board" ADD CONSTRAINT "tickets_to_board_board_id_board_id_fk" FOREIGN KEY ("board_id") REFERENCES "board"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

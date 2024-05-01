@@ -1,5 +1,5 @@
 {
-  "id": "faecbf0e-159d-44fb-836a-7198cd4e0b7a",
+  "id": "a90c56cb-b6a2-4d4e-ab93-1e8abd4ceb5d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -131,8 +131,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "book_id": {
-          "name": "book_id",
+        "board_id": {
+          "name": "board_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": false
@@ -153,12 +153,12 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "comments_to_ticket_book_id_comments_id_fk": {
-          "name": "comments_to_ticket_book_id_comments_id_fk",
+        "comments_to_ticket_board_id_comments_id_fk": {
+          "name": "comments_to_ticket_board_id_comments_id_fk",
           "tableFrom": "comments_to_ticket",
           "tableTo": "comments",
           "columnsFrom": [
-            "book_id"
+            "board_id"
           ],
           "columnsTo": [
             "id"
@@ -172,7 +172,7 @@
           "name": "comments_to_ticket_pk",
           "columns": [
             "ticket_id",
-            "book_id"
+            "board_id"
           ]
         }
       },
@@ -251,8 +251,8 @@
       "name": "tickets_to_board",
       "schema": "",
       "columns": {
-        "book_id": {
-          "name": "book_id",
+        "board_id": {
+          "name": "board_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": false
@@ -266,12 +266,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "tickets_to_board_book_id_board_id_fk": {
-          "name": "tickets_to_board_book_id_board_id_fk",
+        "tickets_to_board_board_id_board_id_fk": {
+          "name": "tickets_to_board_board_id_board_id_fk",
           "tableFrom": "tickets_to_board",
           "tableTo": "board",
           "columnsFrom": [
-            "book_id"
+            "board_id"
           ],
           "columnsTo": [
             "id"
@@ -297,7 +297,7 @@
         "tickets_to_board_pk": {
           "name": "tickets_to_board_pk",
           "columns": [
-            "book_id",
+            "board_id",
             "ticket_id"
           ]
         }
@@ -325,12 +325,6 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
-        },
-        "email": {
-          "name": "email",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
         }
       },
       "indexes": {
@@ -347,13 +341,6 @@
             "full_name"
           ],
           "isUnique": false
-        },
-        "email_idx": {
-          "name": "email_idx",
-          "columns": [
-            "email"
-          ],
-          "isUnique": true
         }
       },
       "foreignKeys": {},
