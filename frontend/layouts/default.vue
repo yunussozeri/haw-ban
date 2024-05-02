@@ -1,6 +1,6 @@
 <template>
-    <div>
-      <p>header content shared across all pages</p>
-      <slot />
-    </div>
-  </template>
+  <div>
+    <p>HAW BAN</p>
+    <slot />
+  </div>
+</template>

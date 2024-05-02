@@ -1,4 +1,4 @@
-import db from "db/db";
+import db from "@@/server/db/db";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { user } from "~/server/db/schema";

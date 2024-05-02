@@ -20,8 +20,6 @@ export default defineNuxtConfig({
       cookieRedirect: false,
     },
   },
-  nitro: {
-    alias: { "db/*": "../server/db/*" },
-  },
+  // nitro: {alias: { "db/*": "../server/db/*" },},
   routeRules: {},
 });

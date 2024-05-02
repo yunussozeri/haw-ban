@@ -1,5 +1,5 @@
 import { number, z } from "zod";
-import db from "db/db";
+import db from "@@/server/db/db";
 import { user } from "~/server/db/schema";
 import { eq, max } from "drizzle-orm";
 
