@@ -18,6 +18,7 @@
     "@nuxt/eslint": "^0.3.9",
     "@nuxt/ui": "^2.15.2",
     "@nuxtjs/supabase": "^1.2.1",
+    "axios": "^1.6.8",
     "drizzle-orm": "^0.30.9",
     "eslint-config-prettier": "^9.1.0",
     "node-ical": "^0.18.0",
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "drizzle-kit": "^0.20.17",
+    "jsdom": "^24.0.0",
     "nuxt-typed-router": "^3.6.3",
     "pg": "^8.11.5"
   },

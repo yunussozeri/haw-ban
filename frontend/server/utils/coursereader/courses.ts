@@ -1,4 +1,3 @@
-// TypeScript code
 import fs from "fs";
 
 // Read the JSON file synchronously
