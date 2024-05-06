@@ -1,11 +1,22 @@
-// TypeScript code
-import fs from "fs";
+import z from "zod";
 
-// Read the JSON file synchronously
-const data = fs.readFileSync("output.json", "utf-8");
+const courseGetSchema = z.object({
+  studiengang: z.string(),
+  kuerzel: z.string(),
+});
 
-// Parse the JSON data
-const jsonData = JSON.parse(data);
+export default defineEventHandler(async (event) => {
+  const response = await getValidatedQuery(event, courseGetSchema.safeParse);
 
-console.log(jsonData); // Log the JSON data to the console
-// You can now use the 'jsonData' variable to access the JSON object
+  if (!response.success) {
+    return {
+      success: false,
+    };
+  }
+
+  return {
+    success: true,
+    kuerzel: response.data.kuerzel,
+    studiengang: response.data.studiengang,
+  };
+});

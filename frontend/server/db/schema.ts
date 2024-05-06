@@ -3,7 +3,6 @@ import {
   date,
   integer,
   index,
-  numeric,
   pgEnum,
   pgTable,
   primaryKey,
@@ -12,6 +11,7 @@ import {
   uniqueIndex,
   varchar,
   uuid,
+  timestamp,
 } from "drizzle-orm/pg-core";
 
 /**
@@ -142,6 +142,17 @@ export const board = pgTable("board", {
   id: serial("id").notNull().primaryKey(),
 });
 
+export const courses = pgTable("courses", {
+  id: serial("id").notNull().primaryKey(),
+  kuerzel: varchar("kuerzel", { length: 30 }),
+  studiengang: varchar("studiengang", { length: 8 }),
+  deadline: date("deadline"),
+});
+
+/**
+ * PK Relation for Boards and Users
+ *
+ */
 export const boardsToUser = pgTable(
   "boards_to_user",
   {
@@ -158,6 +169,10 @@ export const boardsToUser = pgTable(
   }
 );
 
+/**
+ * PK Relation for tickets and boards
+ *
+ */
 export const ticketsToBoards = pgTable(
   "tickets_to_board",
   {
@@ -174,6 +189,11 @@ export const ticketsToBoards = pgTable(
   }
 );
 
+/**
+ * PK Relation for comments and tickets.
+ *
+ *
+ */
 export const commentsToTicket = pgTable(
   "comments_to_ticket",
   {
