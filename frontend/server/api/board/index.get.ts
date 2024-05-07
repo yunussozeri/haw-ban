@@ -9,6 +9,9 @@ import { board, boardsToUser, user } from "~/server/db/schema";
     read from object
     perform operation
     return result
+
+    hallo 
+
  * 
  * 
  */
