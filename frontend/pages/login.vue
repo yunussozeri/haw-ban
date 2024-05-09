@@ -5,6 +5,7 @@
     </div>
     <div style="flex: 1; align-items: flex-start;">
       <h1 style="font-size: 2rem; font-weight: bold; margin-bottom: 1rem; margin-left: 2rem; margin-top: 2rem;"><span style="font-family: Arial; font-size: 45px;">Login</span></h1>
+      <h1 style="font-size: 2rem; font-weight: bold; margin-bottom: 1rem; margin-left: 2rem; margin-top: 2rem;"><span style="font-family: Arial; font-size: 45px;">Login Test</span></h1>
       <UButton size="xl">Login</UButton>
     </div>
   </div>
