@@ -36,6 +36,7 @@
     "nuxt-typed-router": "^3.6.3",
     "pg": "^8.11.5",
     "prettier": "^3.2.5",
-    "prettier-plugin-tailwindcss": "^0.5.14"
+    "prettier-plugin-tailwindcss": "^0.5.14",
+    "tailwindcss": "^3.4.3"
   }
 }

@@ -14,7 +14,9 @@ definePageMeta({
       />
     </div>
     <div class="flex h-full flex-1 flex-col items-center justify-center gap-8">
-      <h1 class="text-4xl font-bold">MY KANBAN BOARD</h1>
+      <NuxtLink to="/">
+        <h1 class="font-comic-sans-ms text-4xl font-bold">MY KANBAN BOARD</h1>
+      </NuxtLink>
       <UButton size="xl" icon="i-mdi-github">Login</UButton>
     </div>
   </div>
