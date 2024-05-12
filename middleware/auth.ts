@@ -1,4 +1,5 @@
 /**
+ * Checks if user completed auth flow
  *
  */
 
@@ -15,7 +16,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   });
 
   // user logged in but hasnt registered aka has no name
-  if (!dbUser) {
-    return navigateTo("/register");
+  if (!dbUser.success) {
+    return navigateTo("/ghregister");
   }
 });

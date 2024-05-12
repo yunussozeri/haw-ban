@@ -14,9 +14,6 @@ import { serverSupabaseUser } from "#supabase/server";
  * 
  */
 
-const findUserBody = z.object({
-  userId: z.string(),
-});
 /**
  * Returns logged in user
  * @returns the logged in but not registered user

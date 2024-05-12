@@ -15,6 +15,11 @@ export default defineNuxtConfig({
     url: env.SUPABASE_URL,
     key: env.SUPABASE_ANON_KEY,
     redirect: false,
+    redirectOptions: {
+      login: "/login",
+      //TODO: give base url (http://localhost:3000/) as env var,
+      callback: "http://localhost:3000/",
+    },
     // redirectOptions: {
     //   login: "/",
     //   callback: "/confirm",
@@ -25,7 +30,7 @@ export default defineNuxtConfig({
   },
   routeRules: {},
   ui: {
-    icons: ["mdi","material-symbols"],
+    icons: ["mdi", "material-symbols"],
   },
   typescript: {
     tsConfig: {

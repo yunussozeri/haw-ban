@@ -9,7 +9,7 @@ async function signIn() {
   client.auth.signInWithOAuth({
     provider: "github",
     options: {
-      redirectTo: "http://192.168.2.225:3000/",
+      redirectTo: "http://localhost:3000/ghregister",
     },
   });
 }
