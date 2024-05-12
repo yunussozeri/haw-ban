@@ -1,19 +1,26 @@
-import { number, z } from "zod";
-import db from "@@/server/db/db";
-import { user } from "~/server/db/schema";
-import { eq, max } from "drizzle-orm";
+import { z } from "zod";
+import db from "db/db";
+import { user } from "db/schema";
+import { serverSupabaseUser } from "#supabase/server";
 
 const RegistrationSchema = z.object({
-  authId: z.string(),
-  fullName: z.string(),
+  name: z.string(),
+  surname: z.string(),
 });
 
-type userType = typeof user.$inferInsert;
-
 export default defineEventHandler(async (event) => {
+  const userData = await serverSupabaseUser(event);
+
+  // verify passed user
+  if (!userData) {
+    throw createError({
+      statusCode: 401,
+    });
+  }
+
   const requestData = await readValidatedBody(
     event,
-    RegistrationSchema.safeParse
+    RegistrationSchema.safeParse,
   );
 
   if (!requestData.success) {
@@ -23,35 +30,16 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const insertUser = async (newUser: userType) => {
-    return db
-      .insert(user)
-      .values(newUser)
-      .returning({ insertedUserFullName: user.fullName });
-  };
-  /*
-  const newincomingUserId = await db
-    .select()
-    .from(user)
-    .where(eq(user.id, max(user.id)))
-    .then((values) => {
-      if (!values[0]) {
-        return 0;
-      }
-      return values[0].id;
-    }); */
-
-  const newUser: userType = {
-    authId: requestData.data.authId,
-    fullName: requestData.data.fullName,
-  };
-
-  const result = await insertUser(newUser);
+  const result = await db.insert(user).values({
+    authId: userData.id,
+    name: requestData.data.name,
+    surname: requestData.data.surname,
+  });
 
   // if inserting user is not possible
   if (!result) {
     return { success: false } as const;
   }
 
-  return { result, success: true } as const;
+  return { result: requestData.data, success: true } as const;
 });

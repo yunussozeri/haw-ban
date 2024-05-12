@@ -1,47 +1,42 @@
-import db from "db/db";
+import db from "@@/server/db/db";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
-import { board, boardsToUser, user } from "db/schema";
+import { user } from "~/server/db/schema";
 import { serverSupabaseUser } from "#supabase/server";
+
 /*
  * Pattern :
     create zod schema for incoming object
     read from object
     perform operation
     return result
-
-    hallo  test
-
  * 
  * 
  */
 
 const findUserBody = z.object({
-  userId: z.coerce.number(),
+  userId: z.string(),
 });
-
 /**
- *
- * Returns all boards of the given user
+ * Returns logged in user
+ * @returns the logged in but not registered user
  *
  */
 export default defineEventHandler(async (event) => {
-  const userData = await serverSupabaseUser(event);
+  const requestData = await serverSupabaseUser(event);
 
-  // verify passed user id
-  if (!userData) {
+  // verify passed user
+  if (!requestData) {
     throw createError({
-      statusCode: 401, // unauthorized,
+      statusCode: 401,
     });
   }
 
-  const boards = await db
-    .select({ board: board })
+  // find and return user from database
+  const result = await db
+    .select()
     .from(user)
-    .leftJoin(boardsToUser, eq(user.id, boardsToUser.boardId))
-    .leftJoin(board, eq(board.id, boardsToUser.boardId))
-    .where(eq(user.authId, userData.id))
-    // find and return board IDs from database
+    .where(eq(user.authId, requestData.id))
     .then((value) => {
       if (!value[0]) {
         return undefined;
@@ -50,11 +45,11 @@ export default defineEventHandler(async (event) => {
     });
 
   // if the user is not found return unsuccesfull
-  if (!boards) {
+  if (!result) {
     return {
       success: false,
     } as const;
   }
   // spread operator ...
-  return { boards, success: true } as const;
+  return { result, success: true } as const;
 });

@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import env from "./server/utils/env";
+import { fileURLToPath } from "node:url";
 
 export default defineNuxtConfig({
   modules: [
@@ -13,17 +14,34 @@ export default defineNuxtConfig({
   supabase: {
     url: env.SUPABASE_URL,
     key: env.SUPABASE_ANON_KEY,
-    redirectOptions: {
-      login: "/",
-      callback: "/confirm",
-      include: undefined,
-      exclude: ["/board/*", "/login", "/register"],
-      cookieRedirect: false,
-    },
+    redirect: false,
+    // redirectOptions: {
+    //   login: "/",
+    //   callback: "/confirm",
+    //   //include: undefined,
+    //   //exclude: ["/board/*", "/login", "/register", "/osuruk"],
+    //   cookieRedirect: false,
+    // },
   },
-  // nitro: {alias: { "db/*": "../server/db/*" },},
   routeRules: {},
   ui: {
-    icons: ["mdi"],
+    icons: ["mdi","material-symbols"],
+  },
+  typescript: {
+    tsConfig: {
+      compilerOptions: {
+        noUncheckedIndexedAccess: true,
+      },
+    },
+  },
+  nitro: {
+    typescript: {
+      tsConfig: {
+        compilerOptions: {
+          noUncheckedIndexedAccess: true,
+        },
+      },
+    },
+    alias: { db: fileURLToPath(new URL("./server/db", import.meta.url)) },
   },
 });
