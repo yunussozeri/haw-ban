@@ -12,6 +12,7 @@ import {
   varchar,
   uuid,
   timestamp,
+  smallint,
 } from "drizzle-orm/pg-core";
 
 /**
@@ -36,12 +37,12 @@ export const user = pgTable(
   {
     id: serial("id").primaryKey(),
     authId: uuid("auth_id").notNull(),
-    fullName: text("full_name"),
+    name: text("name").notNull(),
+    surname: text("surname").notNull(),
   },
   (table) => {
     return {
       authIdIdx: uniqueIndex("auth_id_idx").on(table.authId),
-      nameIdx: index("name_idx").on(table.fullName),
     };
   },
 );
@@ -147,6 +148,7 @@ export const courses = pgTable("courses", {
   id: serial("id").notNull().primaryKey(),
   kuerzel: varchar("kuerzel", { length: 30 }),
   studiengang: varchar("studiengang", { length: 8 }),
+  semester: smallint("semester"),
   deadline: date("deadline"),
 });
 
