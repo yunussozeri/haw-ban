@@ -1,7 +1,7 @@
 <template>
   <div style="display: flex;">
     <div style="flex: 1;">
-      <img src="/Users/sude/Desktop/loginphoto.jpg" alt="Startpic" style="width: 100%; height: 100%;">
+      <img src=https://raw.githubusercontent.com/wdm373/MyKanbanBoard-Logo/6ac26beea3482351aa356ea9bf0b216a3a694f3b/Login-Seite.png>
     </div>
     <div style="flex: 1; align-items: flex-start;">
       <h1 style="font-size: 8rem; font-weight: bold; margin-bottom: 1rem; margin-left: 6rem; margin-top: 2rem;"><span style="font-family: Arial; font-size: 45px;">login</span></h1>
