@@ -31,7 +31,7 @@
     "zod": "^3.23.3"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.20.17",
+    "drizzle-kit": "^0.21.1",
     "jsdom": "^24.0.0",
     "nuxt-typed-router": "^3.6.3",
     "pg": "^8.11.5",
