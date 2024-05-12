@@ -1,12 +1,21 @@
+<script lang="ts" setup>
+definePageMeta({
+  layout: false,
+});
+</script>
 <template>
-  <div style="display: flex;">
-    <div style="flex: 1;">
-      <img src="/Users/sude/Desktop/loginphoto.jpg" alt="Startpic" style="width: 100%; height: 100%;">
+  <div class="flex h-screen w-screen">
+    <div class="flex h-full flex-1 items-center justify-center">
+      <NuxtImg
+        class="w-full"
+        src="https://cataas.com/cat"
+        alt="Startpic"
+        fit="inside"
+      />
     </div>
-    <div style="flex: 1; align-items: flex-start;">
-      <h1 style="font-size: 8rem; font-weight: bold; margin-bottom: 1rem; margin-left: 2rem; margin-top: 2rem;"><span style="font-family: Arial; font-size: 45px;">login</span><br><span style="font-family: 'Comic Sans MS'; font-size: 15px;">MY KANBAN BOARD</span></h1>
-      <UButton size="xl">Login</UButton>
+    <div class="flex h-full flex-1 flex-col items-center justify-center gap-8">
+      <h1 class="text-4xl font-bold">MY KANBAN BOARD</h1>
+      <UButton size="xl" icon="i-mdi-github">Login</UButton>
     </div>
   </div>
 </template>
-
