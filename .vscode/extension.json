@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "Vue.volar",
+    "esbnp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "praburangki.nuxt-snippets",
+    "yoavbls.pretty-ts-errors",
+    "formulahendry.auto-rename-tag",
+    "vscode-icons-team.vscode-icons",
+    "bradlc.vscode-tailwindcss"
+  ]
+}
