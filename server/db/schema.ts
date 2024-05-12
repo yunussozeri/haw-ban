@@ -43,7 +43,7 @@ export const user = pgTable(
       authIdIdx: uniqueIndex("auth_id_idx").on(table.authId),
       nameIdx: index("name_idx").on(table.fullName),
     };
-  }
+  },
 );
 
 /**
@@ -110,7 +110,7 @@ export const tickets = pgTable(
     return {
       ticketIdx: index("ticket_name_idx").on(table.ticketName),
     };
-  }
+  },
 );
 
 /**
@@ -140,6 +140,7 @@ export const comments = pgTable("comments", {
  */
 export const board = pgTable("board", {
   id: serial("id").notNull().primaryKey(),
+  name: varchar("name", { length: 255 }),
 });
 
 export const courses = pgTable("courses", {
@@ -166,7 +167,7 @@ export const boardsToUser = pgTable(
         columns: [table.userId, table.boardId],
       }),
     };
-  }
+  },
 );
 
 /**
@@ -186,7 +187,7 @@ export const ticketsToBoards = pgTable(
         columns: [table.boardId, table.ticketId],
       }),
     };
-  }
+  },
 );
 
 /**
@@ -207,5 +208,5 @@ export const commentsToTicket = pgTable(
         columns: [table.ticketId, table.commentId],
       }),
     };
-  }
+  },
 );

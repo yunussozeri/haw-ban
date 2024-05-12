@@ -32,10 +32,9 @@ export default defineEventHandler(async (event) => {
   }
 
   const boards = await db
-    .select({ boardId: board.id })
+    .select({ board: board })
     .from(boardsToUser)
     .leftJoin(board, eq(board.id, boardsToUser.boardId))
-    .leftJoin(user, eq(user.id, boardsToUser.userId))
     .where(eq(boardsToUser.userId, requestData.data.userId))
     // find and return board IDs from database
     .then((value) => {

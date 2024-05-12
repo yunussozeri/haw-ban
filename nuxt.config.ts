@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     "@nuxtjs/supabase",
     "@nuxt/eslint",
     "nuxt-typed-router",
+    "@nuxt/image",
   ],
   devtools: { enabled: true },
   supabase: {
@@ -22,4 +23,7 @@ export default defineNuxtConfig({
   },
   // nitro: {alias: { "db/*": "../server/db/*" },},
   routeRules: {},
+  ui: {
+    icons: ["mdi"],
+  },
 });

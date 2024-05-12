@@ -1,10 +1,10 @@
 {
-  "id": "a90c56cb-b6a2-4d4e-ab93-1e8abd4ceb5d",
-  "prevId": "00000000-0000-0000-0000-000000000000",
-  "version": "5",
-  "dialect": "pg",
+  "id": "88b8bbda-a683-46d1-85b3-5bac25948b45",
+  "prevId": "651cdae8-a322-4e48-880c-4d4e9760a15d",
+  "version": "6",
+  "dialect": "postgresql",
   "tables": {
-    "board": {
+    "public.board": {
       "name": "board",
       "schema": "",
       "columns": {
@@ -13,6 +13,12 @@
           "type": "serial",
           "primaryKey": true,
           "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
@@ -20,7 +26,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "boards_to_user": {
+    "public.boards_to_user": {
       "name": "boards_to_user",
       "schema": "",
       "columns": {
@@ -77,7 +83,7 @@
       },
       "uniqueConstraints": {}
     },
-    "category": {
+    "public.category": {
       "name": "category",
       "schema": "",
       "columns": {
@@ -99,7 +105,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "comments": {
+    "public.comments": {
       "name": "comments",
       "schema": "",
       "columns": {
@@ -121,7 +127,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "comments_to_ticket": {
+    "public.comments_to_ticket": {
       "name": "comments_to_ticket",
       "schema": "",
       "columns": {
@@ -178,7 +184,41 @@
       },
       "uniqueConstraints": {}
     },
-    "tickets": {
+    "public.courses": {
+      "name": "courses",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "kuerzel": {
+          "name": "kuerzel",
+          "type": "varchar(30)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "studiengang": {
+          "name": "studiengang",
+          "type": "varchar(8)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "deadline": {
+          "name": "deadline",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.tickets": {
       "name": "tickets",
       "schema": "",
       "columns": {
@@ -215,6 +255,7 @@
         "current_column": {
           "name": "current_column",
           "type": "kanbancolumn",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": false,
           "default": "'backlog'"
@@ -247,7 +288,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "tickets_to_board": {
+    "public.tickets_to_board": {
       "name": "tickets_to_board",
       "schema": "",
       "columns": {
@@ -304,7 +345,7 @@
       },
       "uniqueConstraints": {}
     },
-    "user": {
+    "public.user": {
       "name": "user",
       "schema": "",
       "columns": {
@@ -349,14 +390,15 @@
     }
   },
   "enums": {
-    "kanbancolumn": {
+    "public.kanbancolumn": {
       "name": "kanbancolumn",
-      "values": {
-        "backlog": "backlog",
-        "todo": "todo",
-        "progress": "progress",
-        "done": "done"
-      }
+      "schema": "public",
+      "values": [
+        "backlog",
+        "todo",
+        "progress",
+        "done"
+      ]
     }
   },
   "schemas": {},
