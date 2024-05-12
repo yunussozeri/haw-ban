@@ -1,19 +1,12 @@
 {
-  "version": "5",
-  "dialect": "pg",
+  "version": "6",
+  "dialect": "postgresql",
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1714484478142,
-      "tag": "0000_brown_paladin",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1714582876736,
-      "tag": "0001_polite_marvel_apes",
+      "version": "6",
+      "when": 1715515973069,
+      "tag": "0000_material_agent_zero",
       "breakpoints": true
     }
   ]

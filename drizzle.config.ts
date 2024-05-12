@@ -4,9 +4,9 @@ import env from "./server/utils/env";
 export default defineConfig({
   schema: "./server/db/schema.ts",
   out: "./server/db/migrations",
-  driver: "pg",
+  dialect: "postgresql",
   dbCredentials: {
-    connectionString: env.DB_URL,
+    url: env.DB_URL,
   },
   introspect: {
     casing: "camel",
