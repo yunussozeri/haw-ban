@@ -9,6 +9,16 @@ const { data } = useFetch("/api/user", {
   // for ssr, need to introduce cookie headers from user to nitro
   headers: useRequestHeaders(["cookie"]),
 });
+
+const {
+  data: courseData,
+  pending,
+  error,
+  refresh,
+} = useFetch("/api/courses/", {
+  headers: useRequestHeaders(["cookie"]),
+  // Additional options (e.g., method: 'GET', etc.)
+});
 </script>
 
 <template>
@@ -23,4 +33,11 @@ const { data } = useFetch("/api/user", {
       Hello , {{ `${data.result.name} ${data.result.surname}` }}
     </h1>
   </div>
+  <div v-if="pending">Loading courses...</div>
+  <div v-else-if="error">Error fetching courses: {{ error.message }}</div>
+  <ul v-else>
+    <li v-for="course in courseData" :key="course.id">
+      {{ course.studiengang }}
+    </li>
+  </ul>
 </template>
