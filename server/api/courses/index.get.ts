@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
     .selectDistinctOn([courses.studiengang])
     .from(courses)
     .then((result) => {
-      return result[0];
+      return result;
     });
 
   //check valid result
