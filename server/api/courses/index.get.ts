@@ -1,29 +1,20 @@
 import db from "db/db";
 import { courses } from "db/schema";
-/**
- * Returns all courses
- * @returning all 100 courses in the database
- *
- */
+
 export default defineEventHandler(async (event) => {
-  const allCourses = await db
-    .selectDistinctOn([courses.studiengang])
-    .from(courses)
-    .then((result) => {
-      return result.slice(0, 100);
+  try {
+    const allCourses = await db
+      .selectDistinctOn([courses.studiengang])
+      .from(courses)
+      .limit(100); // Limit directly in the query
+
+    // Return the courses directly (no nested object)
+    return allCourses;
+  } catch (error) {
+    console.error("Error fetching courses:", error);
+    throw createError({
+      statusCode: 500,
+      message: "Internal server error",
     });
-
-  //check valid result
-  if (!allCourses) {
-    return {
-      message: "Course does not exist",
-      success: false,
-    };
   }
-
-  //return result
-  return {
-    allCourses,
-    success: true,
-  };
 });
