@@ -19,6 +19,7 @@ const {
   headers: useRequestHeaders(["cookie"]),
   // Additional options (e.g., method: 'GET', etc.)
 });
+
 console.log(courseData);
 </script>
 
@@ -37,7 +38,7 @@ console.log(courseData);
   <div v-if="pending">Loading courses...</div>
   <div v-else-if="error">Error fetching courses: {{ error.message }}</div>
   <ul v-else>
-    <li v-for="course in courseData" :key="course.id">
+    <li v-for="course in courseData.result" :key="course.id">
       Studiengang: {{ course.studiengang }}
     </li>
   </ul>

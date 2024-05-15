@@ -3,8 +3,12 @@ import { courses } from "db/schema";
 
 export default defineEventHandler(async (event) => {
   const allCourses = await db
-    .selectDistinctOn([courses.studiengang])
+    .selectDistinctOn([courses.studiengang], {
+      studiengang: courses.studiengang,
+      semester: courses.semester,
+    })
     .from(courses)
+    .groupBy(courses.studiengang, courses.semester)
     .limit(100)
     .then((result) => {
       return result;
@@ -18,4 +22,9 @@ export default defineEventHandler(async (event) => {
       success: false,
     };
   }
+
+  return {
+    result: allCourses,
+    success: true,
+  };
 });
