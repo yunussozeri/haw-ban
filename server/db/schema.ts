@@ -212,3 +212,19 @@ export const commentsToTicket = pgTable(
     };
   },
 );
+
+export const courseToUser = pgTable(
+  "course_to_user",
+  {
+    userId: integer("user_id").references(() => user.id),
+    courseId: integer("course_id").references(() => courses.id),
+  },
+  (table) => {
+    return {
+      course_to_user: primaryKey({
+        name: "course_to_user_pk",
+        columns: [table.userId, table.courseId],
+      }),
+    };
+  },
+);
