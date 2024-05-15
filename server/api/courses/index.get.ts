@@ -2,7 +2,7 @@ import db from "db/db";
 import { courses } from "db/schema";
 /**
  * Returns all courses
- * @returning all 908 courses in the database
+ * @returning all 100 courses in the database
  *
  */
 export default defineEventHandler(async (event) => {
