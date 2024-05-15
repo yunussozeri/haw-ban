@@ -15,23 +15,23 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@iconify/json": "^2.2.208",
-    "@nuxt/eslint": "^0.3.9",
+    "@iconify/json": "^2.2.210",
+    "@nuxt/eslint": "^0.3.12",
     "@nuxt/image": "^1.7.0",
-    "@nuxt/ui": "^2.15.2",
-    "@nuxtjs/supabase": "^1.2.1",
+    "@nuxt/ui": "^2.16.0",
+    "@nuxtjs/supabase": "^1.2.2",
     "axios": "^1.6.8",
-    "drizzle-orm": "^0.30.9",
+    "drizzle-orm": "^0.30.10",
     "eslint-config-prettier": "^9.1.0",
     "node-ical": "^0.18.0",
     "nuxt": "^3.11.2",
     "postgres": "^3.4.4",
-    "vue": "^3.4.21",
-    "vue-router": "^4.3.0",
-    "zod": "^3.23.3"
+    "vue": "^3.4.27",
+    "vue-router": "^4.3.2",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.21.1",
+    "drizzle-kit": "^0.21.2",
     "jsdom": "^24.0.0",
     "nuxt-typed-router": "^3.6.3",
     "pg": "^8.11.5",

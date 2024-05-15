@@ -9,10 +9,12 @@ export default defineEventHandler(async (event) => {
   const allCourses = await db
     .selectDistinctOn([courses.studiengang])
     .from(courses)
+    .limit(100)
     .then((result) => {
-      return result.slice(0, 100);
+      return result;
     });
 
+  console.table(allCourses);
   //check valid result
   if (!allCourses) {
     return {
