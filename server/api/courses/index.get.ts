@@ -1,10 +1,6 @@
 import db from "db/db";
 import { courses } from "db/schema";
-/**
- * Returns all courses
- * @returning all 100 courses in the database
- *
- */
+
 export default defineEventHandler(async (event) => {
   const allCourses = await db
     .selectDistinctOn([courses.studiengang])
@@ -22,10 +18,4 @@ export default defineEventHandler(async (event) => {
       success: false,
     };
   }
-
-  //return result
-  return {
-    allCourses,
-    success: true,
-  };
 });
