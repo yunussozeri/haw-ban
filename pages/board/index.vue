@@ -21,6 +21,22 @@ const {
 });
 
 console.log(courseData);
+
+const selected = ref([courseData[1]]);
+
+const q = ref("");
+
+const filteredRows = computed(() => {
+  if (!q.value) {
+    return courseData.result;
+  }
+
+  return courseData.result.filter((course) => {
+    return Object.values(course).some((value) => {
+      return String(value).toLowerCase().includes(q.value.toLowerCase());
+    });
+  });
+});
 </script>
 
 <template>
@@ -37,9 +53,12 @@ console.log(courseData);
   </div>
   <div v-if="pending">Loading courses...</div>
   <div v-else-if="error">Error fetching courses: {{ error.message }}</div>
-  <ul v-else>
-    <li v-for="course in courseData.result" :key="course.id">
-      Studiengang: {{ course.studiengang }}
-    </li>
-  </ul>
+
+  <div v-else>
+    <div class="flex border-b border-gray-200 px-3 py-3.5 dark:border-gray-700">
+      <UInput v-model="q" placeholder="Filter courses..." />
+    </div>
+
+    <UTable v-model="selected" :rows="courseData.result" :columns="columns" />
+  </div>
 </template>
