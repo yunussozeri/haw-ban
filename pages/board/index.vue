@@ -20,23 +20,36 @@ const {
   // Additional options (e.g., method: 'GET', etc.)
 });
 
-console.log(courseData);
-
-const selected = ref([courseData[1]]);
+const selected = ref([]);
+const courses = ref([]);
 
 const q = ref("");
 
 const filteredRows = computed(() => {
   if (!q.value) {
-    return courseData.result;
+    return courses.value;
   }
 
-  return courseData.result.filter((course) => {
-    return Object.values(course).some((value) => {
-      return String(value).toLowerCase().includes(q.value.toLowerCase());
-    });
+  const query = q.value.toLowerCase();
+  return courses.value.filter((course) => {
+    return (
+      course.studiengang.toLowerCase().includes(query) ||
+      course.kuerzel.toLowerCase().includes(query) ||
+      String(course.semester).toLowerCase().includes(query)
+    );
   });
 });
+
+watch(
+  courseData,
+  (newData) => {
+    courses.value = newData.result || [];
+    selected.value = [];
+  },
+  { immediate: true },
+);
+
+console.log("hi1" + courseData.result);
 </script>
 
 <template>
@@ -59,6 +72,6 @@ const filteredRows = computed(() => {
       <UInput v-model="q" placeholder="Filter courses..." />
     </div>
 
-    <UTable v-model="selected" :rows="courseData.result" :columns="columns" />
+    <UTable v-model="selected" :rows="filteredRows" />
   </div>
 </template>
