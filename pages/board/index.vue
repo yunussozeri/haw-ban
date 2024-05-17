@@ -22,6 +22,7 @@ const {
 
 const selected = ref([]);
 const courses = ref([]);
+//const userID = data.value?.id; //TODO
 
 const q = ref("");
 
@@ -43,13 +44,42 @@ const filteredRows = computed(() => {
 watch(
   courseData,
   (newData) => {
-    courses.value = newData.result || [];
-    selected.value = [];
+    // Check if newData and newData.result are not null
+    if (newData && newData.result) {
+      courses.value = newData.result;
+      selected.value = [];
+    }
   },
   { immediate: true },
 );
 
-console.log("hi1" + courseData.result);
+//post selected courses to database
+const submitSelectedCourses = async () => {
+  if (selected.value.length === 0) return; // Check if any courses are selected
+
+  //TODO
+  try {
+    const response = await $fetch("/api/courses/selected", {
+      method: "POST",
+      body: {
+        courses: selected.value.map((course) => ({
+          courseId: course.id,
+        })),
+      },
+      headers: useRequestHeaders(["cookie"]),
+    });
+
+    if (response.success) {
+      // Handle success (e.g., show a notification, update UI)
+      console.log("Courses saved successfully!");
+    } else {
+      // Handle error (e.g., display an error message)
+      console.error("Error saving courses:", response.message);
+    }
+  } catch (error) {
+    console.error("Error sending data:", error);
+  }
+};
 </script>
 
 <template>
@@ -73,5 +103,6 @@ console.log("hi1" + courseData.result);
     </div>
 
     <UTable v-model="selected" :rows="filteredRows" />
+    <UButton @click="submitSelectedCourses"> Save Selected Courses </UButton>
   </div>
 </template>
