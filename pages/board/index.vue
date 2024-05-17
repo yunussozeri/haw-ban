@@ -5,7 +5,7 @@ definePageMeta({
 
 const user = useSupabaseUser();
 
-const { data } = useFetch("/api/user", {
+const { data: userData } = useFetch("/api/user", {
   // for ssr, need to introduce cookie headers from user to nitro
   headers: useRequestHeaders(["cookie"]),
 });
@@ -22,7 +22,6 @@ const {
 
 const selected = ref([]);
 const courses = ref([]);
-//const userID = data.value?.id; //TODO
 
 const q = ref("");
 
@@ -53,31 +52,39 @@ watch(
   { immediate: true },
 );
 
+const message = ref(""); // Store feedback message
+const messageType = ref(""); // Store message type (success or error)
+
 //post selected courses to database
 const submitSelectedCourses = async () => {
-  if (selected.value.length === 0) return; // Check if any courses are selected
-
-  //TODO
+  if (selected.value.length === 0) {
+    message.value = "Please select at least one course.";
+    messageType.value = "error";
+    return;
+  }
   try {
     const response = await $fetch("/api/courses/selected", {
       method: "POST",
-      body: {
-        courses: selected.value.map((course) => ({
-          courseId: course.id,
-        })),
-      },
+      body: selected.value.map((course) => ({
+        courseId: course.id,
+      })),
       headers: useRequestHeaders(["cookie"]),
     });
 
     if (response.success) {
-      // Handle success (e.g., show a notification, update UI)
-      console.log("Courses saved successfully!");
+      message.value = "Courses saved successfully!";
+      messageType.value = "success";
+      //clear selectedCourses after successful save
+      selected.value = [];
     } else {
-      // Handle error (e.g., display an error message)
-      console.error("Error saving courses:", response.message);
+      message.value =
+        "Error saving courses: " + (response.message || "Unknown error");
+      messageType.value = "error";
     }
   } catch (error) {
-    console.error("Error sending data:", error);
+    // ... (error handling)
+    message.value = "An error occurred while saving courses.";
+    messageType.value = "error";
   }
 };
 </script>
@@ -87,11 +94,11 @@ const submitSelectedCourses = async () => {
     <h1 class="mb-4 text-4xl font-bold">This is the board page</h1>
   </div>
   <div
-    v-if="data?.success"
+    v-if="userData?.success"
     class="flex h-full w-full flex-col items-center justify-center font-comic-sans-ms"
   >
     <h1 class="mb-4 text-4xl font-bold">
-      Hello , {{ `${data.result.name} ${data.result.surname}` }}
+      Hello , {{ `${userData.result.name} ${userData.result.surname}` }}
     </h1>
   </div>
   <div v-if="pending">Loading courses...</div>
@@ -104,5 +111,15 @@ const submitSelectedCourses = async () => {
 
     <UTable v-model="selected" :rows="filteredRows" />
     <UButton @click="submitSelectedCourses"> Save Selected Courses </UButton>
+    <div
+      v-if="message"
+      :class="{
+        'bg-green-200 text-green-800': messageType === 'success',
+        'bg-red-200 text-red-800': messageType === 'error',
+      }"
+      class="mt-2 rounded p-2"
+    >
+      {{ message }}
+    </div>
   </div>
 </template>

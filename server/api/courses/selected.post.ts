@@ -15,9 +15,8 @@ export default defineEventHandler(async (event) => {
 
   // verify passed user
   if (!currentUser) {
-    throw createError({
-      statusCode: 401,
-    });
+    console.log("currentUser", currentUser);
+    throw createError({ statusCode: 401, message: "Unauthorized" });
   }
 
   const request = await readValidatedBody(event, courseArraySchema.safeParse);
