@@ -101,6 +101,9 @@ const submitSelectedCourses = async () => {
       Hello , {{ `${userData.result.name} ${userData.result.surname}` }}
     </h1>
   </div>
+  <UButton size="xl">
+    <NuxtLink to="/board/selectedCourses">See your selected courses</NuxtLink>
+  </UButton>
   <div v-if="pending">Loading courses...</div>
   <div v-else-if="error">Error fetching courses: {{ error.message }}</div>
 
