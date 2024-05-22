@@ -1,11 +1,15 @@
-import { eq } from "drizzle-orm";
+import z from "zod";
 import db from "db/db";
-import { courseToUser, courses, user } from "db/schema";
+import { courseToUser, user } from "db/schema";
 import { serverSupabaseUser } from "#supabase/server";
+import { and, eq, inArray } from "drizzle-orm";
+
+const courseSchema = z.object({
+  courseId: z.coerce.number(),
+});
 
 /**
- * Returns all the courses of a user via get request
- * @returning all the courses of a user
+ * Deletes the course from given user
  *
  */
 export default defineEventHandler(async (event) => {
@@ -14,6 +18,14 @@ export default defineEventHandler(async (event) => {
   // verify passed user
   if (!currentUser) {
     throw createError({ statusCode: 401, message: "Unauthorized" });
+  }
+
+  const request = await readValidatedBody(event, courseSchema.safeParse);
+
+  if (!request.success) {
+    throw createError({
+      statusCode: 401,
+    });
   }
 
   const dbUser = await db
@@ -33,22 +45,17 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const selected = await db
-    .select({ courses: courses })
-    .from(user)
-    .leftJoin(courseToUser, eq(user.id, courseToUser.userId))
-    .leftJoin(courses, eq(courses.id, courseToUser.courseId))
-    .where(eq(user.authId, currentUser.id))
-    // find and return courses IDs from database
-    .then((value) => {
-      if (!value[0]) {
-        return undefined;
-      }
-      return value;
-    });
+  //delete course of user
+  await db
+    .delete(courseToUser)
+    .where(
+      and(
+        eq(courseToUser.userId, dbUser.id),
+        eq(courseToUser.courseId, request.data.courseId),
+      ),
+    );
 
   return {
-    courses: selected,
     success: true,
   };
 });

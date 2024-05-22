@@ -1,18 +1,21 @@
 import db from "db/db";
 import { courses } from "db/schema";
-/**
- * Returns all courses
- * @returning all 908 courses in the database
- *
- */
+
 export default defineEventHandler(async (event) => {
   const allCourses = await db
-    .selectDistinctOn([courses.studiengang])
+    .selectDistinct({
+      //id: courses.id,
+      studiengang: courses.studiengang,
+      semester: courses.semester,
+      kuerzel: courses.kuerzel,
+    })
     .from(courses)
+    .orderBy(courses.semester, courses.kuerzel)
     .then((result) => {
-      return result[0];
+      return result;
     });
 
+  console.table(allCourses);
   //check valid result
   if (!allCourses) {
     return {
@@ -21,9 +24,8 @@ export default defineEventHandler(async (event) => {
     };
   }
 
-  //return result
   return {
-    allCourses,
+    result: allCourses,
     success: true,
   };
 });
