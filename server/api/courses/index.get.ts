@@ -3,13 +3,14 @@ import { courses } from "db/schema";
 
 export default defineEventHandler(async (event) => {
   const allCourses = await db
-    .select({
-      id: courses.id,
+    .selectDistinct({
+      //id: courses.id,
       studiengang: courses.studiengang,
       semester: courses.semester,
       kuerzel: courses.kuerzel,
     })
     .from(courses)
+    .orderBy(courses.semester, courses.kuerzel)
     .then((result) => {
       return result;
     });
