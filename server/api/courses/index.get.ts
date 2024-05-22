@@ -10,7 +10,6 @@ export default defineEventHandler(async (event) => {
       kuerzel: courses.kuerzel,
     })
     .from(courses)
-    .limit(10)
     .then((result) => {
       return result;
     });
