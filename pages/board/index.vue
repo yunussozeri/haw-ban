@@ -104,23 +104,45 @@ const submitSelectedCourses = async () => {
   <UButton size="xl">
     <NuxtLink to="/board/selectedCourses">See your selected courses</NuxtLink>
   </UButton>
-  <div v-if="pending">Loading courses...</div>
-  <div v-else-if="error">Error fetching courses: {{ error.message }}</div>
+  <div v-if="pending">
+    <div class="flex h-screen items-center justify-center">
+      <USpinnner /> Loading courses...
+    </div>
+  </div>
+  <div v-else-if="error">
+    <UAlert color="red" icon="i-heroicons-exclamation-triangle-20-solid">
+      Error fetching courses: {{ error.message }}
+    </UAlert>
+  </div>
+  <div v-else class="container mx-auto mt-8">
+    <h1 class="mb-4 text-center text-3xl font-bold">Course Selection</h1>
 
-  <div v-else>
-    <div class="flex border-b border-gray-200 px-3 py-3.5 dark:border-gray-700">
-      <UInput v-model="q" placeholder="Filter courses..." />
+    <div class="mb-4 flex items-center justify-center space-x-4">
+      <UInput
+        v-model="q"
+        placeholder="Filter courses..."
+        class="rounded-md border-gray-300 shadow-sm focus:ring focus:ring-blue-200"
+      />
+      <UButton @click="submitSelectedCourses" variant="solid" color="blue">
+        Save Selected Courses
+      </UButton>
     </div>
 
-    <UTable v-model="selected" :rows="filteredRows" />
-    <UButton @click="submitSelectedCourses"> Save Selected Courses </UButton>
+    <div class="mx-auto max-w-3xl overflow-hidden rounded-lg shadow-md">
+      <UTable
+        v-model="selected"
+        :rows="filteredRows"
+        class="max-h-[400px] table-auto overflow-y-auto"
+      />
+    </div>
+
     <div
       v-if="message"
       :class="{
-        'bg-green-200 text-green-800': messageType === 'success',
-        'bg-red-200 text-red-800': messageType === 'error',
+        'bg-green-100 text-green-800': messageType === 'success',
+        'bg-red-100 text-red-800': messageType === 'error',
       }"
-      class="mt-2 rounded p-2"
+      class="mt-4 rounded-md border p-4 shadow-sm"
     >
       {{ message }}
     </div>
