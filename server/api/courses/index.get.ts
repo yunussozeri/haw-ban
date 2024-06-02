@@ -4,7 +4,7 @@ import { courses } from "db/schema";
 export default defineEventHandler(async (event) => {
   const allCourses = await db
     .selectDistinct({
-      //id: courses.id,
+      id: courses.id,
       studiengang: courses.studiengang,
       semester: courses.semester,
       kuerzel: courses.kuerzel,

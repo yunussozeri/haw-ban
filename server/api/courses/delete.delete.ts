@@ -4,9 +4,7 @@ import { courseToUser, user } from "db/schema";
 import { serverSupabaseUser } from "#supabase/server";
 import { and, eq, inArray } from "drizzle-orm";
 
-const courseSchema = z.object({
-  courseId: z.coerce.number(),
-});
+const coursesSchema = z.array(z.object({ courseId: z.coerce.number() }));
 
 /**
  * Deletes the course from given user
@@ -20,7 +18,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, message: "Unauthorized" });
   }
 
-  const request = await readValidatedBody(event, courseSchema.safeParse);
+  const request = await readValidatedBody(event, coursesSchema.safeParse);
 
   if (!request.success) {
     throw createError({
@@ -46,14 +44,15 @@ export default defineEventHandler(async (event) => {
   }
 
   //delete course of user
-  await db
-    .delete(courseToUser)
-    .where(
-      and(
-        eq(courseToUser.userId, dbUser.id),
-        eq(courseToUser.courseId, request.data.courseId),
+  await db.delete(courseToUser).where(
+    and(
+      eq(courseToUser.userId, dbUser.id),
+      inArray(
+        courseToUser.courseId,
+        request.data.map((c) => c.courseId),
       ),
-    );
+    ),
+  );
 
   return {
     success: true,
