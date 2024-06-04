@@ -104,17 +104,9 @@ const submitSelectedCourses = async () => {
   <UButton size="xl">
     <NuxtLink to="/board/selectedCourses">See your selected courses</NuxtLink>
   </UButton>
-  <div v-if="pending">
-    <div class="flex h-screen items-center justify-center">
-      <USpinnner /> Loading courses...
-    </div>
-  </div>
-  <div v-else-if="error">
-    <UAlert color="red" icon="i-heroicons-exclamation-triangle-20-solid">
-      Error fetching courses: {{ error.message }}
-    </UAlert>
-  </div>
-  <div v-else class="container mx-auto mt-8">
+
+
+  <div class="container mx-auto mt-8">
     <h1 class="mb-4 text-center text-3xl font-bold">Course Selection</h1>
 
     <div class="mb-4 flex items-center justify-center space-x-4">
@@ -129,11 +121,16 @@ const submitSelectedCourses = async () => {
     </div>
 
     <div class="mx-auto max-w-3xl overflow-hidden rounded-lg shadow-md">
-      <UTable
-        v-model="selected"
-        :rows="filteredRows"
-        class="max-h-[400px] table-auto overflow-y-auto"
-      />
+      <UTable v-model="selected"
+      :rows="filteredRows"
+      class="max-h-[400px] table-auto overflow-y-auto" :loading="pending">
+      <template #loading-state>
+        <div class="flex items-center justify-center h-32">
+          <i class="loader --6" />
+        </div>
+      </template>
+      </UTable>
+
     </div>
 
     <div
@@ -148,3 +145,57 @@ const submitSelectedCourses = async () => {
     </div>
   </div>
 </template>
+
+<style scoped>
+
+.loader {
+    --color: rgb(var(--color-primary-400));
+    --size-mid: 6vmin;
+    --size-dot: 1.5vmin;
+    --size-bar: 0.4vmin;
+    --size-square: 3vmin;
+
+    display: block;
+    position: relative;
+    width: 50%;
+    display: grid;
+    place-items: center;
+}
+
+.loader::before,
+.loader::after {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+}
+
+/**
+    loader --6
+**/
+.loader.--6::before {
+    width: var(--size-square);
+    height: var(--size-square);
+    background-color: var(--color);
+    top: calc(50% - var(--size-square));
+    left: calc(50% - var(--size-square));
+    animation: loader-6 2.4s cubic-bezier(0, 0, 0.24, 1.21) infinite;
+}
+
+@keyframes loader-6 {
+    0%, 100% {
+        transform: none;
+    }
+
+    25% {
+        transform: translateX(100%);
+    }
+
+    50% {
+        transform: translateX(100%) translateY(100%);
+    }
+
+    75% {
+        transform: translateY(100%);
+    }
+}
+</style>
