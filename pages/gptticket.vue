@@ -34,27 +34,27 @@ function isRangeSelected(duration: Duration) {
 }
 
 function selectRange(duration: Duration) {
-  selected.value = { start: new Date(), end: new Date() };
+  selected.value = { start: sub(new Date(), duration), end: new Date() };
 }
+
 async function onSubmit() {
   let request;
   try {
     console.log({
       name: state.ticketName,
-      start: selected.value.start,
-      end: selected.value.end,
+      start: selected.value.start.toISOString(),
+      end: selected.value.end.toISOString(),
       category: selectedCategory.value,
     });
     request = await $fetch("/api/ticket/", {
       method: "POST",
       body: {
         name: state.ticketName,
-        start: selected.value.start.getTime(),
-        end: selected.value.end.getTime(),
+        start: selected.value.start.toISOString(),
+        end: selected.value.end.toISOString(),
         category: selectedCategory.value,
       },
     });
-    console.log("SUCCESS");
 
     if (!request.success) {
       console.log("zort");

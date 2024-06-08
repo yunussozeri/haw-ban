@@ -4,8 +4,8 @@ import { courses } from "db/schema";
 
 const Ticket = z.object({
   name: z.string(),
-  start: z.string().date(),
-  end: z.string().date(),
+  start: z.string().datetime(),
+  end: z.string().datetime(),
   category: z.string(),
 });
 
@@ -28,17 +28,8 @@ export default defineEventHandler(async (event) => {
 
   console.log(response.data);
 
-  //check valid result
-  if (!response.data) {
-    return {
-      message: "Course does not exist",
-      success: false,
-    };
-  }
-
   //return result
   return {
-    result: response.data,
     success: true,
   };
 });
