@@ -1,1 +1,0 @@
-ALTER TABLE "board" ADD COLUMN "name" varchar(255);

@@ -67,17 +67,14 @@ export const kanbancolumn = pgEnum("kanbancolumn", [
 /**
  * Represents the category which the ticket is assined to
  *
- * PK: id
- *
- * Columns:
- *  id  : is the unique identifier for category
- *  categoryName  : is the name of the category
- *
  */
-export const category = pgTable("category", {
-  id: serial("id").primaryKey().notNull(),
-  categoryName: varchar("category_name", { length: 128 }),
-});
+export const categories = pgEnum("categories", [
+  "uni",
+  "freizeit",
+  "hobby",
+  "sport",
+  "default",
+]);
 
 /**
  * Represents the tickets on the KanBan-Board
@@ -88,7 +85,7 @@ export const category = pgTable("category", {
  *  boardId : references the board which the ticket belongs to, part of primary key
  *  ticketId  : is the identifier of the ticket, part of primary key
  *  ticketName  : is the name of the ticket
- *  categoryId  : is the category of the ticket
+ *  category  : is the category of the ticket
  *  start : is the start date of the ticket
  *  deadline : is the deadline of the ticket
  *  lastColumn  : is the last column where the ticket was assigned to
@@ -99,10 +96,9 @@ export const category = pgTable("category", {
 export const tickets = pgTable(
   "tickets",
   {
-    //id: serial("id").primaryKey(),
     id: serial("id").notNull().primaryKey(),
     ticketName: text("ticket_name"),
-    categoryId: integer("category_id").references(() => category.id),
+    category: categories("cat").default("default"),
     start: date("start"),
     deadline: date("deadline"),
     currentColumn: kanbancolumn("current_column").default("backlog"),
