@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 definePageMeta({
+  layout: 'navbar',
   middleware: ["auth"],
 });
 
