@@ -40,9 +40,9 @@ const links = [[{
 </script>
 
 <template>
-    <div class="flex items-center"> 
-        <NuxtImg src="/images/myKanbanBoard.svg" class="h-32 w-32 mr-5" /> 
-        <UHorizontalNavigation :links="links" class="text text-white border-b border-white-200 dark:border-white-800" />
+    <div class="flex items-center "> 
+        <NuxtImg src="/images/myKanbanBoard.svg" class="h-32 w-32 mr-2" /> 
+        <UHorizontalNavigation :links="links" class="border-b border-white-200 dark:border-white-800" />
       </div>
     
   <slot />

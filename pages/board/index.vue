@@ -46,20 +46,10 @@
     </div>
 </th>
   </tr>
-  <!-- Spaltenüberschriften -->
-  <tr class="bg-blue-300 h-10">
-  <th class="flex-1 text-white p-5 rounded">Backlog</th>
-  <th class="flex-1 text-white p-5 rounded">To Do</th>
-  <th class="flex-1 text-white p-5 rounded">In Progress</th>
-  <th class="flex-1 text-white p-5 rounded">Done</th>
-  </tr>
+  <!-- Import KanbanBoard Component -->
+  <kanbanBoard></kanbanBoard>
   <!-- Leere Spalten -->
-  <tr>
-  <td class="p-5"></td>
-  <td class="p-5"></td>
-  <td class="p-5"></td>
-  <td class="p-5"></td>
-  </tr>
+ 
   </thead>
   </table>
   </div>
@@ -67,6 +57,7 @@
   </template>
 
   <script lang="ts" setup>  
+  import kanbanBoard from "../../frontend/components/board.vue";
 definePageMeta({
   layout: 'navbar',
 });
