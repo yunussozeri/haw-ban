@@ -34,43 +34,14 @@ function isRangeSelected(duration: Duration) {
 }
 
 function selectRange(duration: Duration) {
-  selected.value = { start: sub(new Date(), duration), end: new Date() };
-}
-
-async function onSubmit2() {
-  const ticketData = {
-    name: state.ticketName,
-    start: selected.value.start,
-    end: selected.value.end,
-    category: selectedCategory.value,
-  };
-
-  try {
-    console.log(JSON.stringify(ticketData));
-    const response = await fetch("/api/server/ticket/submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(ticketData),
-    });
-
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-
-    const responseData = await response.json();
-    console.log("Ticket created successfully:", responseData);
-  } catch (error) {
-    console.error("There was a problem with the fetch operation:", error);
-  }
+  selected.value = { start: new Date(), end: new Date() };
 }
 async function onSubmit() {
   let request;
   try {
     console.log({
       name: state.ticketName,
-      start: selected.value.start.getTime(),
+      start: selected.value.start,
       end: selected.value.end,
       category: selectedCategory.value,
     });
