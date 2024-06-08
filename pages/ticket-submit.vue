@@ -3,6 +3,11 @@ import { z } from "zod";
 import { sub, format, isSameDay, type Duration } from "date-fns";
 import { reactive, ref } from "vue";
 
+definePageMeta({
+  layout: 'navbar',
+  middleware: ["auth"],
+});
+
 const ticketSchema = z.object({
   name: z.string(),
   start: z.date(),

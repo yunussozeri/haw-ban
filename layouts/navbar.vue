@@ -8,7 +8,7 @@ const links = [[{
 }, {
   label: 'Add Ticket',
   icon: 'i-heroicons-plus-circle-20-solid',
-  to: '/'
+  to: '../../ticket-submit'
 }, {
   label: 'Discussion',
   icon: 'i-heroicons-chat-bubble-left-right-solid',
