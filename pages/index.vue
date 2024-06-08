@@ -13,9 +13,6 @@ async function logout() {
       <NuxtLink to="/board/">Navigate to Kanban-Board</NuxtLink>
     </UButton>
     <UButton size="xl">
-      <NuxtLink to="/register">Navigate to Register page</NuxtLink>
-    </UButton>
-    <UButton size="xl">
       <NuxtLink to="/login">Navigate to Login page</NuxtLink>
     </UButton>
     <UButton size="xl" @click="logout()"> log out </UButton>
