@@ -1,5 +1,5 @@
 {
-  "id": "651cdae8-a322-4e48-880c-4d4e9760a15d",
+  "id": "9b6ade70-0a0a-4dbf-94f4-8ce0e03eefdc",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "6",
   "dialect": "postgresql",
@@ -13,6 +13,12 @@
           "type": "serial",
           "primaryKey": true,
           "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
@@ -75,28 +81,6 @@
           ]
         }
       },
-      "uniqueConstraints": {}
-    },
-    "public.category": {
-      "name": "category",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "category_name": {
-          "name": "category_name",
-          "type": "varchar(128)",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
     "public.comments": {
@@ -178,6 +162,63 @@
       },
       "uniqueConstraints": {}
     },
+    "public.course_to_user": {
+      "name": "course_to_user",
+      "schema": "",
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "course_id": {
+          "name": "course_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "course_to_user_user_id_user_id_fk": {
+          "name": "course_to_user_user_id_user_id_fk",
+          "tableFrom": "course_to_user",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "course_to_user_course_id_courses_id_fk": {
+          "name": "course_to_user_course_id_courses_id_fk",
+          "tableFrom": "course_to_user",
+          "tableTo": "courses",
+          "columnsFrom": [
+            "course_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "course_to_user_pk": {
+          "name": "course_to_user_pk",
+          "columns": [
+            "user_id",
+            "course_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
     "public.courses": {
       "name": "courses",
       "schema": "",
@@ -197,6 +238,12 @@
         "studiengang": {
           "name": "studiengang",
           "type": "varchar(8)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "semester": {
+          "name": "semester",
+          "type": "smallint",
           "primaryKey": false,
           "notNull": false
         },
@@ -228,11 +275,13 @@
           "primaryKey": false,
           "notNull": false
         },
-        "category_id": {
-          "name": "category_id",
-          "type": "integer",
+        "cat": {
+          "name": "cat",
+          "type": "categories",
+          "typeSchema": "public",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": "'default'"
         },
         "start": {
           "name": "start",
@@ -264,21 +313,7 @@
           "isUnique": false
         }
       },
-      "foreignKeys": {
-        "tickets_category_id_category_id_fk": {
-          "name": "tickets_category_id_category_id_fk",
-          "tableFrom": "tickets",
-          "tableTo": "category",
-          "columnsFrom": [
-            "category_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -355,11 +390,17 @@
           "primaryKey": false,
           "notNull": true
         },
-        "full_name": {
-          "name": "full_name",
+        "name": {
+          "name": "name",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
+        },
+        "surname": {
+          "name": "surname",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {
@@ -369,13 +410,6 @@
             "auth_id"
           ],
           "isUnique": true
-        },
-        "name_idx": {
-          "name": "name_idx",
-          "columns": [
-            "full_name"
-          ],
-          "isUnique": false
         }
       },
       "foreignKeys": {},
@@ -384,6 +418,17 @@
     }
   },
   "enums": {
+    "public.categories": {
+      "name": "categories",
+      "schema": "public",
+      "values": [
+        "uni",
+        "freizeit",
+        "hobby",
+        "sport",
+        "default"
+      ]
+    },
     "public.kanbancolumn": {
       "name": "kanbancolumn",
       "schema": "public",

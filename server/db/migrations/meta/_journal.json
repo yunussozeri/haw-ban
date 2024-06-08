@@ -5,36 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1715515973069,
-      "tag": "0000_material_agent_zero",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1715517979487,
-      "tag": "0001_absurd_wind_dancer",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1715533903553,
-      "tag": "0002_nosy_maelstrom",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "6",
-      "when": 1715553400901,
-      "tag": "0003_fluffy_black_bolt",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "6",
-      "when": 1715786009790,
-      "tag": "0004_glorious_malcolm_colcord",
+      "when": 1717845640105,
+      "tag": "0000_jittery_rawhide_kid",
       "breakpoints": true
     }
   ]
