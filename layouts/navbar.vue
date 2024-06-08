@@ -16,7 +16,7 @@ const links = [[{
 }, {
   label: 'Pomodoro Timer',
   icon: 'i-heroicons-clock-solid',
-  to: '/'
+  to: '/board/pomodoro'
 },
 {
   label: 'Filter',
