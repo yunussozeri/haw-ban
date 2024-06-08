@@ -33,14 +33,19 @@ const links = [[{
 },],
 [
 {
+  icon: 'i-heroicons-home',
+  to:   '/'
+},
+{
   icon: 'i-heroicons-arrow-right-start-on-rectangle-20-solid',
-}]]
+}
+]]
 
 
 </script>
 
 <template>
-    <div class="flex items-center "> 
+    <div class="flex items-center"> 
         <NuxtImg src="/images/myKanbanBoard.svg" class="h-32 w-32 mr-2" /> 
         <UHorizontalNavigation :links="links" class="border-b border-white-200 dark:border-white-800" />
       </div>

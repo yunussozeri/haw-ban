@@ -35,7 +35,7 @@
   });
   
   const headerTextColor = computed(() => {
-    return '#ffffff'; // White text for all headers
+    return '#ffffff'; 
   });
   </script>
   
