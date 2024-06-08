@@ -23,6 +23,10 @@ const links = [[{
   icon: 'i-heroicons-adjustments-horizontal',
   to: '/'
 },{
+    label:'Import Course',
+  icon: 'i-heroicons-arrow-down-tray',
+  to: '/board/addCourse'
+},{
     label:'Course Overview',
   icon: 'i-heroicons-user-solid',
   to: '/board/selectedCourses'

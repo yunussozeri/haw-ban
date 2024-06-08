@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 definePageMeta({
+  layout: 'navbar',
   middleware: ["auth"],
 });
 
@@ -90,20 +91,6 @@ const submitSelectedCourses = async () => {
 </script>
 
 <template>
-  <div class="flex h-full w-full flex-col items-center justify-center">
-    <h1 class="mb-4 text-4xl font-bold">This is the board page</h1>
-  </div>
-  <div
-    v-if="userData?.success"
-    class="flex h-full w-full flex-col items-center justify-center font-comic-sans-ms"
-  >
-    <h1 class="mb-4 text-4xl font-bold">
-      Hello , {{ `${userData.result.name} ${userData.result.surname}` }}
-    </h1>
-  </div>
-  <UButton size="xl">
-    <NuxtLink to="/board/selectedCourses">See your selected courses</NuxtLink>
-  </UButton>
   <div v-if="pending">
     <div class="flex h-screen items-center justify-center">
       <USpinnner /> Loading courses...
