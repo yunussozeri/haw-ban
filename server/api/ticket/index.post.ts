@@ -1,6 +1,6 @@
 import { z } from "zod";
 import db from "db/db";
-import { courses } from "db/schema";
+import { courses, tickets } from "db/schema";
 
 const Ticket = z.object({
   name: z.string(),
@@ -26,7 +26,12 @@ export default defineEventHandler(async (event) => {
     };
   }
 
-  console.log(response.data);
+  const insert = await db.insert(tickets).values({
+    ticketName: response.data.name,
+    category: response.data.category.toLowerCase(),
+    start: response.data.start,
+    deadline: response.data.end,
+  });
 
   //return result
   return {
