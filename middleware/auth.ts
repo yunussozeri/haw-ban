@@ -17,6 +17,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
   // user logged in but hasnt registered aka has no name
   if (!dbUser.success) {
-    return navigateTo("/ghregister");
+    return navigateTo("/githubregister");
   }
 });
