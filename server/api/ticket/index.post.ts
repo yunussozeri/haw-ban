@@ -10,9 +10,9 @@ const Ticket = z.object({
 });
 
 /**
- * Returns all courses for given studiengang and semester
+ * Submits a ticket for the user
  *
- * @returns courses of studiengang and semester
+ * @returns the ticket that is submitted
  *
  */
 
@@ -26,16 +26,26 @@ export default defineEventHandler(async (event) => {
     };
   }
 
-  const insert = await db.insert(tickets).values({
+  const ticket = {
     ticketName: response.data.name,
     category: response.data.category.toLowerCase(),
-    start: response.data.start,
-    deadline: response.data.end,
-  });
+    start: Date.parse(response.data.start),
+    deadline: Date.parse(response.data.end),
+  };
+
+  const insert = await db
+    .insert(tickets)
+    .values(ticket)
+    .then((value) => {
+      if (!value[0]) {
+        return undefined;
+      }
+      return value[0];
+    });
 
   //return result
   return {
     result: insert,
     success: true,
-  };
+  } as const;
 });
