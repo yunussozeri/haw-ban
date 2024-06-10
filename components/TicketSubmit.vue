@@ -38,7 +38,6 @@ function selectRange(duration: Duration) {
 }
 
 async function onSubmit() {
-  let request;
   try {
     console.log({
       name: state.ticketName,
@@ -46,7 +45,7 @@ async function onSubmit() {
       end: selected.value.end.toISOString(),
       category: selectedCategory.value,
     });
-    request = await $fetch("/api/ticket/", {
+    const request = await $fetch("/api/ticket/", {
       method: "POST",
       body: {
         name: state.ticketName,

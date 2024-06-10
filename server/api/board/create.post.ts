@@ -1,7 +1,7 @@
 import db from "db/db";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
-import { board, boardsToUser, tickets, user } from "db/schema";
+import { board, boardsToUser, tickets, ticketsToBoards, user } from "db/schema";
 import { serverSupabaseUser } from "#supabase/server";
 /*
  * Pattern :
@@ -18,7 +18,9 @@ const course = z.object({
   id: z.number(),
   kuerzel: z.string(),
   studiengang: z.string(),
-  deadline: z.date(),
+  deadline: z.string().transform((input) => {
+    return new Date(input);
+  }),
   semester: z.number(),
 });
 
@@ -37,18 +39,6 @@ interface Ticket {
   deadline: Date;
 }
 
-const transformCourseToTicket = (course: Course): Ticket => {
-  return {
-    ticketName: course.kuerzel,
-    start: new Date(),
-    deadline: course.deadline,
-  };
-};
-
-const transformCourses = (courses: Course[]): Ticket[] => {
-  return courses.map(transformCourseToTicket);
-};
-
 /**
  *
  * Returns all boards of the given user
@@ -58,6 +48,9 @@ export default defineEventHandler(async (event) => {
   const userData = await serverSupabaseUser(event);
 
   const incoming = await readValidatedBody(event, incomingData.safeParse);
+  //const incoming = await readBody(event);
+
+  console.log(incoming);
 
   // verify passed user id
   if (!userData) {
@@ -66,13 +59,14 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  console.log("validation");
   if (!incoming.success) {
     return {
       succes: false,
       message: "failed to get data ",
     };
   }
-
+  console.log("incoming");
   // get users name, surname and id
   const userName = await db
     .select({
@@ -88,7 +82,7 @@ export default defineEventHandler(async (event) => {
       }
       return value[0];
     });
-
+  console.log("username");
   if (!userName) {
     return {
       success: false,
@@ -107,7 +101,7 @@ export default defineEventHandler(async (event) => {
       name: newBoardName,
     })
     .returning();
-
+  console.log("create board");
   if (newBoard[0] == undefined) {
     return {
       success: false,
@@ -115,21 +109,45 @@ export default defineEventHandler(async (event) => {
     };
   }
 
-  const joinWithUser = await db
+  const joinBoardWithUser = await db
     .insert(boardsToUser)
     .values({
       userId: userName.id,
       boardId: newBoard[0].id,
     })
     .returning();
-
+  console.log("join user w board");
   // at this point the board is created and we have the board Id
 
   // convert the given courses array into tickets
-  const convertCoursesToTickets = transformCourses(incoming.data.courses);
+  const convertCoursesToTickets = incoming.data.courses.map(
+    (course: Course): Ticket => {
+      return {
+        ticketName: course.kuerzel,
+        start: new Date(),
+        deadline: course.deadline,
+      };
+    },
+  );
+
   const insertCoursesToTicketsTable = await db
     .insert(tickets)
-    .values(convertCoursesToTickets);
+    .values(convertCoursesToTickets)
+    .returning()
+    .then((values) => {
+      if (!values.length) {
+        return undefined;
+      }
+
+      return values.map((value) => ({
+        ticketId: value.id,
+        boardId: newBoard[0]!.id,
+      }));
+    });
+
+  const addTicketsToBoard = await db
+    .insert(ticketsToBoards)
+    .values(insertCoursesToTicketsTable ?? []);
 
   // spread operator ...
   return { success: true } as const;

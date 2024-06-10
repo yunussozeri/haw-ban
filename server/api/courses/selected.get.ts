@@ -38,17 +38,7 @@ export default defineEventHandler(async (event) => {
     .from(user)
     .leftJoin(courseToUser, eq(user.id, courseToUser.userId))
     .leftJoin(courses, eq(courses.id, courseToUser.courseId))
-    .where(eq(user.authId, currentUser.id))
-    // find and return courses IDs from database
-    .then((value) => {
-      if (!value[0]) {
-        return undefined;
-      }
-      return value;
-    });
+    .where(eq(user.authId, currentUser.id));
 
-  return {
-    courses: selected,
-    success: true,
-  };
+  return { courses: selected };
 });

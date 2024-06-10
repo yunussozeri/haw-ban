@@ -1,11 +1,12 @@
 <script lang="ts" setup>
+import type { Course } from "@@/types";
 definePageMeta({
   layout: "navbar",
   middleware: ["auth"],
 });
 
 const user = useSupabaseUser();
-const selected = ref([]);
+const selected = ref<Course[]>([]);
 
 const {
   data: userCourses,
@@ -13,6 +14,7 @@ const {
   error,
   refresh,
 } = useFetch("/api/courses/selected", {
+  method: "GET",
   headers: useRequestHeaders(["cookie"]),
   // Additional options (e.g., method: 'GET', etc.)
 });
@@ -22,7 +24,27 @@ const courses = computed(() => {
   return userCourses.value?.courses.map((item) => item.courses) || [];
 });
 
-const createBoardFromCourses = async () => {};
+const createBoardFromCourses = async () => {
+  const u = user.value;
+
+  if (!u) {
+    return console.log("user auth error");
+  }
+
+  console.log("before req");
+  try {
+    const request = await $fetch("/api/board/create", {
+      method: "POST",
+      body: {
+        userId: u.id,
+        courses: selected.value,
+      },
+    });
+    console.log("after req");
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const deleteSelectedCourses = async () => {
   try {
@@ -53,23 +75,27 @@ const deleteSelectedCourses = async () => {
 </script>
 
 <template>
-  <div class="flex h-full w-full flex-col items-center justify-center">
-    <h1 class="mb-4 text-4xl font-bold">Here you see your selected courses</h1>
-  </div>
-  <UTable v-model="selected" :rows="courses" :loading="pending">
-    <template #loading-state>
-      <div class="flex h-32 items-center justify-center">
-        <i class="loader --6" />
-      </div>
-    </template>
-  </UTable>
   <div>
-    <UButton @click="createBoardFromCourses" variant="solid" color="blue">
-      Create Board from Courses
-    </UButton>
-    <UButton @click="deleteSelectedCourses" variant="solid" color="blue">
-      Delete Selected Courses
-    </UButton>
+    <div class="flex h-full w-full flex-col items-center justify-center">
+      <h1 class="mb-4 text-4xl font-bold">
+        Here you see your selected courses
+      </h1>
+    </div>
+    <UTable v-model="selected" :rows="courses" :loading="pending">
+      <template #loading-state>
+        <div class="flex h-32 items-center justify-center">
+          <i class="loader --6" />
+        </div>
+      </template>
+    </UTable>
+    <div>
+      <UButton variant="solid" color="blue" @click="createBoardFromCourses">
+        Create Board from Courses
+      </UButton>
+      <UButton variant="solid" color="blue" @click="deleteSelectedCourses">
+        Delete Selected Courses
+      </UButton>
+    </div>
   </div>
 </template>
 

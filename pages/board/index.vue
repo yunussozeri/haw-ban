@@ -1,18 +1,17 @@
 <template>
-  <div class="h-screen flex flex-col">
-    <div class="bg-blue-800 p-4 flex items-center justify-between text-white">
+  <div class="flex h-screen flex-col">
+    <div class="flex items-center justify-between bg-blue-800 p-4 text-white">
       <h1 class="text-2xl font-bold">Kanban Board</h1>
-      </div>
+    </div>
 
     <div class="flex-grow overflow-auto p-4">
-      <kanbanBoard />
+      <FrontendBoard />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import kanbanBoard from "../../frontend/components/board.vue";
 definePageMeta({
-  layout: 'navbar',
+  layout: "navbar",
 });
 </script>
