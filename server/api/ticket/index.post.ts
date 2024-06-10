@@ -1,6 +1,6 @@
 import { z } from "zod";
 import db from "db/db";
-import { courses, tickets } from "db/schema";
+import { tickets } from "db/schema";
 
 const Ticket = z.object({
   name: z.string(),
@@ -35,6 +35,7 @@ export default defineEventHandler(async (event) => {
 
   //return result
   return {
+    result: insert,
     success: true,
   };
 });
