@@ -99,11 +99,11 @@ export const tickets = pgTable(
     id: serial("id").notNull().primaryKey(),
     ticketName: text("ticket_name"),
     category: categories("cat").default("default"),
-    start: date("start",{
-      mode:"date"
+    start: date("start", {
+      mode: "date",
     }),
     deadline: date("deadline", {
-      mode: "date"
+      mode: "date",
     }),
     currentColumn: kanbancolumn("current_column").default("backlog"),
   },
@@ -141,7 +141,7 @@ export const comments = pgTable("comments", {
  */
 export const board = pgTable("board", {
   id: serial("id").notNull().primaryKey(),
-  name: varchar("name", { length: 255 }),
+  name: varchar("name", { length: 255 }).unique(),
 });
 
 export const courses = pgTable("courses", {
