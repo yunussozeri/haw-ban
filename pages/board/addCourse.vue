@@ -83,8 +83,7 @@ const submitSelectedCourses = async () => {
       messageType.value = "error";
     }
   } catch (error) {
-    // ... (error handling)
-    message.value = "An error occurred while saving courses.";
+    message.value = "Course save failed: Already selected";
     messageType.value = "error";
   }
 };

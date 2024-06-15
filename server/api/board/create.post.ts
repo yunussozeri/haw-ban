@@ -62,7 +62,7 @@ export default defineEventHandler(async (event) => {
   console.log("validation");
   if (!incoming.success) {
     return {
-      succes: false,
+      success: false,
       message: "failed to get data ",
     };
   }

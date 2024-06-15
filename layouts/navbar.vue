@@ -38,8 +38,15 @@ const links = [[{
 },
 {
   icon: 'i-heroicons-arrow-right-start-on-rectangle-20-solid',
+  to: '/'
 }
 ]]
+
+async function logout() {
+  const client = useSupabaseClient();
+  console.log('logging out')
+  client.auth.signOut();
+}
 
 
 </script>

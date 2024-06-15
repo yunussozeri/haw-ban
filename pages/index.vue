@@ -1,20 +1,40 @@
-<script lang="ts" setup>
-async function logout() {
-  const client = useSupabaseClient();
-
-  client.auth.signOut();
-}
-</script>
-
 <template>
-  <div class="flex h-full w-full flex-col items-center justify-center gap-4">
-    <h1 class="text-4xl font-bold">Welcome to HAW-Ban</h1>
-    <UButton size="xl">
-      <NuxtLink to="/board/">Navigate to Kanban-Board</NuxtLink>
-    </UButton>
-    <UButton size="xl">
-      <NuxtLink to="/login">Navigate to Login page</NuxtLink>
-    </UButton>
-    <UButton size="xl" @click="logout()"> log out </UButton>
+  <div class="flex">
+    <div class="flex-1">
+      <img src="../public/images/loginphoto.svg" alt="Login Image" />
+    </div>
+    <div class="flex flex-1 flex-col items-start p-8">
+      <h1 class="mb-4 ml-24 mt-8 text-8xl font-bold">
+        <span class="font-sans text-4xl">login</span>
+      </h1>
+      <h2 class="mb-4 ml-40 mt-[-35px] text-2xl font-bold">
+        <span class="font-comic text-xl">MY KANBAN BOARD</span>
+      </h2>
+      <h3 class="mb-12 ml-24 mt-[-4px] text-2xl font-normal text-gray-600">
+        <span class="font-sans text-lg"
+          >Welcome back! Please login to your account.</span
+        >
+      </h3>
+      <div class="flex w-full justify-center">
+        <UButton size="xl" icon="i-mdi-github" @click="signIn()">Login</UButton>
+      </div>
+    </div>
   </div>
 </template>
+
+<script lang="ts" setup>
+definePageMeta({
+  layout: false,
+});
+
+async function signIn() {
+  const client = useSupabaseClient();
+
+  client.auth.signInWithOAuth({
+    provider: "github",
+    options: {
+      redirectTo: "http://localhost:3000/board",
+    },
+  });
+}
+</script>

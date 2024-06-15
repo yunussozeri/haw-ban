@@ -33,18 +33,26 @@ const createBoardFromCourses = async () => {
 
   console.log("before req");
   try {
-    const request = await $fetch("/api/board/create", {
+      const response = await $fetch("/api/board/create", {
       method: "POST",
       body: {
         userId: u.id,
         courses: selected.value,
       },
     });
+    if (response.success) {
+      navigateTo("/board");
+    } 
     console.log("after req");
   } catch (error) {
-    console.log(error);
+    message.value =
+        "Error creating board: " + (error || "Unknown error");
+      messageType.value = "error";
   }
 };
+
+const message = ref(""); // Store feedback message
+const messageType = ref(""); // Store message type (success or error)
 
 const deleteSelectedCourses = async () => {
   try {
@@ -52,7 +60,7 @@ const deleteSelectedCourses = async () => {
       return;
     }
 
-    await $fetch("/api/courses/delete", {
+    const response = await $fetch("/api/courses/delete", {
       method: "DELETE",
       body: selected.value.map((course) => ({
         courseId: course.id,
@@ -68,19 +76,36 @@ const deleteSelectedCourses = async () => {
 
     // Manually trigger a refresh of the useFetch composable
     refresh();
+    if (response.success) {
+      message.value = "Courses deleted successfully!";
+      messageType.value = "success";
+      selected.value = [];
+    } else {
+      message.value =
+        "Error deleting courses: " + (response.message || "Unknown error");
+      messageType.value = "error";
+    }
   } catch (error) {
-    console.error("Error deleting courses:", error);
+    message.value = "Could not delete courses. Please try again later.";
+    messageType.value = "error";
   }
 };
 </script>
 
 <template>
-  <div>
-    <div class="flex h-full w-full flex-col items-center justify-center">
-      <h1 class="mb-4 text-4xl font-bold">
+  <div class="container mx-auto mt-8">
+      <h1 class="mb-4 text-center text-3xl font-bold">
         Here you see your selected courses
       </h1>
-    </div>
+      <div class="mb-4 flex items-center justify-center space-x-4">
+        <UButton variant="solid" color="blue" @click="createBoardFromCourses">
+          Create Board from Courses
+        </UButton>
+        <UButton variant="solid" color="blue" @click="deleteSelectedCourses">
+          Delete Selected Courses
+        </UButton>
+      </div>
+    <div class="mx-auto max-w-3xl overflow-hidden rounded-lg shadow-md">
     <UTable v-model="selected" :rows="courses" :loading="pending">
       <template #loading-state>
         <div class="flex h-32 items-center justify-center">
@@ -88,14 +113,17 @@ const deleteSelectedCourses = async () => {
         </div>
       </template>
     </UTable>
-    <div>
-      <UButton variant="solid" color="blue" @click="createBoardFromCourses">
-        Create Board from Courses
-      </UButton>
-      <UButton variant="solid" color="blue" @click="deleteSelectedCourses">
-        Delete Selected Courses
-      </UButton>
-    </div>
+  </div>
+  <div
+  v-if="message"
+  :class="{
+    'bg-green-100 text-green-800': messageType === 'success',
+    'bg-red-100 text-red-800': messageType === 'error',
+  }"
+  class="mt-4 rounded-md border p-4 shadow-sm"
+>
+  {{ message }}
+</div>
   </div>
 </template>
 
