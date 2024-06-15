@@ -32,6 +32,10 @@ const createBoardFromCourses = async () => {
   }
 
   console.log("before req");
+  console.log("Data sent to backend:", {
+  userId: u.id,
+  courses: selected.value,
+});
   try {
       const response = await $fetch("/api/board/create", {
       method: "POST",
