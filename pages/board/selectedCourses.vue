@@ -95,7 +95,7 @@ const deleteSelectedCourses = async () => {
 <template>
   <div class="container mx-auto mt-8">
       <h1 class="mb-4 text-center text-3xl font-bold">
-        Here you see your selected courses
+        Selected Courses
       </h1>
       <div class="mb-4 flex items-center justify-center space-x-4">
         <UButton variant="solid" color="blue" @click="createBoardFromCourses">
