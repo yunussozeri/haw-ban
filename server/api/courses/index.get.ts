@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
       return result;
     });
 
-  console.table(allCourses);
+  //console.table(allCourses);
   //check valid result
   if (!allCourses) {
     return {

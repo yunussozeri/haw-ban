@@ -92,8 +92,15 @@ export default defineEventHandler(async (event) => {
       boardId: newBoard[0].id,
     })
     .returning();
-  console.log("join user w board");
+  console.log("join user w board ");
+  console.log(joinBoardWithUser);
   // at this point the board is created and we have the board Id
 
+  if (!joinBoardWithUser.length) {
+    return {
+      succes: false,
+      message: "Could not bind user and board",
+    };
+  }
   return { success: true } as const;
 });
