@@ -15,6 +15,7 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@formkit/drag-and-drop": "^0.1.1",
     "@iconify/json": "^2.2.210",
     "@nuxt/eslint": "^0.3.12",
     "@nuxt/image": "^1.7.0",

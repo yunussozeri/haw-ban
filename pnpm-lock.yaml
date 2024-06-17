@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@formkit/drag-and-drop':
+        specifier: ^0.1.1
+        version: 0.1.1
       '@iconify/json':
         specifier: ^2.2.210
         version: 2.2.210
@@ -771,6 +774,9 @@ packages:
   '@floating-ui/utils@0.2.2':
     resolution: {integrity: sha512-J4yDIIthosAsRZ5CPYP/jQvUAQtlZTTD/4suA08/FEnlxqW3sKS9iAhgsa9VYLZ6vDHn/ixJgIqRQPotoBjxIw==}
 
+  '@formkit/drag-and-drop@0.1.1':
+    resolution: {integrity: sha512-Fee4IVlGoBv8bQnR+3v7lc1u4LXXZMAHAMVxgcWpuTDdzSFNbc3LND2LD+dutAfwwHNGj/mv8FUV9X2aDGgc4Q==}
+
   '@headlessui/tailwindcss@0.2.0':
     resolution: {integrity: sha512-fpL830Fln1SykOCboExsWr3JIVeQKieLJ3XytLe/tt1A0XzqUthOftDmjcCYLW62w7mQI7wXcoPXr3tZ9QfGxw==}
     engines: {node: '>=10'}
@@ -786,6 +792,7 @@ packages:
   '@humanwhocodes/config-array@0.11.14':
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
     engines: {node: '>=10.10.0'}
+    deprecated: Use @eslint/config-array instead
 
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
@@ -793,6 +800,7 @@ packages:
 
   '@humanwhocodes/object-schema@2.0.3':
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
+    deprecated: Use @eslint/object-schema instead
 
   '@iconify-json/heroicons@1.1.21':
     resolution: {integrity: sha512-A+3L4KN+TjH3V8fQ2N2dkOOnLLxMgMBzO8RDT0P9YL+YzvLMIbe/lkDLSB8NB8x0DKWmkvTimoo1l4DKMwi7Zg==}
@@ -6128,6 +6136,8 @@ snapshots:
       '@floating-ui/core': 1.6.2
 
   '@floating-ui/utils@0.2.2': {}
+
+  '@formkit/drag-and-drop@0.1.1': {}
 
   '@headlessui/tailwindcss@0.2.0(tailwindcss@3.4.3)':
     dependencies:

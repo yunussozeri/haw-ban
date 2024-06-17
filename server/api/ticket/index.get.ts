@@ -24,5 +24,5 @@ export default defineEventHandler(async (event) => {
     .innerJoin(tickets, eq(ticketsToBoards.ticketId, tickets.id))
     .where(eq(user.authId, currentUser.id));
 
-  return userTickets;
+  return userTickets as const;
 });
