@@ -34,7 +34,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     });
     return;
   }
-  /*
+
   try {
     const boardRequest = await $fetch("/api/board/initboard", {
       method: "POST",
@@ -50,8 +50,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     });
     return;
   }
-*/
-  await navigateTo("/");
+
+  await navigateTo("/board/addCourse");
 }
 </script>
 

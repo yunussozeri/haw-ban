@@ -33,11 +33,11 @@ const createBoardFromCourses = async () => {
 
   console.log("before req");
   console.log("Data sent to backend:", {
-  userId: u.id,
-  courses: selected.value,
-});
+    userId: u.id,
+    courses: selected.value,
+  });
   try {
-      const response = await $fetch("/api/board/create", {
+    const response = await $fetch("/api/courses/addtoboard", {
       method: "POST",
       body: {
         userId: u.id,
@@ -46,12 +46,11 @@ const createBoardFromCourses = async () => {
     });
     if (response.success) {
       navigateTo("/board");
-    } 
+    }
     console.log("after req");
   } catch (error) {
-    message.value =
-        "Error creating board: " + (error || "Unknown error");
-      messageType.value = "error";
+    message.value = "Error creating board: " + (error || "Unknown error");
+    messageType.value = "error";
   }
 };
 
@@ -98,36 +97,34 @@ const deleteSelectedCourses = async () => {
 
 <template>
   <div class="container mx-auto mt-8">
-      <h1 class="mb-4 text-center text-3xl font-bold">
-        Selected Courses
-      </h1>
-      <div class="mb-4 flex items-center justify-center space-x-4">
-        <UButton variant="solid" color="blue" @click="createBoardFromCourses">
-          Create Board from Courses
-        </UButton>
-        <UButton variant="solid" color="blue" @click="deleteSelectedCourses">
-          Delete Selected Courses
-        </UButton>
-      </div>
+    <h1 class="mb-4 text-center text-3xl font-bold">Selected Courses</h1>
+    <div class="mb-4 flex items-center justify-center space-x-4">
+      <UButton variant="solid" color="blue" @click="createBoardFromCourses">
+        Add Courses to your board
+      </UButton>
+      <UButton variant="solid" color="blue" @click="deleteSelectedCourses">
+        Delete Selected Courses
+      </UButton>
+    </div>
     <div class="mx-auto max-w-3xl overflow-hidden rounded-lg shadow-md">
-    <UTable v-model="selected" :rows="courses" :loading="pending">
-      <template #loading-state>
-        <div class="flex h-32 items-center justify-center">
-          <i class="loader --6" />
-        </div>
-      </template>
-    </UTable>
-  </div>
-  <div
-  v-if="message"
-  :class="{
-    'bg-green-100 text-green-800': messageType === 'success',
-    'bg-red-100 text-red-800': messageType === 'error',
-  }"
-  class="mt-4 rounded-md border p-4 shadow-sm"
->
-  {{ message }}
-</div>
+      <UTable v-model="selected" :rows="courses" :loading="pending">
+        <template #loading-state>
+          <div class="flex h-32 items-center justify-center">
+            <i class="loader --6" />
+          </div>
+        </template>
+      </UTable>
+    </div>
+    <div
+      v-if="message"
+      :class="{
+        'bg-green-100 text-green-800': messageType === 'success',
+        'bg-red-100 text-red-800': messageType === 'error',
+      }"
+      class="mt-4 rounded-md border p-4 shadow-sm"
+    >
+      {{ message }}
+    </div>
   </div>
 </template>
 
