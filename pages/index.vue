@@ -5,13 +5,13 @@
     </div>
     <div class="flex flex-1 flex-col items-start p-8">
       <h1 class="mb-4 ml-24 mt-8 text-8xl font-bold">
-        <span class="font-sans text-4xl">login</span>
+        <span class="font-cooper-hewitt-heavy text-4xl">login</span>
       </h1>
       <h2 class="mb-4 ml-40 mt-[-35px] text-2xl font-bold">
-        <span class="font-comic text-xl">MY KANBAN BOARD</span>
+        <span class="font-neue-helvetica text-blue-400/75 text-xl">MY KANBAN BOARD</span>
       </h2>
       <h3 class="mb-12 ml-24 mt-[-4px] text-2xl font-normal text-gray-600">
-        <span class="font-sans text-lg"
+        <span class="font-lato text-lg"
           >Welcome back! Please login to your account.</span
         >
       </h3>
