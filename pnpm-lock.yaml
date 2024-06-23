@@ -32,15 +32,24 @@ importers:
       axios:
         specifier: ^1.6.8
         version: 1.6.8
+      cookie-es:
+        specifier: ^1.1.0
+        version: 1.1.0
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
+      defu:
+        specifier: ^6.1.4
+        version: 6.1.4
       drizzle-orm:
         specifier: ^0.30.10
         version: 0.30.10(@opentelemetry/api@1.8.0)(pg@8.11.5)(postgres@3.4.4)
       eslint-config-prettier:
         specifier: ^9.1.0
         version: 9.1.0(eslint@8.57.0)
+      immer:
+        specifier: ^10.1.1
+        version: 10.1.1
       node-ical:
         specifier: ^0.18.0
         version: 0.18.0
@@ -3211,6 +3220,9 @@ packages:
 
   image-meta@0.2.0:
     resolution: {integrity: sha512-ZBGjl0ZMEMeOC3Ns0wUF/5UdUmr3qQhBSCniT0LxOgGGIRHiNFOkMtIHB7EOznRU47V2AxPgiVP+s+0/UCU0Hg==}
+
+  immer@10.1.1:
+    resolution: {integrity: sha512-s2MPrmjovJcoMaHtx6K11Ra7oD05NT97w1IC5zpMkT6Atjr7H8LjaDd81iIxUYpMKSRRNMJE703M1Fhr/TctHw==}
 
   import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
@@ -9326,6 +9338,8 @@ snapshots:
   ignore@5.3.1: {}
 
   image-meta@0.2.0: {}
+
+  immer@10.1.1: {}
 
   import-fresh@3.3.0:
     dependencies:

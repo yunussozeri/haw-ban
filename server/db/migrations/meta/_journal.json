@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1717845640105,
-      "tag": "0000_jittery_rawhide_kid",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1718292833247,
-      "tag": "0001_bumpy_shooting_star",
+      "when": 1719167494288,
+      "tag": "0000_spooky_kingpin",
       "breakpoints": true
     }
   ]

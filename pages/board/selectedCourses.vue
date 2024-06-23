@@ -7,25 +7,24 @@ definePageMeta({
 
 const { user } = useAuth();
 
+const toast = useToast();
+
 const selected = ref<Course[]>([]);
 
 const {
-  data: userCourses,
+  data: courses,
   pending,
   error,
   refresh,
 } = useFetch("/api/courses/selected", {
   method: "GET",
   headers: useRequestHeaders(["cookie"]),
-  // Additional options (e.g., method: 'GET', etc.)
+  transform: (data) => {
+    return data.courses.map((item) => item.courses) || [];
+  },
 });
 
-// Computed property for courses
-const courses = computed(() => {
-  return userCourses.value?.courses.map((item) => item.courses) || [];
-});
-
-const createBoardFromCourses = async () => {
+async function createBoardFromCourses() {
   const u = user.value;
 
   if (!u) {
@@ -46,19 +45,17 @@ const createBoardFromCourses = async () => {
       },
     });
     if (response.success) {
-      navigateTo("/board");
+      await navigateTo("/board");
+    } else {
+      toast.add({ title: "Error creating board: " + response.message });
     }
     console.log("after req");
   } catch (error) {
-    message.value = "Error creating board: " + (error || "Unknown error");
-    messageType.value = "error";
+    toast.add({ title: "Error creating board: " + (error || "Unknown error") });
   }
-};
+}
 
-const message = ref(""); // Store feedback message
-const messageType = ref(""); // Store message type (success or error)
-
-const deleteSelectedCourses = async () => {
+async function deleteSelectedCourses() {
   try {
     if (!selected.value.length) {
       return;
@@ -81,19 +78,20 @@ const deleteSelectedCourses = async () => {
     // Manually trigger a refresh of the useFetch composable
     refresh();
     if (response.success) {
-      message.value = "Courses deleted successfully!";
-      messageType.value = "success";
+      // message.value = "Courses deleted successfully!";
+      // messageType.value = "success";
+      toast.add({ title: "Courses deleted successfully!" });
       selected.value = [];
     } else {
-      message.value =
-        "Error deleting courses: " + (response.message || "Unknown error");
-      messageType.value = "error";
+      toast.add({
+        title:
+          "Error deleting courses: " + (response.message || "Unknown error"),
+      });
     }
   } catch (error) {
-    message.value = "Could not delete courses. Please try again later.";
-    messageType.value = "error";
+    toast.add({ title: "Could not delete courses. Please try again later." });
   }
-};
+}
 </script>
 
 <template>
@@ -115,16 +113,6 @@ const deleteSelectedCourses = async () => {
           </div>
         </template>
       </UTable>
-    </div>
-    <div
-      v-if="message"
-      :class="{
-        'bg-green-100 text-green-800': messageType === 'success',
-        'bg-red-100 text-red-800': messageType === 'error',
-      }"
-      class="mt-4 rounded-md border p-4 shadow-sm"
-    >
-      {{ message }}
     </div>
   </div>
 </template>

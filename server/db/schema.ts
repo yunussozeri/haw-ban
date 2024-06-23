@@ -161,15 +161,15 @@ export const tickets = pgTable(
   "tickets",
   {
     id: serial("id").notNull().primaryKey(),
-    ticketName: text("ticket_name"),
-    category: categories("cat").default("default"),
+    ticketName: text("ticket_name").notNull(),
+    category: categories("cat").default("default").notNull(),
     start: date("start", {
       mode: "date",
-    }),
+    }).notNull(),
     deadline: date("deadline", {
       mode: "date",
-    }),
-    currentColumn: kanbancolumn("current_column").default("backlog"),
+    }).notNull(),
+    currentColumn: kanbancolumn("current_column").default("backlog").notNull(),
   },
   (table) => {
     return {

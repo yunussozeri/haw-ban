@@ -33,34 +33,17 @@ export default defineEventHandler(async (event) => {
   console.log("incoming");
   // get users name, surname and id
 
-  const userId = await db
-    .select()
-    .from(user)
-    .where(eq(user.id, session.user.id))
-    .then((value) => {
-      if (!value.length) {
-        return undefined;
-      }
-      return value[0];
-    });
-
-  if (!userId) {
-    return {
-      succes: false,
-      message: "failed to get user data ",
-    };
-  }
-
-  const newBoardName = session.user.name?.concat("'s Board");
+  const newBoardName = session.user.name!.concat("'s Board");
 
   const newBoard = await db
     .insert(board)
     .values({
       name: newBoardName,
     })
-    .returning();
+    .returning()
+    .then((value) => value[0]);
   console.log("create board");
-  if (newBoard[0] == undefined) {
+  if (newBoard == undefined) {
     return {
       success: false,
       message: "error after creating board",
@@ -70,8 +53,8 @@ export default defineEventHandler(async (event) => {
   const joinBoardWithUser = await db
     .insert(boardsToUser)
     .values({
-      userId: userId.id,
-      boardId: newBoard[0].id,
+      userId: session.user.id,
+      boardId: newBoard.id,
     })
     .returning();
   console.log("join user w board ");

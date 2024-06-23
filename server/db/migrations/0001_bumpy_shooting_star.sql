@@ -1,1 +1,0 @@
-ALTER TABLE "board" ADD CONSTRAINT "board_name_unique" UNIQUE("name");

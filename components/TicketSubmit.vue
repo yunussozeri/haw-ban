@@ -56,7 +56,7 @@ async function onSubmit() {
     });
 
     if (!request.success) {
-      console.log("zort");
+      console.log(request.message);
     }
   } catch (e) {
     const error = e as NuxtError;

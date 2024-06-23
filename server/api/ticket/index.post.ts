@@ -57,6 +57,7 @@ export default defineEventHandler(async (event) => {
     console.log(response.error);
     return {
       success: false,
+      message: "failed to validate ticket",
     } as const;
   }
 
@@ -69,12 +70,7 @@ export default defineEventHandler(async (event) => {
     .innerJoin(boardsToUser, eq(user.id, boardsToUser.userId))
     .innerJoin(board, eq(boardsToUser.boardId, board.id))
     .where(eq(user.id, session.user.id))
-    .then((value) => {
-      if (!value[0]) {
-        return undefined;
-      }
-      return value[0];
-    });
+    .then((value) => value[0]);
 
   if (!userBoard) {
     return {

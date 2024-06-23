@@ -25,11 +25,7 @@ const incomingData = z.object({
   courses: courseArray,
 });
 
-interface Ticket {
-  ticketName: string;
-  start: Date;
-  deadline: Date;
-}
+type Ticket = typeof tickets.$inferInsert;
 
 /**
  *

@@ -30,6 +30,7 @@
 <script lang="ts" setup>
 definePageMeta({
   layout: false,
+  middleware: ["guest-only"],
 });
 
 const { signIn } = useAuth();

@@ -11,69 +11,54 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted, onUnmounted } from "vue";
-
+<script setup lang="ts">
 definePageMeta({
   layout: "navbar",
   middleware: ["auth"],
 });
 
-export default defineComponent({
-  name: "PomodoroTimer",
-  setup() {
-    const workDuration = 25 * 60; // 25 minutes in seconds
-    const breakDuration = 5 * 60; // 5 minutes in seconds
-    const isBreak = ref(false);
-    const timeLeft = ref(workDuration);
-    const intervalId = ref<number | null>(null);
+const workDuration = 25 * 60; // 25 minutes in seconds
+const breakDuration = 5 * 60; // 5 minutes in seconds
+const isBreak = ref(false);
+const timeLeft = ref(workDuration);
+const intervalId = ref<NodeJS.Timeout | null>(null);
 
-    const minutes = computed(() => Math.floor(timeLeft.value / 60));
-    const seconds = computed(() => timeLeft.value % 60);
+const minutes = computed(() => Math.floor(timeLeft.value / 60));
+const seconds = computed(() => timeLeft.value % 60);
 
-    const startTimer = () => {
-      if (intervalId.value) return;
-      intervalId.value = setInterval(() => {
-        if (timeLeft.value > 0) {
-          timeLeft.value--;
-        } else {
-          isBreak.value = !isBreak.value;
-          timeLeft.value = isBreak.value ? breakDuration : workDuration;
-        }
-      }, 1000);
-    };
+const startTimer = () => {
+  if (intervalId.value) return;
+  intervalId.value = setInterval(() => {
+    if (timeLeft.value > 0) {
+      timeLeft.value--;
+    } else {
+      isBreak.value = !isBreak.value;
+      timeLeft.value = isBreak.value ? breakDuration : workDuration;
+    }
+  }, 1000);
+};
 
-    const pauseTimer = () => {
-      if (intervalId.value) {
-        clearInterval(intervalId.value);
-        intervalId.value = null;
-      }
-    };
+const pauseTimer = () => {
+  if (intervalId.value) {
+    clearInterval(intervalId.value);
+    intervalId.value = null;
+  }
+};
 
-    const resetTimer = () => {
-      pauseTimer();
-      isBreak.value = false;
-      timeLeft.value = workDuration;
-    };
+const resetTimer = () => {
+  pauseTimer();
+  isBreak.value = false;
+  timeLeft.value = workDuration;
+};
 
-    onMounted(() => {
-      resetTimer();
-    });
+onMounted(() => {
+  resetTimer();
+});
 
-    onUnmounted(() => {
-      if (intervalId.value) {
-        clearInterval(intervalId.value);
-      }
-    });
-
-    return {
-      minutes,
-      seconds,
-      startTimer,
-      pauseTimer,
-      resetTimer,
-    };
-  },
+onUnmounted(() => {
+  if (intervalId.value) {
+    clearInterval(intervalId.value);
+  }
 });
 </script>
 

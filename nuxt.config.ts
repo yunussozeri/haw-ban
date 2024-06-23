@@ -42,6 +42,7 @@ export default defineNuxtConfig({
       authJs: {
         baseUrl: env.AUTH_URL, // The URL of your deployed app (used for origin Check in production)
         verifyClientOnEveryRequest: true, // whether to hit the /auth/session endpoint on every client request
+        authenticatedRedirectTo: "/board",
       },
     },
   },

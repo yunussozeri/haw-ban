@@ -4,10 +4,12 @@ import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { NuxtAuthHandler } from "#auth";
 import {
   accounts as accountsTable,
-  users as usersTable,
+  user as usersTable,
   verificationTokens as verificationTokensTable,
   sessions as sessionsTable,
   authenticators as authenticatorsTable,
+  board,
+  boardsToUser,
 } from "db/schema";
 import db from "db/db";
 
@@ -48,6 +50,33 @@ export const authOptions = {
         },
         expires: session.expires?.toISOString?.() ?? session.expires,
       };
+    },
+  },
+  events: {
+    async signIn({ user, isNewUser }) {
+      if (isNewUser) {
+        const newBoardName = user.name!.concat("'s Board");
+
+        const newBoard = await db
+          .insert(board)
+          .values({
+            name: newBoardName,
+          })
+          .returning()
+          .then((value) => value[0]);
+        console.log("create board");
+        if (newBoard == undefined) {
+          throw new Error("error after creating board");
+        }
+
+        await db
+          .insert(boardsToUser)
+          .values({
+            userId: user.id,
+            boardId: newBoard.id,
+          })
+          .returning();
+      }
     },
   },
 } satisfies AuthConfig;
