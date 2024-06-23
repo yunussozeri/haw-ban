@@ -51,7 +51,7 @@ async function onSubmit() {
         name: state.ticketName,
         start: selected.value.start.toISOString(),
         end: selected.value.end.toISOString(),
-        category: selectedCategory.value,
+        category: selectedCategory.value?.toLowerCase(),
       },
     });
 

@@ -16,17 +16,10 @@ export default defineNuxtConfig({
     key: env.SUPABASE_ANON_KEY,
     redirect: false,
     redirectOptions: {
-      login: "/login",
+      login: "/",
       //TODO: give base url (http://localhost:3000/) as env var,
-      callback: "http://localhost:3000/",
+      callback: "http://localhost:3000/board",
     },
-    // redirectOptions: {
-    //   login: "/",
-    //   callback: "/confirm",
-    //   //include: undefined,
-    //   //exclude: ["/board/*", "/login", "/register", "/osuruk"],
-    //   cookieRedirect: false,
-    // },
   },
   routeRules: {},
   ui: {

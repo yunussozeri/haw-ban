@@ -1,8 +1,8 @@
 import { z } from "zod";
 import db from "db/db";
 import { serverSupabaseUser } from "#supabase/server";
-import { board, boardsToUser, tickets, ticketsToBoards, user } from "db/schema";
-import { eq } from "drizzle-orm";
+import { board, boardsToUser, tickets, user, categories } from "db/schema";
+import { eq, and } from "drizzle-orm";
 
 const properties = [
   { value: "uni", label: "uni" },
@@ -21,20 +21,13 @@ const VALUES: [Property, ...Property[]] = [
   // And then merge in the remaining values from `properties`
   ...properties.slice(1).map((p) => p.value),
 ];
-
 const Property = z.enum(VALUES);
 
-const Ticket = z.object({
-  name: z.string(),
-  start: z.string().transform((input) => {
-    return new Date(input);
-  }),
-  end: z.string().transform((input) => {
-    return new Date(input);
-  }),
-  category: Property,
+const dragSchema = z.object({
+  ticketId: z.number(),
+  from: Property,
+  to: Property,
 });
-
 /**
  * Submits a ticket for the user
  *
@@ -43,7 +36,7 @@ const Ticket = z.object({
  */
 
 export default defineEventHandler(async (event) => {
-  const response = await readValidatedBody(event, Ticket.safeParse);
+  const response = await readValidatedBody(event, dragSchema.safeParse);
 
   const currentUser = await serverSupabaseUser(event);
 
@@ -83,50 +76,25 @@ export default defineEventHandler(async (event) => {
     };
   }
 
-  const ticket = {
-    ticketName: response.data.name,
-    category: response.data.category,
-    start: response.data.start,
-    deadline: response.data.end,
-  };
+  const dragAndDrop = await db
+    .update(tickets)
+    .set({ category: response.data.to })
+    .where(and(eq(tickets.id, response.data.ticketId)));
 
-  const insertTicket = await db.insert(tickets).values(ticket).returning();
-
-  const insertedTicket = await db
-    .select()
+  const draggedAndDropped = await db
+    .select({ ticketId: tickets.id, category: tickets.category })
     .from(tickets)
-    .where(eq(tickets.ticketName, ticket.ticketName))
-    .then((value) => {
-      if (!value[0]) {
-        return undefined;
-      }
-      return value[0];
-    });
+    .where(eq(tickets.id, response.data.ticketId));
 
-  if (!insertedTicket) {
+  if (!draggedAndDropped.length) {
     return {
       success: false,
-      message: "get ticket",
+      message: "cannot drag and drop atm sus",
     };
   }
 
-  const insertToUserBoard = await db
-    .insert(ticketsToBoards)
-    .values({
-      ticketId: insertedTicket.id,
-      boardId: userBoard.boardId,
-    })
-    .returning();
-
-  if (!insertToUserBoard.length) {
-    return {
-      success: false,
-      message: "inserting ticket to board incorrect",
-    } as const;
-  }
   //return result
   return {
-    result: insertTicket,
     success: true,
   } as const;
 });
