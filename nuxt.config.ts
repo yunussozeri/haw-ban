@@ -49,4 +49,5 @@ export default defineNuxtConfig({
     },
     alias: { db: fileURLToPath(new URL("./server/db", import.meta.url)) },
   },
+  alias: { db: fileURLToPath(new URL("./server/db", import.meta.url)) },
 });
