@@ -15,6 +15,8 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@auth/core": "^0.34.1",
+    "@auth/drizzle-adapter": "^1.4.1",
     "@formkit/drag-and-drop": "^0.1.1",
     "@iconify/json": "^2.2.210",
     "@nuxt/eslint": "^0.3.12",
@@ -34,6 +36,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@nuxt/kit": "^3.12.2",
     "drizzle-kit": "^0.21.2",
     "jsdom": "^24.0.0",
     "nuxt-typed-router": "^3.6.3",

@@ -3,8 +3,10 @@ import { z } from "zod";
 
 const env = z.object({
   DB_URL: z.string(),
-  SUPABASE_ANON_KEY: z.string(),
-  SUPABASE_URL: z.string()
+  GITHUB_CLIENT_ID: z.string(),
+  GITHUB_CLIENT_SECRET: z.string(),
+  AUTH_SECRET: z.string(),
+  AUTH_URL: z.string(),
 });
 
 // manuel env variable dogrulugunu kontrol etme
