@@ -16,7 +16,12 @@
         >
       </h3>
       <div class="flex w-full justify-center">
-        <UButton size="xl" icon="i-mdi-github" @click="signIn()">Login</UButton>
+        <UButton size="xl" icon="i-mdi-github" @click="signIn('github')"
+          >Login</UButton
+        >
+        <UButton size="xl" icon="i-mdi-github" @click="signIn('google')"
+          >Login</UButton
+        >
       </div>
     </div>
   </div>
@@ -27,14 +32,5 @@ definePageMeta({
   layout: false,
 });
 
-async function signIn() {
-  const client = useSupabaseClient();
-
-  client.auth.signInWithOAuth({
-    provider: "github",
-    options: {
-      redirectTo: "http://localhost:3000/board",
-    },
-  });
-}
+const { signIn } = useAuth();
 </script>

@@ -1,17 +1,28 @@
 <script setup lang="ts">
+import type { RoutePathSchema } from "@typed-router/__paths";
+
+export interface HorizontalNavigationLink {
+  label: string;
+  labelClass?: string;
+  icon?: string;
+  iconClass?: string;
+  click?: () => void;
+  badge?: string | number;
+  to: RoutePathSchema;
+}
 const route = useRoute();
 
-const links = [
+const links: HorizontalNavigationLink[][] = [
   [
     {
       label: "Board",
       icon: "i-heroicons-table-cells-solid",
-      to: "/board/",
+      to: "/board",
     },
     {
       label: "Add Ticket",
       icon: "i-heroicons-plus-circle-20-solid",
-      to: "../../ticket-submit",
+      to: "/ticket-submit",
     },
     {
       label: "Discussion",
@@ -41,31 +52,32 @@ const links = [
   ],
   [
     {
+      label: "",
       icon: "i-heroicons-home",
       to: "/",
     },
     {
+      label: "",
       icon: "i-heroicons-arrow-right-start-on-rectangle-20-solid",
       to: "/",
     },
   ],
 ];
 
-async function logout() {
-  const client = useSupabaseClient();
-  console.log("logging out");
-  client.auth.signOut();
-}
+//TODO : implement logou
+const { signOut } = useAuth();
 </script>
 
 <template>
-  <div class="flex items-center">
-    <NuxtImg src="/images/myKanbanBoard.svg" class="mr-2 h-32 w-32" />
-    <UHorizontalNavigation
-      :links="links"
-      class="border-white-200 dark:border-white-800 border-b"
-    />
-  </div>
+  <div>
+    <div class="flex items-center">
+      <NuxtImg src="/images/myKanbanBoard.svg" class="mr-2 h-32 w-32" />
+      <UHorizontalNavigation
+        :links="links"
+        class="border-white-200 dark:border-white-800 border-b"
+      />
+    </div>
 
-  <slot />
+    <slot />
+  </div>
 </template>

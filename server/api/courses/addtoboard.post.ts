@@ -2,8 +2,9 @@ import db from "db/db";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { board, boardsToUser, tickets, ticketsToBoards, user } from "db/schema";
-import { serverSupabaseUser } from "#supabase/server";
 import { NuxtError } from "nuxt/app";
+import { getServerSession } from "#auth";
+import { authOptions } from "../auth/[...]";
 
 const course = z.object({
   id: z.number(),
@@ -36,15 +37,13 @@ interface Ticket {
  *
  */
 export default defineEventHandler(async (event) => {
-  const userData = await serverSupabaseUser(event);
+  const session = await getServerSession(event, authOptions);
 
   const incoming = await readValidatedBody(event, incomingData.safeParse);
   //const incoming = await readBody(event);
 
-  console.log(incoming);
-
   // verify passed user id
-  if (!userData) {
+  if (!session) {
     throw createError({
       statusCode: 401, // unauthorized,
     });
@@ -67,7 +66,7 @@ export default defineEventHandler(async (event) => {
     .from(user)
     .innerJoin(boardsToUser, eq(user.id, boardsToUser.userId))
     .innerJoin(board, eq(boardsToUser.boardId, board.id))
-    .where(eq(user.authId, incoming.data.userId))
+    .where(eq(user.id, incoming.data.userId))
     .then((value) => {
       if (!value[0]) {
         return undefined;

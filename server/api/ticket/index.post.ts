@@ -1,6 +1,8 @@
 import { z } from "zod";
 import db from "db/db";
-import { serverSupabaseUser } from "#supabase/server";
+
+import { getServerSession } from "#auth";
+import { authOptions } from "../auth/[...]";
 import { board, boardsToUser, tickets, ticketsToBoards, user } from "db/schema";
 import { eq } from "drizzle-orm";
 
@@ -43,15 +45,13 @@ const Ticket = z.object({
  */
 
 export default defineEventHandler(async (event) => {
-  const response = await readValidatedBody(event, Ticket.safeParse);
-
-  const currentUser = await serverSupabaseUser(event);
-
-  if (!currentUser) {
+  const session = await getServerSession(event, authOptions);
+  if (!session) {
     throw createError({
       statusCode: 401,
     });
   }
+  const response = await readValidatedBody(event, Ticket.safeParse);
 
   if (!response.success) {
     console.log(response.error);
@@ -68,7 +68,7 @@ export default defineEventHandler(async (event) => {
     .from(user)
     .innerJoin(boardsToUser, eq(user.id, boardsToUser.userId))
     .innerJoin(board, eq(boardsToUser.boardId, board.id))
-    .where(eq(user.authId, currentUser.id))
+    .where(eq(user.id, session.user.id))
     .then((value) => {
       if (!value[0]) {
         return undefined;
@@ -90,18 +90,11 @@ export default defineEventHandler(async (event) => {
     deadline: response.data.end,
   };
 
-  const insertTicket = await db.insert(tickets).values(ticket).returning();
-
   const insertedTicket = await db
-    .select()
-    .from(tickets)
-    .where(eq(tickets.ticketName, ticket.ticketName))
-    .then((value) => {
-      if (!value[0]) {
-        return undefined;
-      }
-      return value[0];
-    });
+    .insert(tickets)
+    .values(ticket)
+    .returning()
+    .then((value) => value[0]);
 
   if (!insertedTicket) {
     return {
@@ -124,9 +117,8 @@ export default defineEventHandler(async (event) => {
       message: "inserting ticket to board incorrect",
     } as const;
   }
-  //return result
+
   return {
-    result: insertTicket,
     success: true,
   } as const;
 });

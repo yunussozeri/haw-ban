@@ -34,7 +34,7 @@ import {
  *  emailIdx  : indexes email
  *
  */
-export const users = pgTable("user", {
+export const user = pgTable("user", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
@@ -49,7 +49,7 @@ export const accounts = pgTable(
   {
     userId: text("userId")
       .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
+      .references(() => user.id, { onDelete: "cascade" }),
     type: text("type").$type<AdapterAccountType>().notNull(),
     provider: text("provider").notNull(),
     providerAccountId: text("providerAccountId").notNull(),
@@ -72,7 +72,7 @@ export const sessions = pgTable("session", {
   sessionToken: text("sessionToken").primaryKey(),
   userId: text("userId")
     .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
+    .references(() => user.id, { onDelete: "cascade" }),
   expires: timestamp("expires", { mode: "date" }).notNull(),
 });
 
@@ -96,7 +96,7 @@ export const authenticators = pgTable(
     credentialID: text("credentialID").notNull().unique(),
     userId: text("userId")
       .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
+      .references(() => user.id, { onDelete: "cascade" }),
     providerAccountId: text("providerAccountId").notNull(),
     credentialPublicKey: text("credentialPublicKey").notNull(),
     counter: integer("counter").notNull(),
@@ -223,7 +223,7 @@ export const courses = pgTable("courses", {
 export const boardsToUser = pgTable(
   "boards_to_user",
   {
-    userId: integer("user_id").references(() => users.id),
+    userId: text("user_id").references(() => user.id),
     boardId: integer("board_id").references(() => board.id),
   },
   (table) => {
@@ -280,7 +280,7 @@ export const commentsToTicket = pgTable(
 export const courseToUser = pgTable(
   "course_to_user",
   {
-    userId: integer("user_id").references(() => users.id),
+    userId: text("user_id").references(() => user.id),
     courseId: integer("course_id").references(() => courses.id),
   },
   (table) => {

@@ -1,8 +1,10 @@
 import { z } from "zod";
 import db from "db/db";
-import { serverSupabaseUser } from "#supabase/server";
 import { board, boardsToUser, tickets, user, categories } from "db/schema";
 import { eq, and } from "drizzle-orm";
+
+import { getServerSession } from "#auth";
+import { authOptions } from "../auth/[...]";
 
 const properties = [
   { value: "uni", label: "uni" },
@@ -29,25 +31,23 @@ const dragSchema = z.object({
   to: Property,
 });
 /**
- * Submits a ticket for the user
- *
+ * Submits a ticket for the usersession
  * @returns the ticket that is submitted
  *
  */
 
 export default defineEventHandler(async (event) => {
-  const response = await readValidatedBody(event, dragSchema.safeParse);
+  const session = await getServerSession(event, authOptions);
 
-  const currentUser = await serverSupabaseUser(event);
-
-  if (!currentUser) {
+  if (!session) {
     throw createError({
       statusCode: 401,
     });
   }
 
+  const response = await readValidatedBody(event, dragSchema.safeParse);
+
   if (!response.success) {
-    console.log(response.error);
     return {
       success: false,
     } as const;
@@ -61,7 +61,7 @@ export default defineEventHandler(async (event) => {
     .from(user)
     .innerJoin(boardsToUser, eq(user.id, boardsToUser.userId))
     .innerJoin(board, eq(boardsToUser.boardId, board.id))
-    .where(eq(user.authId, currentUser.id))
+    .where(eq(user.id, session.user.id))
     .then((value) => {
       if (!value[0]) {
         return undefined;
@@ -76,22 +76,10 @@ export default defineEventHandler(async (event) => {
     };
   }
 
-  const dragAndDrop = await db
+  await db
     .update(tickets)
     .set({ category: response.data.to })
     .where(and(eq(tickets.id, response.data.ticketId)));
-
-  const draggedAndDropped = await db
-    .select({ ticketId: tickets.id, category: tickets.category })
-    .from(tickets)
-    .where(eq(tickets.id, response.data.ticketId));
-
-  if (!draggedAndDropped.length) {
-    return {
-      success: false,
-      message: "cannot drag and drop atm sus",
-    };
-  }
 
   //return result
   return {

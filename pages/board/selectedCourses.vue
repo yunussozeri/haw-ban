@@ -5,7 +5,8 @@ definePageMeta({
   middleware: ["auth"],
 });
 
-const user = useSupabaseUser();
+const { user } = useAuth();
+
 const selected = ref<Course[]>([]);
 
 const {

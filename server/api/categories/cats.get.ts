@@ -1,14 +1,15 @@
 import db from "db/db";
-import { eq } from "drizzle-orm";
-import { z } from "zod";
-import { board, boardsToUser, user } from "db/schema";
-import { serverSupabaseUser } from "#supabase/server";
+import { sql } from "drizzle-orm";
+import { getServerSession } from "#auth";
+import { authOptions } from "../auth/[...]";
 
 async function getEnumValues(enumName: string): Promise<string[]> {
-  const query = `
+  const query = sql`
       SELECT unnest(enum_range(NULL::${enumName}))::text AS value
     `;
-  const result = await db.query(query);
+  const result = (await db.execute(query)) as unknown as {
+    rows: { value: "uni" | "freizeit" | "hobby" | "sport" | "default" }[];
+  };
   return result.rows.map((row) => row.value);
 }
 
@@ -18,10 +19,10 @@ async function getEnumValues(enumName: string): Promise<string[]> {
  *
  */
 export default defineEventHandler(async (event) => {
-  const userData = await serverSupabaseUser(event);
+  const session = await getServerSession(event, authOptions);
 
   // verify passed user id
-  if (!userData) {
+  if (!session) {
     throw createError({
       statusCode: 401, // unauthorized,
     });
@@ -29,12 +30,12 @@ export default defineEventHandler(async (event) => {
 
   const categories = await getEnumValues("categories");
 
-  // if the user is not found return unsuccesfull
+  // if the categories is not found return unsuccesfull
   if (!categories) {
     return {
       success: false,
     } as const;
   }
-  // spread operator ...
+
   return { categories, success: true } as const;
 });

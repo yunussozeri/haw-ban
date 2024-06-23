@@ -2,23 +2,8 @@ import db from "db/db";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { board, boardsToUser, user } from "db/schema";
-import { serverSupabaseUser } from "#supabase/server";
-/*
- * Pattern :
-    create zod schema for incoming object
-    read from object
-    perform operation
-    return result
-
-    hallo  test
-
- * 
- * 
- */
-
-const findUserBody = z.object({
-  userId: z.coerce.number(),
-});
+import { getServerSession } from "#auth";
+import { authOptions } from "../auth/[...]";
 
 /**
  *
@@ -26,10 +11,10 @@ const findUserBody = z.object({
  *
  */
 export default defineEventHandler(async (event) => {
-  const userData = await serverSupabaseUser(event);
+  const session = await getServerSession(event, authOptions);
 
   // verify passed user id
-  if (!userData) {
+  if (!session) {
     throw createError({
       statusCode: 401, // unauthorized,
     });
@@ -40,7 +25,7 @@ export default defineEventHandler(async (event) => {
     .from(user)
     .leftJoin(boardsToUser, eq(user.id, boardsToUser.boardId))
     .leftJoin(board, eq(board.id, boardsToUser.boardId))
-    .where(eq(user.authId, userData.id))
+    .where(eq(user.id, session.user.id))
     // find and return board IDs from database
     .then((value) => {
       if (!value[0]) {

@@ -1,14 +1,7 @@
 <script lang="ts" setup>
 definePageMeta({
-  layout: 'navbar',
+  layout: "navbar",
   middleware: ["auth"],
-});
-
-const user = useSupabaseUser();
-
-const { data: userData } = useFetch("/api/user", {
-  // for ssr, need to introduce cookie headers from user to nitro
-  headers: useRequestHeaders(["cookie"]),
 });
 
 const {

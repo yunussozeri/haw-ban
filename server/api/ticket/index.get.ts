@@ -1,13 +1,17 @@
-import { serverSupabaseUser } from "#supabase/server";
 import db from "db/db";
 import { eq } from "drizzle-orm";
 import { boardsToUser, tickets, ticketsToBoards, user } from "db/schema";
 
-export default defineEventHandler(async (event) => {
-  const currentUser = await serverSupabaseUser(event);
+import { getServerSession } from "#auth";
+import { authOptions } from "../auth/[...]";
 
+/**
+ * Returns tickets of user
+ */
+export default defineEventHandler(async (event) => {
+  const session = await getServerSession(event, authOptions);
   // verify passed user
-  if (!currentUser) {
+  if (!session) {
     throw createError({
       statusCode: 401,
     });
@@ -22,7 +26,7 @@ export default defineEventHandler(async (event) => {
       eq(boardsToUser.boardId, ticketsToBoards.boardId),
     )
     .innerJoin(tickets, eq(ticketsToBoards.ticketId, tickets.id))
-    .where(eq(user.authId, currentUser.id));
+    .where(eq(user.id, session.user.id));
 
-  return userTickets as const;
+  return userTickets;
 });

@@ -2,7 +2,8 @@ import db from "db/db";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { board, boardsToUser, tickets, ticketsToBoards, user } from "db/schema";
-import { serverSupabaseUser } from "#supabase/server";
+import { getServerSession } from "#auth";
+import { authOptions } from "../auth/[...]";
 /*
  * Pattern :
     create zod schema for incoming object
@@ -14,44 +15,28 @@ import { serverSupabaseUser } from "#supabase/server";
  * 
  */
 
-const userData = z.object({
-  name: z.string(),
-  surname: z.string(),
-});
-
 /**
  *
  * Returns all boards of the given user
  *
  */
 export default defineEventHandler(async (event) => {
-  const currentUser = await serverSupabaseUser(event);
-
-  const incoming = await readValidatedBody(event, userData.safeParse);
-
-  console.log(incoming);
+  const session = await getServerSession(event, authOptions);
 
   // verify passed user id
-  if (!currentUser) {
+  if (!session) {
     throw createError({
       statusCode: 401, // unauthorized,
     });
   }
 
-  console.log("validation");
-  if (!incoming.success) {
-    return {
-      succes: false,
-      message: "failed to get data ",
-    };
-  }
   console.log("incoming");
   // get users name, surname and id
 
   const userId = await db
     .select()
     .from(user)
-    .where(eq(user.authId, currentUser.id))
+    .where(eq(user.id, session.user.id))
     .then((value) => {
       if (!value.length) {
         return undefined;
@@ -66,10 +51,7 @@ export default defineEventHandler(async (event) => {
     };
   }
 
-  const newBoardName = incoming.data.name
-    .concat(" ")
-    .concat(incoming.data.surname)
-    .concat("'s Board");
+  const newBoardName = session.user.name?.concat("'s Board");
 
   const newBoard = await db
     .insert(board)
