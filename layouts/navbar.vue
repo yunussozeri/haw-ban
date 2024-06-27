@@ -39,6 +39,11 @@ const links = [
       to: "/board/selectedCourses",
     },
   ],
+
+];
+
+const links2 = [
+  [{ label: "HAW-BAN" }],
   [
     {
       icon: "i-heroicons-home",
@@ -56,16 +61,45 @@ async function logout() {
   console.log("logging out");
   client.auth.signOut();
 }
+
+const isSidebarOpen = ref(true); // Start with sidebar open
+
+const toggleSidebar = () => {
+  isSidebarOpen.value = !isSidebarOpen.value;
+};
 </script>
 
 <template>
-  <div class="flex items-center">
-    <NuxtImg src="/images/myKanbanBoard.svg" class="mr-2 h-32 w-32" />
-    <UHorizontalNavigation
-      :links="links"
-      class="border-white-200 dark:border-white-800 border-b"
-    />
-  </div>
+  <div class="flex flex-col h-screen">
+    <div class="flex items-center">
+      <UButton @click="toggleSidebar" class=" mb-4 ml-4">
+        <Icon name="heroicons:bars-3" />
+      </UButton>
+      <UHorizontalNavigation :links="links2" class="w-full mb-4 border-white-200 dark:border-white-800 border-b" />
+    </div>
 
-  <slot />
+    <div class="flex h-full">
+      <UVerticalNavigation :links="links" :class="isSidebarOpen ? 'w-64' : 'w-16'"
+        class="vertical-nav border-r border-gray-300 dark:border-gray-700 p-4" />
+
+      <div class="flex-grow p-4">
+        <slot />
+      </div>
+    </div>
+  </div>
 </template>
+
+
+
+
+<style scoped>
+.vertical-nav {
+  /* ... other styles ... */
+  overflow: hidden;
+  /* Hide overflowing content */
+  transition: width 0.3s ease;
+
+
+  /* Add a smooth transition effect */
+}
+</style>

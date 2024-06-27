@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "@nuxt/eslint",
     "nuxt-typed-router",
     "@nuxt/image",
+    "@nuxtjs/tailwindcss",
   ],
   devtools: { enabled: true },
   supabase: {

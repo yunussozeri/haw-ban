@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="flex bg-gray-100">
     <FrontendStatusColumn status="Backlog" :tickets="userTickets.backlog" @ticketMoved="onTicketMoved"
       :refresh="refresh" />
     <FrontendStatusColumn status="To Do" :tickets="userTickets.todo" @ticketMoved="onTicketMoved" :refresh="refresh" />

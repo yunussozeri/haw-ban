@@ -1,14 +1,14 @@
 <template>
   <div class="flex h-screen flex-col items-center justify-center bg-gray-100">
     <div class="mb-8 text-6xl font-bold">
-      {{ minutes }}:{{ seconds < 10 ? "0" + seconds : seconds }}
+      {{ minutes }}:{{ seconds < 10 ? "0" + seconds : seconds }} </div>
+        <div>
+          <button @click="startTimer" class="btn btn-green mr-4">Start</button>
+          <button @click="pauseTimer" class="btn btn-yellow mr-4">Pause</button>
+          <button @click="resetTimer" class="btn btn-red">Reset</button>
+        </div>
     </div>
-    <div>
-      <button @click="startTimer" class="btn btn-green mr-4">Start</button>
-      <button @click="pauseTimer" class="btn btn-yellow mr-4">Pause</button>
-      <button @click="resetTimer" class="btn btn-red">Reset</button>
-    </div>
-  </div>
+
 </template>
 
 <script lang="ts">
@@ -81,12 +81,15 @@ export default defineComponent({
 .btn {
   @apply rounded px-4 py-2 text-white;
 }
+
 .btn-green {
   @apply bg-green-500 hover:bg-green-700;
 }
+
 .btn-yellow {
   @apply bg-yellow-500 hover:bg-yellow-700;
 }
+
 .btn-red {
   @apply bg-red-500 hover:bg-red-700;
 }
