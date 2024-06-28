@@ -12,6 +12,7 @@ import {
   boardsToUser,
 } from "db/schema";
 import db from "db/db";
+import { eq } from "drizzle-orm";
 
 // The #auth virtual import comes from this module. You can use it on the client
 // and server side, however not every export is universal. For example do not
@@ -57,6 +58,7 @@ export const authOptions = {
   },
   events: {
     async signIn({ user, isNewUser }) {
+      console.log("Comes here to sign in :d");
       if (isNewUser) {
         const newBoardName = user.name!.concat("'s Board");
 
@@ -79,6 +81,35 @@ export const authOptions = {
             boardId: newBoard.id,
           })
           .returning();
+      } else {
+        const boardName = user.name!.concat("'s Board");
+
+        const existingBoard = await db
+          .select()
+          .from(board)
+          .where(eq(board.name, boardName));
+
+        if (!existingBoard.length) {
+          const newBoard = await db
+            .insert(board)
+            .values({
+              name: boardName,
+            })
+            .returning()
+            .then((value) => value[0]);
+          console.log("create board somehow");
+          if (newBoard == undefined) {
+            throw new Error("error after creating board");
+          }
+
+          await db
+            .insert(boardsToUser)
+            .values({
+              userId: user.id,
+              boardId: newBoard.id,
+            })
+            .returning();
+        }
       }
     },
   },

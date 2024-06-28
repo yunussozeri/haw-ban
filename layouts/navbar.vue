@@ -59,7 +59,7 @@ const links: HorizontalNavigationLink[][] = [
     {
       label: "",
       icon: "i-heroicons-arrow-right-start-on-rectangle-20-solid",
-      to: "/",
+      to: "/logout",
     },
   ],
 ];

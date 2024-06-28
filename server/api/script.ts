@@ -22,5 +22,5 @@ export default defineEventHandler(async (event) => {
     return;
   }
 
-  // await db.insert(courses).values(parsed.data);
+  //await db.insert(courses).values(parsed.data);
 });
