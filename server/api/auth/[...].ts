@@ -32,6 +32,9 @@ export const authOptions = {
   adapter: DrizzleAdapter(db, {
     usersTable,
     accountsTable,
+    sessionsTable,
+    authenticatorsTable,
+    verificationTokensTable,
   }),
   providers: [
     GithubProvider({
