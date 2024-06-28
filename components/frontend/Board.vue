@@ -1,5 +1,9 @@
 <template>
-  <div class="flex">
+  <!-- <div v-if="userTickets" class="flex">
+    <FrontendBoardHelper v-bind="userTickets" />
+    
+  </div> -->
+  <div v-if="userTickets" class="flex">
     <FrontendStatusColumn status="Backlog" :tickets="userTickets.backlog" />
     <FrontendStatusColumn status="To Do" :tickets="userTickets.todo" />
     <FrontendStatusColumn status="Doing" :tickets="userTickets.progress" />
@@ -7,7 +11,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const {
   data: userTickets,
   pending,
@@ -22,40 +26,47 @@ const {
         .filter((ticket) => ticket.tickets.currentColumn === "backlog")
         .map((value) => {
           const ticket = value.tickets;
-          return ticket;
+          return {
+            ...ticket,
+            deadline: new Date(ticket.deadline!),
+            start: new Date(ticket.start),
+          };
         }),
       todo: userTickets
         .filter((ticket) => ticket.tickets.currentColumn === "todo")
         .map((value) => {
           const ticket = value.tickets;
-          return ticket;
+
+          return {
+            ...ticket,
+            deadline: new Date(ticket.deadline!),
+            start: new Date(ticket.start),
+          };
         }),
       progress: userTickets
         .filter((ticket) => ticket.tickets.currentColumn === "progress")
         .map((value) => {
           const ticket = value.tickets;
-          return ticket;
+
+          return {
+            ...ticket,
+            deadline: new Date(ticket.deadline!),
+            start: new Date(ticket.start),
+          };
         }),
       done: userTickets
         .filter((ticket) => ticket.tickets.currentColumn === "done")
         .map((value) => {
           const ticket = value.tickets;
-          return ticket;
+          return {
+            ...ticket,
+            deadline: new Date(ticket.deadline!),
+            start: new Date(ticket.start),
+          };
         }),
     };
 
     return osuruk;
   },
-  // Additional options (e.g., method: 'GET', etc.)
 });
-
-watchEffect(() => {
-  console.log(userTickets.value);
-});
-
-// Computed property for courses
 </script>
-
-<style scoped>
-/* Board Styles */
-</style>

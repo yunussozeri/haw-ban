@@ -1,28 +1,32 @@
 <template>
-  <div class="columntransition min-h-full flex-grow border-r border-white">
+  <div class="columntransition flex-grow">
     <h2
-      class="columntransition__header mb-2 flex items-center justify-center rounded-t-md p-3 text-xl font-semibold"
-      :style="{ backgroundColor: headerColor, color: headerTextColor }"
+      class="columntransition__header mb-2 flex items-center justify-center rounded-t-md p-3 text-xl font-semibold text-white"
+      :style="{ backgroundColor: headerColor }"
     >
       {{ status }}
     </h2>
-    <div
+    <ul
+      ref="col"
       class="columntransition__content min-h-[300px] rounded-b-md bg-gray-100 p-4"
     >
-      <template v-for="ticket in props.tickets" :key="ticket.id"
-        ><FrontendTicket :ticket />
-      </template>
-    </div>
+      <li v-for="ticket in tickets" :key="ticket.id">
+        <FrontendTicket :ticket />
+      </li>
+    </ul>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useDragAndDrop } from "@formkit/drag-and-drop/vue";
 import type { Ticket } from "~/types";
 const props = defineProps<{ status: string; tickets: Ticket[] }>();
 
-watchEffect(() => {
-  console.log("hello ", props.tickets);
-});
+// watchEffect(() => {
+//   console.log("hello ", props.tickets);
+// });
+
+const [col, tickets] = useDragAndDrop(props.tickets, { group: "Board" });
 
 // Computed properties for header color and text color based on status
 const headerColor = computed(() => {
@@ -38,10 +42,6 @@ const headerColor = computed(() => {
     default:
       return "#64748b"; // Slate-500
   }
-});
-
-const headerTextColor = computed(() => {
-  return "#ffffff";
 });
 </script>
 
