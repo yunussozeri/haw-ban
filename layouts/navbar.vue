@@ -102,7 +102,7 @@ const toggleSidebar = () => {
         v-if="isSidebarOpen"
         :links="links"
         class="vertical-nav space-y-2 border-r border-gray-200 p-4 text-gray-800 transition-all duration-300 dark:bg-gray-800 dark:text-gray-200"
-        :class="isSidebarOpen ? 'w-64' : 'w-16'"
+        :class="isSidebarOpen ? 'w-64 ' : 'w-16'"
       >
       </UVerticalNavigation>
 
