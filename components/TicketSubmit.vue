@@ -17,7 +17,7 @@ const state = reactive({
 
 const selected = ref({ start: sub(new Date(), { days: 14 }), end: new Date() });
 
-const categories = ["Categories", "Uni", "Freizeit", "Sport"];
+const categories = ["default", "Uni", "Freizeit", "Sport"];
 const selectedCategory = ref(categories[0]);
 
 const ranges = [
