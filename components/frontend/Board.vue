@@ -1,20 +1,36 @@
 <template>
   <div class="flex bg-gray-100">
-    <FrontendStatusColumn status="Backlog" :tickets="userTickets.backlog" @ticketMoved="onTicketMoved"
-      :refresh="refresh" />
-    <FrontendStatusColumn status="To Do" :tickets="userTickets.todo" @ticketMoved="onTicketMoved" :refresh="refresh" />
-    <FrontendStatusColumn status="Doing" :tickets="userTickets.progress" @ticketMoved="onTicketMoved"
-      :refresh="refresh" />
-    <FrontendStatusColumn status="Done" :tickets="userTickets.done" @ticketMoved="onTicketMoved" :refresh="refresh" />
+    <FrontendStatusColumn
+      status="Backlog"
+      :tickets="userTickets.backlog"
+      @ticketMoved="onTicketMoved"
+      :refresh="refresh"
+    />
+    <FrontendStatusColumn
+      status="To Do"
+      :tickets="userTickets.todo"
+      @ticketMoved="onTicketMoved"
+      :refresh="refresh"
+    />
+    <FrontendStatusColumn
+      status="Doing"
+      :tickets="userTickets.progress"
+      @ticketMoved="onTicketMoved"
+      :refresh="refresh"
+    />
+    <FrontendStatusColumn
+      status="Done"
+      :tickets="userTickets.done"
+      @ticketMoved="onTicketMoved"
+      :refresh="refresh"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-
 const onTicketMoved = (ticketId: number, newStatus: string) => {
   refresh();
 };
-
 
 const {
   data: userTickets,
@@ -57,10 +73,8 @@ const {
   // Additional options (e.g., method: 'GET', etc.)
 });
 
-
 watchEffect(() => {
   console.log(userTickets.value);
-
 });
 
 // Computed property for courses

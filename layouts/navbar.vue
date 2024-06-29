@@ -11,7 +11,7 @@ const links = [
     {
       label: "Add Ticket",
       icon: "i-heroicons-plus-circle-20-solid",
-      to: "../../ticket-submit",
+      to: "../board/ticket-submit",
     },
     {
       label: "Discussion",
@@ -64,7 +64,7 @@ const toggleSidebar = () => {
           <Icon name="heroicons:bars-3" class="h-6 w-6" />
         </button>
         <img
-          src="public/images/testlogo.svg"
+          src="public/haw-logo.png"
           alt="Your Logo"
           class="mr-2 h-8 w-auto"
         />

@@ -1,6 +1,8 @@
 <template>
-  <div class="card mx-auto w-96 bg-base-100 shadow-xl">
-    <div class="card-body items-center text-center">
+  <div class="flex min-h-screen items-center justify-center bg-gray-100 p-8">
+    <div
+      class="card flex w-96 flex-grow flex-col items-center justify-center bg-white shadow-xl"
+    >
       <h2 class="card-title">Pomodoro Timer</h2>
       <div class="mb-8 text-6xl font-bold">
         {{ minutes }}:{{ seconds < 10 ? "0" + seconds : seconds }}

@@ -65,8 +65,10 @@ async function onSubmit() {
 }
 </script>
 <template>
-  <div class="card mx-auto w-96 bg-base-100 shadow-xl">
-    <div class="card-body">
+  <div class="flex min-h-screen items-center justify-center bg-gray-100 p-8">
+    <div
+      class="card flex w-96 flex-grow flex-col items-center justify-center bg-white shadow-xl"
+    >
       <form @submit.prevent="onSubmit()">
         <h2 class="card-title">Create a New Ticket</h2>
 
