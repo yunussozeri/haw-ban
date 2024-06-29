@@ -1,12 +1,13 @@
 <template>
   <div
-    class="columntransition mr-1 min-h-full flex-grow"
+    class="columntransition mr-1 min-h-full"
+    style="width: 500px"
     @drop="onDrop($event)"
     @dragenter.prevent
     @dragover.prevent
   >
     <h2
-      class="columntransition__header mb-2 flex items-center justify-center p-3 text-xl font-semibold"
+      class="columntransition__header mb-2 flex items-center justify-center rounded p-3 text-xl font-semibold"
       :style="{ backgroundColor: headerColor, color: headerTextColor }"
     >
       {{ status }}

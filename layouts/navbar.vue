@@ -106,12 +106,7 @@ const toggleSidebar = () => {
       >
       </UVerticalNavigation>
 
-      <div
-        :class="[
-          isSidebarOpen ? 'ml-0 bg-gray-100' : 'ml-0',
-          'flex-grow bg-gray-100 p-4 transition-all duration-300',
-        ]"
-      >
+      <div class="overflow-x-auto">
         <slot />
       </div>
     </div>
