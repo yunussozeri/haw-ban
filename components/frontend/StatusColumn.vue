@@ -6,14 +6,12 @@
     @dragover.prevent
   >
     <h2
-      class="columntransition__header mb-2 flex items-center justify-center rounded p-3 text-xl font-semibold"
+      class="columntransition__header mb-2 flex items-center justify-center p-3 text-xl font-semibold"
       :style="{ backgroundColor: headerColor, color: headerTextColor }"
     >
       {{ status }}
     </h2>
-    <div
-      class="columntransition__content min-h-[300px] rounded-b-md bg-gray-100 p-4"
-    >
+    <div class="columntransition__content min-h-[300px] rounded-b-md p-2">
       <template v-for="ticket in props.tickets" :key="ticket.id">
         <FrontendTicket :ticket />
       </template>
