@@ -96,10 +96,8 @@ const deleteSelectedCourses = async () => {
 </script>
 
 <template>
-  <div
-    class="flex min-h-screen flex-col items-center justify-center bg-gray-100 p-8"
-  >
-    <div class="card w-full max-w-4xl bg-base-100 shadow-xl">
+  <div class="flex min-h-screen flex-col items-center bg-gray-100 p-8">
+    <div class="card w-full bg-base-100 shadow-xl">
       <div class="card-body">
         <div
           v-if="message"
