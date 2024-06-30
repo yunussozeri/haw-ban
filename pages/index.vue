@@ -7,10 +7,6 @@
           <a href="#" class="hover:text-gray-700">About</a>
           <a href="#" class="hover:text-gray-700">Contact Us</a>
         </div>
-        <div class="flex space-x-4">
-          <a href="#" class="btn btn-outline">Sign In</a>
-          <a href="#" class="btn btn-primary">Sign Up</a>
-        </div>
       </nav>
     </header>
 
