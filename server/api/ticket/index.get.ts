@@ -9,7 +9,6 @@ import {
   ticketsToBoards,
   user,
 } from "db/schema";
-import commentPost from "./comment.post";
 
 export default defineEventHandler(async (event) => {
   const currentUser = await serverSupabaseUser(event);
@@ -22,7 +21,17 @@ export default defineEventHandler(async (event) => {
   }
 
   const userTickets = await db
-    .select({ tickets: tickets, comments: comments })
+    .select({
+      tickets: {
+        ticketId: tickets.id,
+        currentColumn: tickets.currentColumn,
+        category: tickets.category,
+        deadline: tickets.deadline,
+        start: tickets.start,
+        name: tickets.ticketName,
+        comment: comments.comment,
+      },
+    })
     .from(user)
     .innerJoin(boardsToUser, eq(user.id, boardsToUser.userId))
     .innerJoin(
@@ -30,9 +39,9 @@ export default defineEventHandler(async (event) => {
       eq(boardsToUser.boardId, ticketsToBoards.boardId),
     )
     .innerJoin(tickets, eq(ticketsToBoards.ticketId, tickets.id))
-    .innerJoin(commentsToTicket, eq(commentsToTicket.ticketId, tickets.id))
-    .innerJoin(comments, eq(commentsToTicket.commentId, comments.id))
+    .leftJoin(commentsToTicket, eq(commentsToTicket.ticketId, tickets.id))
+    .leftJoin(comments, eq(commentsToTicket.commentId, comments.id))
     .where(eq(user.authId, currentUser.id));
 
-  return userTickets as const;
+  return userTickets;
 });
