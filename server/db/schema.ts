@@ -106,7 +106,7 @@ export const tickets = pgTable(
       mode: "date",
     }),
     currentColumn: kanbancolumn("current_column").default("backlog"),
-    comment: text("commentary"),
+    comment: text("comment"),
   },
   (table) => {
     return {

@@ -98,7 +98,7 @@ export default defineEventHandler(async (event) => {
     category: response.data.category,
     start: response.data.start,
     deadline: response.data.end,
-    commentary: response.data.comment,
+    comment: response.data.comment,
   };
 
   const insertTicket = await db.insert(tickets).values(ticket).returning();

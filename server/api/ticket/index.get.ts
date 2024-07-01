@@ -1,14 +1,7 @@
 import { serverSupabaseUser } from "#supabase/server";
 import db from "db/db";
 import { eq } from "drizzle-orm";
-import {
-  boardsToUser,
-  comments,
-  commentsToTicket,
-  tickets,
-  ticketsToBoards,
-  user,
-} from "db/schema";
+import { boardsToUser, tickets, ticketsToBoards, user } from "db/schema";
 
 export default defineEventHandler(async (event) => {
   const currentUser = await serverSupabaseUser(event);
@@ -31,8 +24,6 @@ export default defineEventHandler(async (event) => {
       eq(boardsToUser.boardId, ticketsToBoards.boardId),
     )
     .innerJoin(tickets, eq(ticketsToBoards.ticketId, tickets.id))
-    .leftJoin(commentsToTicket, eq(commentsToTicket.ticketId, tickets.id))
-    .leftJoin(comments, eq(commentsToTicket.commentId, comments.id))
     .where(eq(user.authId, currentUser.id));
 
   return userTickets;
