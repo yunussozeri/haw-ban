@@ -1,5 +1,5 @@
 {
-  "id": "9b6ade70-0a0a-4dbf-94f4-8ce0e03eefdc",
+  "id": "d8975b9a-045e-4a71-b24c-6797976731ce",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "6",
   "dialect": "postgresql",
@@ -24,7 +24,15 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "board_name_unique": {
+          "name": "board_name_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "name"
+          ]
+        }
+      }
     },
     "public.boards_to_user": {
       "name": "boards_to_user",
@@ -115,8 +123,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "board_id": {
-          "name": "board_id",
+        "comment_id": {
+          "name": "comment_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": false
@@ -137,12 +145,12 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "comments_to_ticket_board_id_comments_id_fk": {
-          "name": "comments_to_ticket_board_id_comments_id_fk",
+        "comments_to_ticket_comment_id_comments_id_fk": {
+          "name": "comments_to_ticket_comment_id_comments_id_fk",
           "tableFrom": "comments_to_ticket",
           "tableTo": "comments",
           "columnsFrom": [
-            "board_id"
+            "comment_id"
           ],
           "columnsTo": [
             "id"
@@ -156,7 +164,7 @@
           "name": "comments_to_ticket_pk",
           "columns": [
             "ticket_id",
-            "board_id"
+            "comment_id"
           ]
         }
       },

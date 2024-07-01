@@ -164,7 +164,7 @@ export const boardsToUser = pgTable(
   },
   (table) => {
     return {
-      boards_to_user: primaryKey({
+      boards_to_user_pk: primaryKey({
         name: "boards_to_user_pk",
         columns: [table.userId, table.boardId],
       }),
@@ -184,7 +184,7 @@ export const ticketsToBoards = pgTable(
   },
   (table) => {
     return {
-      boards_to_user: primaryKey({
+      tickets_to_board_pk: primaryKey({
         name: "tickets_to_board_pk",
         columns: [table.boardId, table.ticketId],
       }),
@@ -201,11 +201,11 @@ export const commentsToTicket = pgTable(
   "comments_to_ticket",
   {
     ticketId: integer("ticket_id").references(() => tickets.id),
-    commentId: integer("board_id").references(() => comments.id),
+    commentId: integer("comment_id").references(() => comments.id),
   },
   (table) => {
     return {
-      comments_to_ticket: primaryKey({
+      comments_to_ticket_pk: primaryKey({
         name: "comments_to_ticket_pk",
         columns: [table.ticketId, table.commentId],
       }),

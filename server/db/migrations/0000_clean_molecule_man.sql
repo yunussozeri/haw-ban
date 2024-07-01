@@ -12,7 +12,8 @@ END $$;
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "board" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"name" varchar(255)
+	"name" varchar(255),
+	CONSTRAINT "board_name_unique" UNIQUE("name")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "boards_to_user" (
@@ -28,8 +29,8 @@ CREATE TABLE IF NOT EXISTS "comments" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "comments_to_ticket" (
 	"ticket_id" integer,
-	"board_id" integer,
-	CONSTRAINT "comments_to_ticket_pk" PRIMARY KEY("ticket_id","board_id")
+	"comment_id" integer,
+	CONSTRAINT "comments_to_ticket_pk" PRIMARY KEY("ticket_id","comment_id")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "course_to_user" (
@@ -87,7 +88,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "comments_to_ticket" ADD CONSTRAINT "comments_to_ticket_board_id_comments_id_fk" FOREIGN KEY ("board_id") REFERENCES "public"."comments"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "comments_to_ticket" ADD CONSTRAINT "comments_to_ticket_comment_id_comments_id_fk" FOREIGN KEY ("comment_id") REFERENCES "public"."comments"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
