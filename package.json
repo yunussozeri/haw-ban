@@ -1,0 +1,46 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "db:generate": "drizzle-kit generate",
+    "db:pull": "drizzle-kit introspect",
+    "db:migrate": "drizzle-kit migrate",
+    "db:drop": "drizzle-kit drop",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@formkit/drag-and-drop": "^0.1.1",
+    "@iconify/json": "^2.2.210",
+    "@nuxt/eslint": "^0.3.12",
+    "@nuxt/image": "^1.7.0",
+    "@nuxt/ui": "^2.16.0",
+    "@nuxtjs/supabase": "^1.2.2",
+    "axios": "^1.6.8",
+    "date-fns": "^3.6.0",
+    "drizzle-orm": "^0.30.10",
+    "eslint-config-prettier": "^9.1.0",
+    "node-ical": "^0.18.0",
+    "nuxt": "^3.11.2",
+    "postgres": "^3.4.4",
+    "v-calendar": "^3.1.2",
+    "vue": "^3.4.27",
+    "vue-router": "^4.3.2",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "daisyui": "^4.12.10",
+    "drizzle-kit": "^0.21.2",
+    "jsdom": "^24.0.0",
+    "nuxt-typed-router": "^3.6.3",
+    "pg": "^8.11.5",
+    "prettier": "^3.2.5",
+    "prettier-plugin-tailwindcss": "^0.5.14",
+    "tailwindcss": "^3.4.3"
+  }
+}
