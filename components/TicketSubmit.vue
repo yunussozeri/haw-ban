@@ -8,11 +8,13 @@ const ticketSchema = z.object({
   start: z.date(),
   end: z.date(),
   category: z.string(),
+  comment: z.string(),
 });
 
 const state = reactive({
   ticketName: "",
   ticketCategory: "",
+  ticketComment: "",
 });
 
 const selected = ref({ start: sub(new Date(), { days: 14 }), end: new Date() });
@@ -44,6 +46,7 @@ async function onSubmit() {
       start: selected.value.start.toISOString(),
       end: selected.value.end.toISOString(),
       category: selectedCategory.value,
+      comment: state.ticketComment,
     });
     const request = await $fetch("/api/ticket/", {
       method: "POST",
@@ -52,6 +55,7 @@ async function onSubmit() {
         start: selected.value.start.toISOString(),
         end: selected.value.end.toISOString(),
         category: selectedCategory.value?.toLowerCase(),
+        comment: state.ticketComment,
       },
     });
 
@@ -114,7 +118,7 @@ async function onSubmit() {
               <span class="label-text">Comment</span>
             </label>
             <textarea
-              v-model="comment"
+              v-model="ticketComment"
               placeholder="Enter your comment"
               class="textarea textarea-bordered h-24 resize-none"
             ></textarea>

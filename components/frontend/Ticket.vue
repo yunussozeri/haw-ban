@@ -66,9 +66,16 @@ const formatDate = (date: Date | null | undefined) => {
         </div>
       </div>
 
-      <p class="mt-2 text-gray-600">
-        {{ props.ticket.description }}
-      </p>
+      <div v-if="props.ticket.comment" class="mt-4 border-t pt-4">
+        <h3 class="text-sm font-medium text-gray-700">Comment:</h3>
+        <p class="mt-1 text-gray-600">
+          {{ props.ticket.comment }}
+        </p>
+      </div>
+      <div v-if="!props.ticket.comment" class="mt-4 border-t pt-4">
+        <h3 class="text-sm font-medium text-gray-700">Comment:</h3>
+        <p class="mt-1 text-gray-600">N/A</p>
+      </div>
 
       <div class="mt-4 flex items-center justify-between">
         <div class="flex items-center">
