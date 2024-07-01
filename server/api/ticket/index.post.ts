@@ -1,7 +1,15 @@
 import { z } from "zod";
 import db from "db/db";
 import { serverSupabaseUser } from "#supabase/server";
-import { board, boardsToUser, tickets, ticketsToBoards, user } from "db/schema";
+import {
+  board,
+  boardsToUser,
+  comments,
+  commentsToTicket,
+  tickets,
+  ticketsToBoards,
+  user,
+} from "db/schema";
 import { eq } from "drizzle-orm";
 
 const properties = [
@@ -33,6 +41,7 @@ const Ticket = z.object({
     return new Date(input);
   }),
   category: Property,
+  comment: z.string(),
 });
 
 /**
@@ -123,6 +132,23 @@ export default defineEventHandler(async (event) => {
       success: false,
       message: "inserting ticket to board incorrect",
     } as const;
+  }
+
+  if (response.data.comment) {
+    const addedComment = await db
+      .insert(comments)
+      .values({ comment: response.data.comment })
+      .returning()
+      .then((value) => {
+        if (!value[0]) {
+          return undefined;
+        }
+        return value[0];
+      });
+    await db.insert(commentsToTicket).values({
+      ticketId: insertedTicket.id,
+      commentId: addedComment?.id,
+    });
   }
   //return result
   return {

@@ -205,7 +205,7 @@ export const commentsToTicket = pgTable(
   },
   (table) => {
     return {
-      boards_to_user: primaryKey({
+      comments_to_ticket: primaryKey({
         name: "comments_to_ticket_pk",
         columns: [table.ticketId, table.commentId],
       }),
