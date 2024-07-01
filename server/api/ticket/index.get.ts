@@ -22,15 +22,7 @@ export default defineEventHandler(async (event) => {
 
   const userTickets = await db
     .select({
-      tickets: {
-        ticketId: tickets.id,
-        currentColumn: tickets.currentColumn,
-        category: tickets.category,
-        deadline: tickets.deadline,
-        start: tickets.start,
-        name: tickets.ticketName,
-        comment: comments.comment,
-      },
+      tickets: tickets,
     })
     .from(user)
     .innerJoin(boardsToUser, eq(user.id, boardsToUser.userId))
