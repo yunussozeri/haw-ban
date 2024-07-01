@@ -34,6 +34,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "daisyui": "^4.12.10",
     "drizzle-kit": "^0.21.2",
     "jsdom": "^24.0.0",
     "nuxt-typed-router": "^3.6.3",

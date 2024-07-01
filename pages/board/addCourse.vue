@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 definePageMeta({
-  layout: 'navbar',
+  layout: "navbar",
   middleware: ["auth"],
 });
 
@@ -90,47 +90,86 @@ const submitSelectedCourses = async () => {
 </script>
 
 <template>
-  <div v-if="pending">
-    <div class="flex h-screen items-center justify-center">
-      <USpinnner /> Loading courses...
-    </div>
-  </div>
-  <div v-else-if="error">
-    <UAlert color="red" icon="i-heroicons-exclamation-triangle-20-solid">
-      Error fetching courses: {{ error.message }}
-    </UAlert>
-  </div>
-  <div v-else class="container mx-auto mt-8">
-    <h1 class="mb-4 text-center text-3xl font-bold">Course Selection</h1>
+  <div class="flex min-h-screen flex-col items-center bg-gray-100 p-8">
+    <div class="card w-full bg-base-100 shadow-xl">
+      <div class="card-body">
+        <div
+          v-if="message"
+          class="alert mt-4"
+          :class="{
+            'alert-success': messageType === 'success',
+            'alert-error': messageType === 'error',
+          }"
+        >
+          <div>
+            <svg
+              v-if="messageType === 'success'"
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 flex-shrink-0 stroke-current"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <svg
+              v-if="messageType === 'error'"
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 flex-shrink-0 stroke-current"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span>{{ message }}</span>
+          </div>
+        </div>
+        <h1 class="mb-4 text-center text-3xl font-bold">Course Selection</h1>
 
-    <div class="mb-4 flex items-center justify-center space-x-4">
-      <UInput
-        v-model="q"
-        placeholder="Filter courses..."
-        class="rounded-md border-gray-300 shadow-sm focus:ring focus:ring-blue-200"
-      />
-      <UButton @click="submitSelectedCourses" variant="solid" color="blue">
-        Save Selected Courses
-      </UButton>
-    </div>
+        <div class="mb-4 flex items-center justify-center space-x-4">
+          <input
+            v-model="q"
+            type="text"
+            placeholder="Filter courses..."
+            class="input input-bordered w-full max-w-xs"
+          />
+          <button @click="submitSelectedCourses" class="btn btn-primary">
+            Save Selected Courses
+          </button>
+        </div>
 
-    <div class="mx-auto max-w-3xl overflow-hidden rounded-lg shadow-md">
-      <UTable
-        v-model="selected"
-        :rows="filteredRows"
-        class="max-h-[400px] table-auto overflow-y-auto"
-      />
-    </div>
-
-    <div
-      v-if="message"
-      :class="{
-        'bg-green-100 text-green-800': messageType === 'success',
-        'bg-red-100 text-red-800': messageType === 'error',
-      }"
-      class="mt-4 rounded-md border p-4 shadow-sm"
-    >
-      {{ message }}
+        <div class="max-h-[400px] overflow-x-auto">
+          <table class="table w-full table-fixed">
+            <thead>
+              <tr>
+                <th class="w-10"></th>
+                <th>Course Name</th>
+                <th>Code</th>
+                <th>Semester</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in filteredRows" :key="row.id">
+                <th>
+                  <input type="checkbox" :value="row" v-model="selected" />
+                </th>
+                <td>{{ row.studiengang }}</td>
+                <td>{{ row.kuerzel }}</td>
+                <td>{{ row.semester }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </template>

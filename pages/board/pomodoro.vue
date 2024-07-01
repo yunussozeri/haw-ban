@@ -1,12 +1,17 @@
 <template>
-  <div class="flex h-screen flex-col items-center justify-center bg-gray-100">
-    <div class="mb-8 text-6xl font-bold">
-      {{ minutes }}:{{ seconds < 10 ? "0" + seconds : seconds }}
-    </div>
-    <div>
-      <button @click="startTimer" class="btn btn-green mr-4">Start</button>
-      <button @click="pauseTimer" class="btn btn-yellow mr-4">Pause</button>
-      <button @click="resetTimer" class="btn btn-red">Reset</button>
+  <div class="flex min-h-screen items-center justify-center bg-gray-100 p-8">
+    <div
+      class="card flex w-96 flex-grow flex-col items-center justify-center bg-white shadow-xl"
+    >
+      <h2 class="card-title">Pomodoro Timer</h2>
+      <div class="mb-8 text-6xl font-bold">
+        {{ minutes }}:{{ seconds < 10 ? "0" + seconds : seconds }}
+      </div>
+      <div class="btn-group">
+        <button @click="startTimer" class="btn btn-primary">Start</button>
+        <button @click="pauseTimer" class="btn">Pause</button>
+        <button @click="resetTimer" class="btn btn-warning">Reset</button>
+      </div>
     </div>
   </div>
 </template>
@@ -77,17 +82,10 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-.btn {
-  @apply rounded px-4 py-2 text-white;
-}
-.btn-green {
-  @apply bg-green-500 hover:bg-green-700;
-}
-.btn-yellow {
-  @apply bg-yellow-500 hover:bg-yellow-700;
-}
-.btn-red {
-  @apply bg-red-500 hover:bg-red-700;
+<style>
+.card-body {
+  display: flex; /* Make card-body a flex container */
+  flex-direction: column; /* Arrange elements vertically */
+  align-items: center; /* Center items horizontally */
 }
 </style>

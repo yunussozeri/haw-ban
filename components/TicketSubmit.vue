@@ -17,7 +17,7 @@ const state = reactive({
 
 const selected = ref({ start: sub(new Date(), { days: 14 }), end: new Date() });
 
-const categories = ["Categories", "Uni", "Freizeit", "Sport"];
+const categories = ["default", "Uni", "Freizeit", "Sport"];
 const selectedCategory = ref(categories[0]);
 
 const ranges = [
@@ -65,63 +65,84 @@ async function onSubmit() {
 }
 </script>
 <template>
-  <div
-    class="mx-auto max-w-lg space-y-6 rounded-lg border-solid bg-white p-6 shadow-md"
-  >
-    <!-- Ticket Name and Category -->
-    <form @submit.prevent="onSubmit()">
-      <div class="flex items-end space-x-4">
-        <!-- Ticket Name -->
-        <div class="flex flex-1 items-center">
-          <UFormGroup label="Ticket Name" name="ticketName">
-            <UInput v-model="state.ticketName" />
-          </UFormGroup>
-        </div>
-        <!-- Category Dropdown -->
-        <div class="flex-1">
-          <USelectMenu v-model="selectedCategory" :options="categories" />
-        </div>
-      </div>
+  <div class="flex min-h-screen items-center justify-center bg-gray-100 p-8">
+    <div
+      class="card flex w-96 flex-grow flex-col items-center justify-center bg-white shadow-xl"
+    >
+      <form @submit.prevent="onSubmit()">
+        <h2 class="card-title">Create a New Ticket</h2>
 
-      <!-- Date Picker -->
-      <div class="mt-4 text-center">
-        <UPopover :popper="{ placement: 'bottom-start' }">
-          <UButton icon="i-heroicons-calendar-days-20-solid">
-            {{ format(selected.start, "d MMM, yyy") }} -
-            {{ format(selected.end, "d MMM, yyy") }}
-          </UButton>
+        <div class="form-control w-full">
+          <label class="label">
+            <span class="label-text">Ticket Name</span>
+          </label>
+          <input
+            v-model="state.ticketName"
+            type="text"
+            placeholder="Enter ticket name"
+            class="input input-bordered w-full"
+            required
+          />
+        </div>
 
-          <template #panel="{ close }">
-            <div
-              class="flex items-center divide-gray-200 sm:divide-x dark:divide-gray-800"
+        <div class="form-control w-full">
+          <label class="label">
+            <span class="label-text">Category</span>
+          </label>
+          <select
+            v-model="selectedCategory"
+            class="select select-bordered w-full"
+          >
+            <option
+              v-for="category in categories"
+              :key="category"
+              :value="category.toLowerCase()"
             >
-              <div class="hidden flex-col py-4 sm:flex">
-                <UButton
-                  v-for="(range, index) in ranges"
-                  :key="index"
-                  :label="range.label"
-                  color="gray"
-                  variant="ghost"
-                  class="rounded-none px-6"
-                  :class="[
-                    isRangeSelected(range.duration) ?
-                      'bg-gray-100 dark:bg-gray-800'
-                    : 'hover:bg-gray-50 dark:hover:bg-gray-800/50',
-                  ]"
-                  truncate
-                  @click="selectRange(range.duration)"
-                />
-              </div>
-              <DatePicker v-model="selected" @close="close" />
-            </div>
-          </template>
-        </UPopover>
-      </div>
+              {{ category }}
+            </option>
+          </select>
+        </div>
 
-      <!-- Submit Button -->
-      <div class="mt-6 text-center">
-        <UButton type="submit" class="w-full"> Create Ticket </UButton>
-      </div>
-    </form>
+        <div class="form-control w-full">
+          <label class="label">
+            <span class="label-text">Date Range</span>
+          </label>
+          <UPopover :popper="{ placement: 'bottom-start' }">
+            <UButton icon="i-heroicons-calendar-days-20-solid">
+              {{ format(selected.start, "d MMM, yyy") }} -
+              {{ format(selected.end, "d MMM, yyy") }}
+            </UButton>
+            <template #panel="{ close }">
+              <div
+                class="flex items-center divide-gray-200 sm:divide-x dark:divide-gray-800"
+              >
+                <div class="hidden flex-col py-4 sm:flex">
+                  <UButton
+                    v-for="(range, index) in ranges"
+                    :key="index"
+                    :label="range.label"
+                    color="gray"
+                    variant="ghost"
+                    class="rounded-none px-6"
+                    :class="[
+                      isRangeSelected(range.duration) ?
+                        'bg-gray-100 dark:bg-gray-800'
+                      : 'hover:bg-gray-50 dark:hover:bg-gray-800/50',
+                    ]"
+                    truncate
+                    @click="selectRange(range.duration)"
+                  />
+                </div>
+                <DatePicker v-model="selected" @close="close" />
+              </div>
+            </template>
+          </UPopover>
+        </div>
+
+        <div class="card-actions mt-4 justify-end">
+          <UButton type="submit" class="btn-primary">Create Ticket</UButton>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
