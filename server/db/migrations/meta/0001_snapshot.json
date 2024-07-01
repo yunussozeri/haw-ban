@@ -1,5 +1,5 @@
 {
-  "id": "4f130357-1979-4427-8e7c-c9ad1940409a",
+  "id": "dde48b4f-1c18-4961-bd54-b04d2f7ae4ab",
   "prevId": "d8975b9a-045e-4a71-b24c-6797976731ce",
   "version": "6",
   "dialect": "postgresql",
@@ -311,8 +311,8 @@
           "notNull": false,
           "default": "'backlog'"
         },
-        "commentary": {
-          "name": "commentary",
+        "comment": {
+          "name": "comment",
           "type": "text",
           "primaryKey": false,
           "notNull": false
