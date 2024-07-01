@@ -36,6 +36,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   }
 
   try {
+    console.log("enter init board");
     const boardRequest = await $fetch("/api/board/initboard", {
       method: "POST",
       body: {
@@ -43,6 +44,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         surname: event.data.surname,
       },
     });
+    console.log("exit init board");
   } catch (e) {
     const error = e as NuxtError;
     toast.add({

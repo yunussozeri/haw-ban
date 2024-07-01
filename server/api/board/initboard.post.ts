@@ -59,18 +59,20 @@ export default defineEventHandler(async (event) => {
       return value[0];
     });
 
+  console.log("user data select");
   if (!userId) {
     return {
       succes: false,
       message: "failed to get user data ",
     };
   }
-
+  console.log("user data select");
   const newBoardName = incoming.data.name
     .concat(" ")
     .concat(incoming.data.surname)
     .concat("'s Board");
 
+  console.log("user board name");
   const newBoard = await db
     .insert(board)
     .values({
