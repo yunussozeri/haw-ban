@@ -100,7 +100,7 @@ const deleteSelectedCourses = async () => {
     <div class="card w-full bg-base-100 shadow-xl">
       <div class="card-body">
         <div
-          v-if="message"
+          v-if="messageType"
           class="alert mb-4"
           :class="{
             'alert-success': messageType === 'success',

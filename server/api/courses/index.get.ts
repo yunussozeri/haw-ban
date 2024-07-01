@@ -1,16 +1,19 @@
 import db from "db/db";
 import { courses } from "db/schema";
+import { max } from "drizzle-orm";
 
 export default defineEventHandler(async (event) => {
   const allCourses = await db
-    .selectDistinct({
-      id: courses.id,
-      studiengang: courses.studiengang,
-      semester: courses.semester,
+    .select({
+      id: max(courses.id),
+      studiengang: max(courses.studiengang),
+      semester: max(courses.semester),
       kuerzel: courses.kuerzel,
     })
     .from(courses)
-    .orderBy(courses.semester, courses.kuerzel)
+    .groupBy(courses.kuerzel)
+
+    .orderBy(max(courses.semester), courses.kuerzel)
     .then((result) => {
       return result;
     });

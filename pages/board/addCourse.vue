@@ -72,6 +72,40 @@ watch(
   { immediate: true },
 );
 
+const message = ref(""); // Store feedback message
+const messageType = ref(""); // Store message type (success or error)
+//post selected courses to database
+const submitSelectedCourses = async () => {
+  if (selected.value.length === 0) {
+    message.value = "Please select at least one course.";
+    messageType.value = "error";
+    return;
+  }
+  console.log("COURSES: ", selected.value);
+  try {
+    const response = await $fetch("/api/courses/selected", {
+      method: "POST",
+      body: selected.value.map((course) => ({
+        courseName: course.kuerzel,
+      })),
+      headers: useRequestHeaders(["cookie"]),
+    });
+
+    if (response.success) {
+      message.value = "Courses saved successfully!";
+      messageType.value = "success";
+      //clear selectedCourses after successful save
+      selected.value = [];
+    } else {
+      message.value =
+        "Error saving courses: " + (response.message || "Unknown error");
+      messageType.value = "error";
+    }
+  } catch (error) {
+    message.value = "Course save failed: Already selected";
+    messageType.value = "error";
+  }
+};
 // ... (rest of the script remains the same)
 </script>
 

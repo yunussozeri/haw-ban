@@ -1,11 +1,12 @@
 import z from "zod";
 import db from "db/db";
-import { courseToUser, user } from "db/schema";
+import { courseToUser, courses, courses, user } from "db/schema";
 import { serverSupabaseUser } from "#supabase/server";
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 
 const courseSchema = z.object({
-  courseId: z.coerce.number(),
+  //courseId: z.coerce.number(),
+  courseName: z.string(),
 });
 
 const courseArraySchema = z.array(courseSchema);
@@ -16,14 +17,15 @@ export default defineEventHandler(async (event) => {
   // verify passed user
   if (!currentUser) {
     console.log("currentUser", currentUser);
-    throw createError({ statusCode: 401, message: "Unauthorized" });
+    throw createError({ statusCode: 401, message: "annen" });
   }
 
   const request = await readValidatedBody(event, courseArraySchema.safeParse);
 
   if (!request.success) {
     throw createError({
-      statusCode: 401,
+      statusCode: 402,
+      message: "annennnnn",
     });
   }
 
@@ -40,11 +42,21 @@ export default defineEventHandler(async (event) => {
 
   if (!dbUser) {
     throw createError({
-      statusCode: 401,
+      statusCode: 403,
+      message: "baban",
     });
   }
 
-  const dbObjects = request.data.map((course) => {
+  const coursess = await db
+    .select({ courseId: courses.id, courseName: courses.kuerzel })
+    .from(courses)
+    .where(
+      inArray(
+        courses.kuerzel,
+        request.data.map((data) => data.courseName),
+      ),
+    );
+  const dbObjects = coursess.map((course) => {
     return {
       userId: dbUser.id,
       courseId: course.courseId,
