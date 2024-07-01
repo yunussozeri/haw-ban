@@ -51,7 +51,7 @@ async function onSubmit() {
         start: selected.value.start.toISOString(),
         end: selected.value.end.toISOString(),
         category: selectedCategory.value?.toLowerCase(),
-        commentary: state.ticketComment,
+        comment: state.ticketComment,
       },
     });
 
