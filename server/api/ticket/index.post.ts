@@ -11,6 +11,7 @@ import {
   user,
 } from "db/schema";
 import { eq } from "drizzle-orm";
+import { add } from "date-fns";
 
 const properties = [
   { value: "uni", label: "uni" },
@@ -97,6 +98,7 @@ export default defineEventHandler(async (event) => {
     category: response.data.category,
     start: response.data.start,
     deadline: response.data.end,
+    commentary: response.data.comment,
   };
 
   const insertTicket = await db.insert(tickets).values(ticket).returning();
@@ -134,22 +136,6 @@ export default defineEventHandler(async (event) => {
     } as const;
   }
 
-  if (response.data.comment) {
-    const addedComment = await db
-      .insert(comments)
-      .values({ comment: response.data.comment })
-      .returning()
-      .then((value) => {
-        if (!value[0]) {
-          return undefined;
-        }
-        return value[0];
-      });
-    await db.insert(commentsToTicket).values({
-      ticketId: insertedTicket.id,
-      commentId: addedComment?.id,
-    });
-  }
   //return result
   return {
     result: insertTicket,
