@@ -4,7 +4,7 @@ import daisyui from "daisyui";
 export default <Partial<Config>>{
   plugins: [daisyui],
   daisyui: {
-    themes: ["light", "dark", "cupcake", "bumblebee", "winter"],
+    themes: ["winter"],
   },
   theme: { fontFamily: { mono: ["Inter var"] } },
   content: ["docs/content/**/*.md"],

@@ -1,25 +1,27 @@
 <template>
   <div class="hero min-h-screen" data-theme="winter">
-    <header class="header fixed top-0 left-0 w-full">
-      <nav class="container mx-auto p-6 flex justify-between items-center">
-        <div class="text-2xl font-bold">HAW-BAN</div>
-        <div class="flex space-x-6">
-          <a href="#" class="hover:text-gray-700">About</a>
-          <a href="#" class="hover:text-gray-700">Contact Us</a>
-        </div>
-      </nav>
-    </header>
-
-    <div class="pt-24"> <!-- Add padding-top to avoid overlap with the fixed header -->
-      <div class="hero-content flex-col lg:flex-row">
-        <div>
-          <h1 class="text-5xl font-bold">Ready? Set. Organize!</h1>
-          <div class="text-5xl font-bold text-primary">HAW-BAN</div>
-          <p class="py-6">Simplify student life one task at a time. Use the Kanban board to create and organize your daily academic and personal tasks, ensuring a balanced and productive student experience.</p>
-          <UButton class="btn btn-primary" size="xl" icon="i-mdi-github" @click="signIn">Get Started</UButton>
-        </div>
-        <img src="../public/images/startseite.svg" class="max-w-sm rounded-lg shadow-2xl" />
+    <!-- Add padding-top to avoid overlap with the fixed header -->
+    <div class="hero-content flex-col lg:flex-row">
+      <div>
+        <h1 class="text-5xl font-bold">Ready? Set. Organize!</h1>
+        <div class="text-5xl font-bold text-primary">HAW-BAN</div>
+        <p class="py-6">
+          Simplify student life one task at a time. Use the Kanban board to
+          create and organize your daily academic and personal tasks, ensuring a
+          balanced and productive student experience.
+        </p>
+        <UButton
+          class="btn btn-primary"
+          size="xl"
+          icon="i-mdi-github"
+          @click="signIn"
+          >Get Started</UButton
+        >
       </div>
+      <img
+        src="../public/images/startseite.svg"
+        class="max-w-sm rounded-lg shadow-2xl"
+      />
     </div>
   </div>
 </template>

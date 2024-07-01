@@ -1,16 +1,22 @@
 <template>
-  <div class="flex min-h-screen items-center justify-center bg-gray-100 p-8">
-    <div
-      class="card flex w-96 flex-grow flex-col items-center justify-center bg-white shadow-xl"
-    >
-      <h2 class="card-title">Pomodoro Timer</h2>
-      <div class="mb-8 text-6xl font-bold">
-        {{ minutes }}:{{ seconds < 10 ? "0" + seconds : seconds }}
-      </div>
-      <div class="btn-group">
-        <button @click="startTimer" class="btn btn-primary">Start</button>
-        <button @click="pauseTimer" class="btn">Pause</button>
-        <button @click="resetTimer" class="btn btn-warning">Reset</button>
+  <div class="flex min-h-screen flex-col items-center bg-gray-100 p-8">
+    <div class="card w-full bg-base-100 shadow-xl">
+      <div class="card-body">
+        <h1 class="mb-4 text-center text-3xl font-bold">Pomodoro Timer</h1>
+
+        <div class="max-h-[400px] overflow-x-auto">
+          <table class="table w-full table-fixed"></table>
+        </div>
+        <div class="mb-8 text-6xl font-bold">
+          {{ minutes }}:{{ seconds < 10 ? "0" + seconds : seconds }}
+        </div>
+        <div class="btn-group">
+          <button @click="startTimer" class="btn btn-primary mr-3">
+            Start
+          </button>
+          <button @click="pauseTimer" class="btn mr-3">Pause</button>
+          <button @click="resetTimer" class="btn btn-warning">Reset</button>
+        </div>
       </div>
     </div>
   </div>
