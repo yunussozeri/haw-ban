@@ -17,6 +17,9 @@ const state = reactive({
   ticketComment: "",
 });
 
+const message = ref("");
+const messageType = ref("");
+
 const selected = ref({ start: sub(new Date(), { days: 14 }), end: new Date() });
 
 const categories = ["default", "Uni", "Freizeit", "Sport"];
@@ -41,13 +44,6 @@ function selectRange(duration: Duration) {
 
 async function onSubmit() {
   try {
-    console.log({
-      name: state.ticketName,
-      start: selected.value.start.toISOString(),
-      end: selected.value.end.toISOString(),
-      category: selectedCategory.value,
-      comment: state.ticketComment,
-    });
     const request = await $fetch("/api/ticket/", {
       method: "POST",
       body: {
@@ -55,16 +51,31 @@ async function onSubmit() {
         start: selected.value.start.toISOString(),
         end: selected.value.end.toISOString(),
         category: selectedCategory.value?.toLowerCase(),
-        comment: state.ticketComment,
+        commentary: state.ticketComment,
       },
     });
 
-    if (!request.success) {
-      console.log("zort");
+    // Assuming your backend returns a success property
+    if (request.success) {
+      message.value = "Ticket created successfully!";
+      messageType.value = "success";
+      // Clear the form
+      state.ticketName = "";
+      state.ticketComment = "";
+      selectedCategory.value = categories[0];
+      selected.value = {
+        start: sub(new Date(), { days: 14 }),
+        end: new Date(),
+      };
+    } else {
+      message.value =
+        request.error || "An error occurred while creating the ticket.";
+      messageType.value = "error";
     }
   } catch (e) {
     const error = e as NuxtError;
-    return;
+    message.value = "An error occurred while creating the ticket.";
+    messageType.value = "error";
   }
 }
 </script>
@@ -73,6 +84,18 @@ async function onSubmit() {
     data-theme="winter"
     class="flex min-h-screen flex-col items-center bg-gray-100 p-8"
   >
+    <div
+      v-if="message"
+      class="alert mt-4"
+      :class="{
+        'alert-success': messageType === 'success',
+        'alert-error': messageType === 'error',
+      }"
+    >
+      <div>
+        <span>{{ message }}</span>
+      </div>
+    </div>
     <div class="card w-full bg-base-100 shadow-xl">
       <div class="card-body">
         <h1 class="mb-4 text-center text-3xl font-bold">Create a new Ticket</h1>
@@ -118,10 +141,13 @@ async function onSubmit() {
               <span class="label-text">Comment</span>
             </label>
             <textarea
-              v-model="ticketComment"
+              v-model="state.ticketComment"
               placeholder="Enter your comment"
               class="textarea textarea-bordered h-24 resize-none"
             ></textarea>
+          </div>
+          <div class="card-actions mt-4 flex justify-end">
+            <div class="form-control"></div>
           </div>
 
           <div class="card-actions mt-4 flex justify-end">
@@ -160,9 +186,9 @@ async function onSubmit() {
                 </template>
               </UPopover>
             </div>
-            <Ubutton type="submit" class="btn btn-primary btn-wide ml-4">
+            <button type="submit" class="btn btn-primary btn-wide ml-4">
               Create Ticket
-            </Ubutton>
+            </button>
           </div>
         </form>
       </div>
