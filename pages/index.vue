@@ -35,7 +35,7 @@ async function signIn() {
   client.auth.signInWithOAuth({
     provider: "github",
     options: {
-      redirectTo: "http://localhost:3000/",
+      redirectTo: "http://localhost:3000/board",
     },
   });
 }
